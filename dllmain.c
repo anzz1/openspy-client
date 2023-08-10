@@ -13,6 +13,7 @@
 #include "include/game_cry.h"
 #include "include/game_sr2.h"
 #include "include/game_cmr5.h"
+#include "include/game_ut3.h"
 #include "include/picoupnp.h"
 #include "iathook/iathook.h"
 
@@ -151,6 +152,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_cmr5();
         } else if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysis64.exe")) { // Crysis
           patch_cry();
+        } else if (!__stricmp(p, "ut3.exe")) { // Unreal Tournament 3
+          patch_ut3();
         }
       }
     }

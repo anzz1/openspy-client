@@ -33,14 +33,15 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 
 ## Supported games list
 
-| Game | DLL (32-bit) | DLL (64-bit) | 
-| --- | --- |  --- |
-| Colin McRae Rally 2005 | `dinput8.dll` |   |
-| Crysis | `Bin32\dinput8.dll` | `Bin64\dinput8.dll`  |
-| FlatOut 2 | `dinput8.dll` |   |
-| GangLand | `dinput8.dll` |   |
-| IGI 2: Covert Strike | `version.dll` |   |
-| Saints Row 2 | `dinput8.dll` |   |
+| Game | DLL (32-bit) | DLL (64-bit) | Notes |
+| --- | --- |  --- | --- |
+| Colin McRae Rally 2005 | `dinput8.dll` |   |   |
+| Crysis | `Bin32\dinput8.dll` | `Bin64\dinput8.dll`  |   |
+| FlatOut 2 | `dinput8.dll` |   |   |
+| GangLand | `dinput8.dll` |   |   |
+| IGI 2: Covert Strike | `version.dll` |   |   |
+| Unreal Tournament 3 | `dinput8.dll` |   | version 2.1 only |
+| Saints Row 2 | `dinput8.dll` |   |   |
 | [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
 
 ## Unsupported games list
