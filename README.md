@@ -55,16 +55,16 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 ## Remarks
 To uninstall, simply delete the `openspy.dll` file.
 
-If you game is not listed, you can try renaming it as the different variations openspy-client currently supports:  
+If a game is not listed, you can try renaming it as the different variations openspy-client currently supports:  
 - `dinput8.dll`
 - `version.dll`
 - `dsound.dll`
 
 Please report back with your findings to help us fill the supported games list.
 
-It does not matter how the openspy-client module is loaded into the game. This means that in addition to the variations supported, you can also use any other method to load the module into the game.
+Generally it does not matter how the openspy-client module is loaded into the game. This means that in addition to the variations supported, you can also use any other method to load the module into the game.
 
-For example, if you already use an [ASI loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) to load a [Widescreen Fix](https://thirteenag.github.io/wfp) for your game, you can simply rename the module to `openspy.asi` and place it next to the `WideScreenFix.asi` and it will be loaded that way.
+For example, if you use an [ASI loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) to load mods like [Widescreen Fix](https://thirteenag.github.io/wfp) for your game, you can simply rename the OpenSpy module to `openspy.asi` and place it next to the `WideScreenFix.asi` and it will be loaded that way.
 
 
 ---
