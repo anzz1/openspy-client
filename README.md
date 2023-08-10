@@ -16,13 +16,16 @@ Aim is to eventually support 100% of GameSpy Arcade titles.
 
 1. Download the [latest release](https://github.com/anzz1/openspy-client/releases/latest/download/openspy.zip)
 
-2. Extract the `openspy.dll` file from it to the game folder, next to the game launcher.  
-(e.g. if you launch your game from FlatOut2.exe, put it into the same folder with it)
+2. Install
+    1. 32-bit games
+        1. Extract the `openspy.x86.dll` file to the game folder, next to the game launcher.  
+        2. Rename the `openspy.x86.dll` to what is listed in the [supported games list](#supported-games-list)  
 
-3. Rename the `openspy.dll` to what is listed in the [supported games list](#supported-games-list)  
-(e.g. `dinput8.dll` for FlatOut 2)
+    2. 64-bit games
+        1. Extract the `openspy.x64.dll` file to the game folder, next to the game launcher.  
+        2. Rename the `openspy.x64.dll` to what is listed in the [supported games list](#supported-games-list)  
 
-4. Play !
+3. Play !
 
 ## Account creation
 If the game requires an account to play, you can create one in game.
@@ -33,15 +36,15 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 
 ## Supported games list
 
-| Game | DLL (32-bit) | DLL (64-bit) | Notes |
+| Game | DLL (x86, 32-bit) | DLL (x64, 64-bit) | Notes |
 | --- | --- |  --- | --- |
-| Colin McRae Rally 2005 | `dinput8.dll` |   |   |
-| Crysis | `Bin32\dinput8.dll` | `Bin64\dinput8.dll`  |   |
-| FlatOut 2 | `dinput8.dll` |   |   |
-| GangLand | `dinput8.dll` |   |   |
-| IGI 2: Covert Strike | `version.dll` |   |   |
-| Unreal Tournament 3 | `dinput8.dll` |   | version 2.1 only |
-| Saints Row 2 | `dinput8.dll` |   |   |
+| Colin McRae Rally 2005 | `dinput8.dll` | n/a |   |
+| Crysis | `dinput8.dll` | `dinput8.dll`  |   |
+| FlatOut 2 | `dinput8.dll` | n/a |   |
+| GangLand | `dinput8.dll` | n/a |   |
+| IGI 2: Covert Strike | `version.dll` | n/a |   |
+| Unreal Tournament 3 | `dinput8.dll` | n/a | version 2.1 only |
+| Saints Row 2 | `dinput8.dll` | n/a |   |
 | [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
 
 ## Unsupported games list
