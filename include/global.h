@@ -119,6 +119,14 @@ char* __htoa(unsigned short h, char* a) {
   }
   return a;
 }
+__forceinline static int __memcmp(const void* p1, const void* p2, unsigned int len) {
+  while (*(char*)p1 == *(char*)p2) {
+    if (--len == 0) return 0;
+    p1 = (char*)p1 + 1;
+    p2 = (char*)p2 + 1;
+  }
+  return (*(char*)p1 > *(char*)p2) ? 1 : -1;
+}
 
 
 __forceinline static BYTE* find_pattern(BYTE* src_start, BYTE* src_end, BYTE* pattern_start, BYTE* pattern_end) {
@@ -161,7 +169,8 @@ __forceinline static void write_mem(BYTE* ptr, BYTE* w, unsigned int len) {
   MEMORY_BASIC_INFORMATION memBI;
 
   memset(&memBI, 0, sizeof(memBI));
-  VirtualQuery((void*)ptr, &memBI, sizeof(memBI));
+  if (!VirtualQuery((void*)ptr, &memBI, sizeof(memBI)))
+    return;
 
   old_rights = memBI.Protect;
   new_rights = (old_rights & ~(PAGE_NOACCESS | PAGE_GUARD | PAGE_EXECUTE_WRITECOPY | PAGE_WRITECOPY | PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_READONLY)) | (old_rights & (PAGE_EXECUTE_READWRITE | PAGE_READWRITE));
@@ -169,7 +178,8 @@ __forceinline static void write_mem(BYTE* ptr, BYTE* w, unsigned int len) {
   if (old_rights != new_rights) {
     if ((new_rights & (PAGE_EXECUTE_READWRITE | PAGE_READWRITE)) == 0)
       new_rights |= (old_rights & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_WRITECOPY)) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
-    VirtualProtect((void*)ptr, len, new_rights, &old_rights);
+    if (!VirtualProtect((void*)ptr, len, new_rights, &old_rights))
+      return;
   }
 
   for (i = 0; i < len; i++) {
@@ -179,6 +189,14 @@ __forceinline static void write_mem(BYTE* ptr, BYTE* w, unsigned int len) {
   if (old_rights != new_rights) {
     VirtualProtect((void*)ptr, len, new_rights, &old_rights);
   }
+}
+
+__forceinline static int patch_if_match(BYTE* ptr, BYTE* r, BYTE* w, unsigned int r_len, unsigned int w_len) {
+  if(!__memcmp(ptr, r, r_len)) {
+    write_mem(ptr, w, w_len);
+    return 1;
+  }
+  return 0;
 }
 
 __forceinline static void gs_replace_pubkey() {
