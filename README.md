@@ -38,6 +38,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 
 | Game | DLL (x86, 32-bit) | DLL (x64, 64-bit) | Notes |
 | --- | --- |  --- | --- |
+| Civilization IV | `dsound.dll` | n/a |   |
 | Colin McRae Rally 2005 | `dinput8.dll` | n/a |   |
 | Crysis | `dinput8.dll` | `dinput8.dll`  |   |
 | FEAR 2 | `version.dll` | n/a |   |
@@ -45,10 +46,10 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | GangLand | `dinput8.dll` | n/a |   |
 | IGI 2: Covert Strike | `version.dll` | n/a |   |
 | Need for Speed: Hot Pursuit 2 | `dsound.dll` | n/a |   |
-| Unreal Tournament 2004 | n/a | n/a | no DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12317115/UT2004-OpenSpy.zip) instead |
-| Unreal Tournament 3 | `dinput8.dll` | n/a | version 2.1 only |
 | Saints Row 2 | `dinput8.dll` | n/a |   |
 | Sniper Elite | `dinput8.dll` | n/a |   |
+| Unreal Tournament 2004 | n/a | n/a | no DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12317115/UT2004-OpenSpy.zip) instead |
+| Unreal Tournament 3 | `dinput8.dll` | n/a | version 2.1 only |
 | [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
 
 ## Unsupported games list
