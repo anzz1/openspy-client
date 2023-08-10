@@ -38,6 +38,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 
 | Game | DLL (x86, 32-bit) | DLL (x64, 64-bit) | Notes |
 | --- | --- |  --- | --- |
+| Civilization III | `version.dll` | n/a |   |
 | Civilization IV | `dsound.dll` | n/a |   |
 | Colin McRae Rally 2005 | `dinput8.dll` | n/a |   |
 | Crysis | `dinput8.dll` | `dinput8.dll`  |   |
