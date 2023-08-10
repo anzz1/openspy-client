@@ -38,9 +38,9 @@ GetDeviceID_fn oGetDeviceID = 0;
 
 long __stdcall p_DirectSoundCaptureCreate(LPGUID lpGUID, LPVOID *lplpDSC, /* LPUNKNOWN */ LPVOID punkOuter) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate=p_DirectSoundCaptureCreate")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate=p_DirectSoundCaptureCreate,@6")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate=_p_DirectSoundCaptureCreate@12")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate=_p_DirectSoundCaptureCreate@12,@6")
 #endif
 
   if (!oDirectSoundCaptureCreate)
@@ -53,9 +53,9 @@ long __stdcall p_DirectSoundCaptureCreate(LPGUID lpGUID, LPVOID *lplpDSC, /* LPU
 
 long __stdcall p_DirectSoundCaptureCreate8(LPCGUID lpcGUID, LPVOID *lplpDSC, /* LPUNKNOWN */ LPVOID punkOuter) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate8=p_DirectSoundCaptureCreate8")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate8=p_DirectSoundCaptureCreate8,@12")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate8=_p_DirectSoundCaptureCreate8@12")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate8=_p_DirectSoundCaptureCreate8@12,@12")
 #endif
 
   if (!oDirectSoundCaptureCreate8)
@@ -68,9 +68,9 @@ long __stdcall p_DirectSoundCaptureCreate8(LPCGUID lpcGUID, LPVOID *lplpDSC, /* 
 
 long __stdcall p_DirectSoundCaptureEnumerateA(LPVOID lpDSEnumCallback, LPVOID lpContext) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateA=p_DirectSoundCaptureEnumerateA")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateA=p_DirectSoundCaptureEnumerateA,@7")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateA=_p_DirectSoundCaptureEnumerateA@8")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateA=_p_DirectSoundCaptureEnumerateA@8,@7")
 #endif
 
   if (!oDirectSoundCaptureEnumerateA)
@@ -83,9 +83,9 @@ long __stdcall p_DirectSoundCaptureEnumerateA(LPVOID lpDSEnumCallback, LPVOID lp
 
 long __stdcall p_DirectSoundCaptureEnumerateW(LPVOID lpDSEnumCallback, LPVOID lpContext) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateW=p_DirectSoundCaptureEnumerateW")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateW=p_DirectSoundCaptureEnumerateW,@8")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateW=_p_DirectSoundCaptureEnumerateW@8")
+  #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateW=_p_DirectSoundCaptureEnumerateW@8,@8")
 #endif
 
   if (!oDirectSoundCaptureEnumerateW)
@@ -98,9 +98,9 @@ long __stdcall p_DirectSoundCaptureEnumerateW(LPVOID lpDSEnumCallback, LPVOID lp
 
 long __stdcall p_DirectSoundCreate(LPGUID lpGuid, LPVOID *ppDS, /* LPUNKNOWN */ LPVOID pUnkOuter) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundCreate=p_DirectSoundCreate")
+  #pragma comment(linker, "/EXPORT:DirectSoundCreate=p_DirectSoundCreate,@1")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundCreate=_p_DirectSoundCreate@12")
+  #pragma comment(linker, "/EXPORT:DirectSoundCreate=_p_DirectSoundCreate@12,@1")
 #endif
 
   if (!oDirectSoundCreate)
@@ -113,9 +113,9 @@ long __stdcall p_DirectSoundCreate(LPGUID lpGuid, LPVOID *ppDS, /* LPUNKNOWN */ 
 
 long __stdcall p_DirectSoundCreate8(LPCGUID lpcGuidDevice, LPVOID *ppDS8, /* LPUNKNOWN */ LPVOID pUnkOuter) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundCreate8=p_DirectSoundCreate8")
+  #pragma comment(linker, "/EXPORT:DirectSoundCreate8=p_DirectSoundCreate8,@11")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundCreate8=_p_DirectSoundCreate8@12")
+  #pragma comment(linker, "/EXPORT:DirectSoundCreate8=_p_DirectSoundCreate8@12,@11")
 #endif
 
   if (!oDirectSoundCreate8)
@@ -128,9 +128,9 @@ long __stdcall p_DirectSoundCreate8(LPCGUID lpcGuidDevice, LPVOID *ppDS8, /* LPU
 
 long __stdcall p_DirectSoundEnumerateA(LPVOID lpDSEnumCallback, LPVOID lpContext) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateA=p_DirectSoundEnumerateA")
+  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateA=p_DirectSoundEnumerateA,@2")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateA=_p_DirectSoundEnumerateA@8")
+  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateA=_p_DirectSoundEnumerateA@8,@2")
 #endif
 
   if (!oDirectSoundEnumerateA)
@@ -143,9 +143,9 @@ long __stdcall p_DirectSoundEnumerateA(LPVOID lpDSEnumCallback, LPVOID lpContext
 
 long __stdcall p_DirectSoundEnumerateW(LPVOID lpDSEnumCallback, LPVOID lpContext) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateW=p_DirectSoundEnumerateW")
+  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateW=p_DirectSoundEnumerateW,@3")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateW=_p_DirectSoundEnumerateW@8")
+  #pragma comment(linker, "/EXPORT:DirectSoundEnumerateW=_p_DirectSoundEnumerateW@8,@3")
 #endif
 
   if (!oDirectSoundEnumerateW)
@@ -158,9 +158,9 @@ long __stdcall p_DirectSoundEnumerateW(LPVOID lpDSEnumCallback, LPVOID lpContext
 
 long __stdcall p_DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID pcGuidRenderDevice, LPVOID pcDSCBufferDesc, LPVOID pcDSBufferDesc, HWND hWnd, DWORD dwLevel, LPVOID *ppDSFD, LPVOID *ppDSCBuffer8, LPVOID *ppDSBuffer8, /* LPUNKNOWN */ LPVOID pUnkOuter) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:DirectSoundFullDuplexCreate=p_DirectSoundFullDuplexCreate")
+  #pragma comment(linker, "/EXPORT:DirectSoundFullDuplexCreate=p_DirectSoundFullDuplexCreate,@10")
 #else
-  #pragma comment(linker, "/EXPORT:DirectSoundFullDuplexCreate=_p_DirectSoundFullDuplexCreate@40")
+  #pragma comment(linker, "/EXPORT:DirectSoundFullDuplexCreate=_p_DirectSoundFullDuplexCreate@40,@10")
 #endif
 
   if (!oDirectSoundFullDuplexCreate)
@@ -173,9 +173,9 @@ long __stdcall p_DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUI
 
 long __stdcall p_GetDeviceID(LPCGUID pGuidSrc, LPGUID pGuidDest) {
 #ifdef _WIN64
-  #pragma comment(linker, "/EXPORT:GetDeviceID=p_GetDeviceID")
+  #pragma comment(linker, "/EXPORT:GetDeviceID=p_GetDeviceID,@9")
 #else
-  #pragma comment(linker, "/EXPORT:GetDeviceID=_p_GetDeviceID@8")
+  #pragma comment(linker, "/EXPORT:GetDeviceID=_p_GetDeviceID@8,@9")
 #endif
 
   if (!oGetDeviceID)

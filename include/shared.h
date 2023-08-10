@@ -5,7 +5,8 @@
 
 #include "include/global.h"
 
-static const char* sDInput = "dinput8.dll";
+static const char* sDInput = "dinput.dll";
+static const char* sDInput8 = "dinput8.dll";
 static const char* sDSound = "dsound.dll";
 static const char* pModName = 0;
 
@@ -35,9 +36,9 @@ long __stdcall p_DllRegisterServer(void) {
   #pragma comment(linker, "/EXPORT:DllRegisterServer=_p_DllRegisterServer@0")
 #endif
 
-  if (pModName == sDInput) {
+  if (pModName == sDInput || pModName == sDInput8) {
     if (!oDllRegisterServer)
-      oDllRegisterServer = GetSysProc(sDInput, "DllRegisterServer");
+      oDllRegisterServer = GetSysProc(pModName, "DllRegisterServer");
     if (oDllRegisterServer)
       return oDllRegisterServer();
   }
@@ -52,9 +53,9 @@ long __stdcall p_DllUnregisterServer(void) {
   #pragma comment(linker, "/EXPORT:DllUnregisterServer=_p_DllUnregisterServer@0")
 #endif
 
-  if (pModName == sDInput) {
+  if (pModName == sDInput || pModName == sDInput8) {
     if (!oDllUnregisterServer)
-      oDllUnregisterServer = GetSysProc(sDInput, "DllUnregisterServer");
+      oDllUnregisterServer = GetSysProc(pModName, "DllUnregisterServer");
     if (oDllUnregisterServer)
       return oDllUnregisterServer();
   }

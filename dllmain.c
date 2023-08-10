@@ -8,6 +8,7 @@
 
 #include "include/global.h"
 #include "include/version_dll.h"
+#include "include/dinput_dll.h"
 #include "include/dinput8_dll.h"
 #include "include/dsound_dll.h"
 #include "include/game_cry.h"
@@ -110,7 +111,9 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
       p = __strrchr(s, '\\');
       if (p) {
         p++;
-        if (!__stricmp(p, sDInput)) // dinput8.dll
+        if (!__stricmp(p, sDInput)) // dinput.dll
+          dinput_hook();
+        else if (!__stricmp(p, sDInput8)) // dinput8.dll
           dinput8_hook();
         else if (!__stricmp(p, sDSound)) // dsound.dll
           dsound_hook();

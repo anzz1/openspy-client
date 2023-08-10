@@ -17,7 +17,7 @@ long __stdcall p_DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID rii
 #endif
 
   if (!oDirectInput8Create)
-    oDirectInput8Create = GetSysProc(sDInput, "DirectInput8Create");
+    oDirectInput8Create = GetSysProc(sDInput8, "DirectInput8Create");
   if (oDirectInput8Create)
     return oDirectInput8Create(hinst, dwVersion, riidltf, ppvOut, punkOuter);
 
@@ -26,9 +26,9 @@ long __stdcall p_DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID rii
 
 static void dinput8_hook() {
   HMODULE hm;
-  hm = LoadSysMod(sDInput);
+  hm = LoadSysMod(sDInput8);
   if (hm) {
-    pModName = sDInput;
+    pModName = sDInput8;
     oDirectInput8Create = (DirectInput8Create_fn)GetProcAddress(hm,"DirectInput8Create");
     oDllGetClassObject = (DllGetClassObject_fn)GetProcAddress(hm,"DllGetClassObject");
     oDllRegisterServer = (DllRegisterServer_fn)GetProcAddress(hm,"DllRegisterServer");

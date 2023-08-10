@@ -58,7 +58,8 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 ## Remarks
 To uninstall, simply delete the `openspy.dll` file.
 
-If a game is not listed, you can try renaming it as the different variations openspy-client currently supports:  
+If a game is not listed, you can try renaming it as the different variations openspy-client currently supports: 
+- `dinput.dll`
 - `dinput8.dll`
 - `version.dll`
 - `dsound.dll`
