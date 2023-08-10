@@ -1,0 +1,77 @@
+name: ci
+
+on:
+  workflow_dispatch: # allows manual triggering
+    inputs:
+      create_release:
+        description: 'Create new release'
+        required: true
+        type: boolean
+  push:
+    paths: ['.github/workflows/**', '**/premake5.lua', '**/*.h', '**/*.c']
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths: ['**/premake5.lua', '**/*.h', '**/*.c']
+
+env:
+  SOLUTION_FILE_PATH: ./build/openspy-client.sln
+  BUILD_CONFIGURATION: Release
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  build:
+    name: build-windows
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout the repository
+      id: checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+
+    - name: Run premake '5.0.0-beta2'
+      id: run_premake
+      uses: eariassoto/setup-premake@v1
+      with:
+        version: '5.0.0-beta2'
+        action: 'vs2022'  
+
+    - name: Add MSBuild to PATH
+      id: setup_msbuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build
+      id: run_msbuild
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Platform=Win32 /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} && msbuild /m /p:Platform=x64 /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Pack artifacts
+      id: pack_artifacts
+      if: ${{ ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) || github.event.inputs.create_release == 'true' }}
+      run: |
+        7z a openspy.zip .\bin\*.dll
+
+    - name: Create release
+      id: create_release
+      if: ${{ ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) || github.event.inputs.create_release == 'true' }}
+      uses: anzz1/action-create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_schema: semantic
+
+    - name: Upload release
+      id: upload_release
+      if: ${{ ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) || github.event.inputs.create_release == 'true' }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: .\openspy.zip
+        asset_name: openspy.zip
+        asset_content_type: application/zip
+
