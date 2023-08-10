@@ -44,6 +44,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | FlatOut 2 | `dinput8.dll` | n/a |   |
 | GangLand | `dinput8.dll` | n/a |   |
 | IGI 2: Covert Strike | `version.dll` | n/a |   |
+| Unreal Tournament 2004 | n/a | n/a | no DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12317115/UT2004-OpenSpy.zip) instead |
 | Unreal Tournament 3 | `dinput8.dll` | n/a | version 2.1 only |
 | Saints Row 2 | `dinput8.dll` | n/a |   |
 | Sniper Elite | `dinput8.dll` | n/a |   |
