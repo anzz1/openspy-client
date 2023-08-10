@@ -1,0 +1,3 @@
+[submodule "iathook"]
+	path = iathook
+	url = https://github.com/anzz1/iathook.git
