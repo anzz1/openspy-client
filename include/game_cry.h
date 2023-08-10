@@ -26,6 +26,7 @@ __forceinline static void cry_hook_gs() {
 
 static void patch_cry() {
   cry_hook_gs();
+  gs_replace_pubkey();
 }
 
 #endif // __GAME_CRY_H

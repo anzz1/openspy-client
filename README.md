@@ -40,6 +40,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | --- | --- |  --- | --- |
 | Colin McRae Rally 2005 | `dinput8.dll` | n/a |   |
 | Crysis | `dinput8.dll` | `dinput8.dll`  |   |
+| FEAR 2 | `version.dll` | n/a |   |
 | FlatOut 2 | `dinput8.dll` | n/a |   |
 | GangLand | `dinput8.dll` | n/a |   |
 | IGI 2: Covert Strike | `version.dll` | n/a |   |

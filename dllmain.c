@@ -154,6 +154,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_cry();
         } else if (!__stricmp(p, "ut3.exe")) { // Unreal Tournament 3
           patch_ut3();
+        } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
+          gs_replace_pubkey();
         }
       }
     }
