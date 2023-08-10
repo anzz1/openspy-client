@@ -24,7 +24,7 @@ __forceinline static void cmr5_enable_gs() {
     cmr5_oRegQueryValueExA = (RegQueryValueExA_fn)detour_iat_func(0, "RegQueryValueExA", (void*)cmr5_hk_RegQueryValueExA, 0, 0, TRUE);
 }
 
-__forceinline static void patch_cmr5() {
+static void patch_cmr5() {
   cmr5_enable_gs();
 }
 

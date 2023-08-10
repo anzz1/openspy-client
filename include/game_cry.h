@@ -24,7 +24,7 @@ __forceinline static void cry_hook_gs() {
   }
 }
 
-__forceinline static void patch_cry() {
+static void patch_cry() {
   cry_hook_gs();
 }
 

@@ -330,7 +330,7 @@ BOOL __stdcall p_VerQueryValueW(LPCVOID pBlock, LPCWSTR lpSubBlock, LPVOID * lpl
   return FALSE;
 }
 
-__forceinline static void version_hook() {
+static void version_hook() {
   HMODULE hm;
   hm = LoadSysMod(sVersion);
   if (hm) {

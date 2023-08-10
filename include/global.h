@@ -90,7 +90,7 @@ __forceinline static int __strncmp(const char* s1, const char* s2, unsigned int 
   }
   return (*s1 > *s2) ? 1 : -1;
 }
-char* __htoa(unsigned short h, char* a) {
+__forceinline char* __htoa(unsigned short h, char* a) {
   if (h < 10) {
     a[0] = '0' + h;
     a[1] = 0;

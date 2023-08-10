@@ -24,7 +24,7 @@ long __stdcall p_DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID rii
   return 1;
 }
 
-__forceinline static void dinput8_hook() {
+static void dinput8_hook() {
   HMODULE hm;
   hm = LoadSysMod(sDInput);
   if (hm) {
