@@ -1,0 +1,60 @@
+name: Report working game
+description: Report a working game so we can add it to the list
+title: "[working-game] "
+labels: ["working game"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report!
+  - type: input
+    id: game-name
+    attributes:
+      label: Game name
+      placeholder: ex. FlatOut 2
+    validations:
+      required: true
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version
+      description: The version or patch of the game you have installed.
+      placeholder: ex. v1.02
+    validations:
+      required: true
+  - type: dropdown
+    id: game-release
+    attributes:
+      label: Game release
+      description: The type of release of the game used.
+      multiple: false
+      options:
+        - CD / DVD
+        - Steam
+        - GOG
+        - Origin
+        - uPlay
+        - Epic Games
+        - Standalone/Other
+    validations:
+      required: true
+  - type: dropdown
+    id: dll-name
+    attributes:
+      label: OpenSpy DLL Name
+      description: How the OpenSpy DLL was loaded.
+      multiple: false
+      options:
+        - dinput8.dll
+        - version.dll
+        - dsound.dll
+    validations:
+      required: true
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: Any additional information you want to share?
+    validations:
+      required: false
+

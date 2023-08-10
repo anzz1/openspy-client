@@ -1,0 +1,48 @@
+name: Request for game support
+description: Report a game which is not listed so we can add support for it
+title: "[game-request] "
+labels: ["game request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Enter information for the game you'd like to see supported.
+  - type: input
+    id: game-name
+    attributes:
+      label: Game name
+      placeholder: ex. FlatOut 2
+    validations:
+      required: true
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version
+      description: The version or patch of the game you have installed.
+      placeholder: ex. v1.02
+    validations:
+      required: true
+  - type: dropdown
+    id: game-release
+    attributes:
+      label: Game release
+      description: The type of release of the game used.
+      multiple: false
+      options:
+        - CD / DVD
+        - Steam
+        - GOG
+        - Origin
+        - uPlay
+        - Epic Games
+        - Standalone/Other
+    validations:
+      required: true
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: Any additional information you want to share? Helpful information about the game will help us support the game faster.
+    validations:
+      required: false
+

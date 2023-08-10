@@ -1,0 +1,86 @@
+name: Bug report
+description: Create a bug report to help us improve.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: game-name
+    attributes:
+      label: Game name
+      placeholder: ex. FlatOut 2
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: '🔍'
+      description: Please check that the game is in the [supported games list](https://github.com/anzz1/openspy-test#working-games). If not, submit a [request for game support](https://github.com/anzz1/openspy-test/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+) instead.
+      options:
+        - label: The game is in the [supported games list](https://github.com/anzz1/openspy-test#working-games).
+          required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: A bug happened!
+    validations:
+      required: true
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version
+      description: The version or patch of the game you have installed.
+      placeholder: ex. v1.02
+    validations:
+      required: true
+  - type: dropdown
+    id: game-release
+    attributes:
+      label: Game release
+      description: The type of release of the game used.
+      multiple: false
+      options:
+        - CD / DVD
+        - Steam
+        - GOG
+        - Origin
+        - uPlay
+        - Epic Games
+        - Standalone/Other
+    validations:
+      required: true
+  - type: dropdown
+    id: dll-name
+    attributes:
+      label: OpenSpy DLL Name
+      description: How the OpenSpy DLL was loaded.
+      multiple: false
+      options:
+        - dinput8.dll
+        - version.dll
+        - dsound.dll
+        - ASI Loader/Other
+    validations:
+      required: true
+  - type: textarea
+    id: game-info
+    attributes:
+      label: Additional game information
+      description: |
+        Any additional information about the game, mods used, etc.
+        If answered Other to the previous questions, please elaborate here.
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: If the game has a log file, please copy and paste any relevant log output.
+      render: shell
+    validations:
+      required: false
+
