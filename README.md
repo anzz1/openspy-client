@@ -46,6 +46,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | IGI 2: Covert Strike | `version.dll` | n/a |   |
 | Unreal Tournament 3 | `dinput8.dll` | n/a | version 2.1 only |
 | Saints Row 2 | `dinput8.dll` | n/a |   |
+| Sniper Elite | `dinput8.dll` | n/a |   |
 | [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
 
 ## Unsupported games list
