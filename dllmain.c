@@ -87,12 +87,14 @@ HINTERNET __stdcall hk_InternetOpenUrlA(HINTERNET hInternet, LPCSTR lpszUrl, LPC
     return oInternetOpenUrlA(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
 }
 
+int initialized = 0;
 int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
-  if (dwReason == DLL_PROCESS_ATTACH) {
+  if (dwReason == DLL_PROCESS_ATTACH && !initialized) {
     HMODULE hm = 0;
     char* p = 0;
     char s[512];
 
+    initialized = 1;
     DisableThreadLibraryCalls(hInstDLL);
 
     // Pin this module to memory
