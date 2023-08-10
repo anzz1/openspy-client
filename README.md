@@ -49,6 +49,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Need for Speed: Hot Pursuit 2 | `dsound.dll` | n/a |   |
 | Saints Row 2 | `dinput8.dll` | n/a |   |
 | Sniper Elite | `dinput8.dll` | n/a |   |
+| Unreal Tournament (1999) | n/a | n/a | no DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12317800/UT99-OpenSpy.zip) instead |
 | Unreal Tournament 2004 | n/a | n/a | no DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12317115/UT2004-OpenSpy.zip) instead |
 | Unreal Tournament 3 | `dinput8.dll` | n/a | version 2.1 only |
 | [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
