@@ -8,13 +8,13 @@ The openspy client module is unobtrusive, meaning no game files need to be alter
 
 On this early stage, only a few games are listed as supported. However, due to the generic implementation, many games should be already supported.
 
-Help us by [reporting the games you found working](https://github.com/anzz1/openspy-test/issues/new?labels=working+game&template=report-working-game.yml&title=%5Bworking-game%5D+X) so we can add them to the list and [reporting the ones which don't](https://github.com/anzz1/openspy-test/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+X) so we can work on adding the support.
+Help us by [reporting the games you found working](https://github.com/anzz1/openspy-client/issues/new?labels=working+game&template=report-working-game.yml&title=%5Bworking-game%5D+X) so we can add them to the list and [reporting the ones which don't](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+X) so we can work on adding the support.
 
 Aim is to eventually support 100% of GameSpy Arcade titles.
 
 ## How to install
 
-1. Download the [latest release](https://github.com/anzz1/openspy-test/releases/latest/download/openspy.zip)
+1. Download the [latest release](https://github.com/anzz1/openspy-client/releases/latest/download/openspy.zip)
 
 2. Extract the `openspy.dll` file from it to the game folder, next to the game launcher.  
 (e.g. if you launch your game from FlatOut2.exe, put it into the same folder with it)
@@ -39,12 +39,12 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Crysis | `Bin32\dinput8.dll` | `Bin64\dinput8.dll`  |
 | FlatOut 2 | `dinput8.dll` |   |
 | Saints Row 2 | `dinput8.dll` |   |
-| [report supported game](https://github.com/anzz1/openspy-test/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
+| [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
 
 ## Unsupported games list
 | Game | Status |
 | --- | --- |
-| [report unsupported game](https://github.com/anzz1/openspy-test/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+X) |
+| [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+X) |
 
 ## Remarks
 To uninstall, simply delete the `openspy.dll` file.
