@@ -11,12 +11,18 @@
 #include "include/dinput_dll.h"
 #include "include/dinput8_dll.h"
 #include "include/dsound_dll.h"
+
 #include "include/game_cry.h"
-#include "include/game_sr2.h"
-#include "include/game_cmr5.h"
-#include "include/game_ut3.h"
+#ifndef _WIN64
+  #include "include/game_sr2.h"
+  #include "include/game_cmr5.h"
+  #include "include/game_ut3.h"
+  #include "include/game_pk.h"
+#endif // _WIN64
+
 #include "include/picoupnp.h"
 #include "iathook/iathook.h"
+
 
 typedef HINTERNET (__stdcall *InternetOpenUrlA_fn)(HINTERNET hInternet, LPCSTR lpszUrl, LPCSTR lpszHeaders, DWORD dwHeadersLength, DWORD dwFlags, DWORD_PTR dwContext);
 InternetOpenUrlA_fn oInternetOpenUrlA = 0;
@@ -149,17 +155,25 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
       p = __strrchr(s, '\\');
       if (p) {
         p++;
+#ifdef _WIN64
+        if (!__stricmp(p, "crysis64.exe")) { // Crysis (64-bit)
+          patch_cry();
+        }
+#else // !_WIN64
         if (!__stricmp(p, "sr2_pc.exe")) { // Saints Row 2
           patch_sr2();
         } else if (!__stricmp(p, "cmr5.exe")) { // Colin McRae Rally 2005
           patch_cmr5();
-        } else if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysis64.exe")) { // Crysis
+        } else if (!__stricmp(p, "crysis.exe")) { // Crysis (32-bit)
           patch_cry();
         } else if (!__stricmp(p, "ut3.exe")) { // Unreal Tournament 3
           patch_ut3();
+        } else if (!__stricmp(p, "painkiller.exe")) { // Painkiller
+          patch_pk();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
           gs_replace_pubkey();
         }
+#endif // _WIN64 || !_WIN64
       }
     }
   }

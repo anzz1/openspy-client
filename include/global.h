@@ -25,6 +25,8 @@ typedef LPHOSTENT (__stdcall *gethostbyname_fn)(const char* name);
 gethostbyname_fn ogethostbyname = 0;
 typedef HANDLE (__stdcall *WSAAsyncGetHostByName_fn)(HWND hWnd, unsigned int wMsg, const char *name, char *buf, int buflen);
 WSAAsyncGetHostByName_fn oWSAAsyncGetHostByName = 0;
+typedef long (__stdcall* RegQueryValueExA_fn)(HKEY hKey, LPCSTR lpValueName, LPDWORD lpReserved, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData);
+RegQueryValueExA_fn oRegQueryValueExA;
 
 static char gSysDir[MAX_PATH+2];
 static unsigned int gSysLen = 0;
@@ -127,7 +129,14 @@ __forceinline static int __memcmp(const void* p1, const void* p2, unsigned int l
   }
   return (*(char*)p1 > *(char*)p2) ? 1 : -1;
 }
-
+__forceinline static char* h2hex(short h, char* s) {
+  s[0] = ((h>>12)&0xF)<10?((h>>12)&0xF)+48:((h>>12)&0xF)+87;
+  s[1] = ((h>>8)&0xF)<10?((h>>8)&0xF)+48:((h>>8)&0xF)+87;
+  s[2] = ((h>>4)&0xF)<10?((h>>4)&0xF)+48:((h>>4)&0xF)+87;
+  s[3] = (h&0xF)<10?(h&0xF)+48:(h&0xF)+87;
+  s[4] = 0;
+  return s;
+}
 
 __forceinline static BYTE* find_pattern(BYTE* src_start, BYTE* src_end, BYTE* pattern_start, BYTE* pattern_end) {
   BYTE *pos,*end,*s1,*p1;
