@@ -36,7 +36,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 
 ## Supported games list
 
-| Game | DLL (x86, 32-bit) | DLL (x64, 64-bit) | Notes |
+| Game | DLL<br>(x86, 32-bit) | DLL<br>(x64, 64-bit) | Notes |
 | --- | --- |  --- | --- |
 | Civilization III | `version.dll` | n/a |   |
 | Civilization IV | `dsound.dll` | n/a |   |
