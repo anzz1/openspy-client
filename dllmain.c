@@ -20,6 +20,7 @@
   #include "include/game_pk.h"
   #include "include/game_vc2.h"
   #include "include/game_halo.h"
+  #include "include/game_aowht.h"
 #endif // _WIN64
 
 #include "include/picoupnp.h"
@@ -176,6 +177,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_pk();
         } else if (!__stricmp(p, "halo.exe")) { // Halo CE
           patch_halo();
+        } else if (!__stricmp(p, "ActOfWar_HighTreason.exe")) { // Act of War - High Treason
+          patch_aowht();
         } else if (!__stricmp(p, "vietcong2.exe") || !__stricmp(p, "vc2ded.exe")) { // Vietcong 2
           force_bind_ip = 0;
           patch_vc2();

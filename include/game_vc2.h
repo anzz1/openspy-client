@@ -1,4 +1,4 @@
-// game_cry.h
+// game_vc2.h
 
 #ifndef __GAME_VC2_H
 #define __GAME_VC2_H

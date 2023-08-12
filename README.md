@@ -38,6 +38,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 
 | Game | DLL<br>(x86, 32-bit) | DLL<br>(x64, 64-bit) | Notes |
 | --- | --- |  --- | --- |
+| Act of War: High Treason | `version.dll` | n/a |   |
 | Civilization III | `version.dll` | n/a |   |
 | Civilization IV | `dsound.dll` | n/a |   |
 | Colin McRae Rally 2005 | `dinput8.dll` | n/a |   |
