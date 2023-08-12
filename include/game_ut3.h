@@ -42,7 +42,7 @@ static void patch_ut3() {
   ut3_patch_gsmd5print_v21();
   ut3_patch_strings_v21();
   //ut3_disable_https();
-  gs_replace_pubkey();
+  gs_replace_pubkey(0);
 }
 
 #endif // __GAME_UT3_H

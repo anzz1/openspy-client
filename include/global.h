@@ -155,12 +155,12 @@ __forceinline static BYTE* find_pattern(BYTE* src_start, BYTE* src_end, BYTE* pa
   return src_end;
 }
 
-__forceinline static BYTE* find_pattern_mem(BYTE* search, BYTE* search_end) {
+__forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* search_end) {
   MEMORY_BASIC_INFORMATION memBI;
   BYTE* res;
-  ULONG_PTR addr;
 
-  addr = (ULONG_PTR)GetModuleHandleA(0); // start search at proc base addr
+  if (!addr)
+    addr = (ULONG_PTR)GetModuleHandleA(0); // start search at proc base addr
   memset(&memBI, 0, sizeof(memBI));
   while (VirtualQuery((void*)addr, &memBI, sizeof(memBI))) {
     // skip noncommitted, non-executable and guard pages
@@ -211,10 +211,10 @@ __forceinline static int patch_if_match(BYTE* ptr, BYTE* r, BYTE* w, unsigned in
   return 0;
 }
 
-__forceinline static void gs_replace_pubkey() {
+__forceinline static void gs_replace_pubkey(ULONG_PTR addr) {
   BYTE* ptr = 0;
 
-  ptr = find_pattern_mem(GSPubKey, GSPubKey + 255);
+  ptr = find_pattern_mem(addr, GSPubKey, GSPubKey + 255);
   if (ptr)
     write_mem(ptr, OSPubKey, 256);
 }

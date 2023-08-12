@@ -21,12 +21,13 @@ __forceinline static void cry_hook_gs() {
       detour_iat_func(crynet, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
     else
       obind = (bind_fn)detour_iat_func(crynet, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+
+    gs_replace_pubkey((ULONG_PTR)crynet);
   }
 }
 
 static void patch_cry() {
   cry_hook_gs();
-  gs_replace_pubkey();
 }
 
 #endif // __GAME_CRY_H
