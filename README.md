@@ -45,6 +45,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | FEAR 2 | `version.dll` | n/a |   |
 | FlatOut 2 | `dinput8.dll` | n/a |   |
 | GangLand | `dinput8.dll` | n/a |   |
+| Halo: Combat Evolved | `version.dll` | n/a |   |
 | IGI 2: Covert Strike | `version.dll` | n/a |   |
 | Need for Speed: Hot Pursuit 2 | `dsound.dll` | n/a |   |
 | Painkiller | `version.dll` | n/a |   |
