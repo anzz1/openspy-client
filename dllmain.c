@@ -18,11 +18,14 @@
   #include "include/game_cmr5.h"
   #include "include/game_ut3.h"
   #include "include/game_pk.h"
+  #include "include/game_vc2.h"
 #endif // _WIN64
 
 #include "include/picoupnp.h"
 #include "iathook/iathook.h"
 
+// Redirect all bind() to 0.0.0.0
+static int force_bind_ip = 1;
 
 typedef HINTERNET (__stdcall *InternetOpenUrlA_fn)(HINTERNET hInternet, LPCSTR lpszUrl, LPCSTR lpszHeaders, DWORD dwHeadersLength, DWORD dwFlags, DWORD_PTR dwContext);
 InternetOpenUrlA_fn oInternetOpenUrlA = 0;
@@ -46,7 +49,7 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr *addr, int namelen) {
     return obind(s, addr, namelen);
 
   // Bind to 0.0.0.0 (any)
-  if (*(unsigned long*)(addr->sa_data+2) != 0)
+  if (force_bind_ip && (*(unsigned long*)(addr->sa_data+2) != 0))
     *(unsigned long*)(addr->sa_data+2) = 0;
 
   getsockopt(s, SOL_SOCKET, SO_TYPE, (char*)&type, &len);
@@ -170,6 +173,9 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_ut3();
         } else if (!__stricmp(p, "painkiller.exe")) { // Painkiller
           patch_pk();
+        } else if (!__stricmp(p, "vietcong2.exe") || !__stricmp(p, "vc2ded.exe")) { // Vietcong 2
+          force_bind_ip = 0;
+          patch_vc2();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
           gs_replace_pubkey();
         }

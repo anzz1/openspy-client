@@ -17,7 +17,10 @@
 #include <wininet.h>
 
 #pragma comment(lib, "ws2_32.lib")
+
+#if defined(_MSC_VER) && _MSC_VER < 1800
 #pragma comment(linker, "/IGNORE:4104")
+#endif
 
 typedef int (__stdcall *bind_fn)(SOCKET s, /* const */ struct sockaddr *addr, int namelen);
 bind_fn obind = 0;

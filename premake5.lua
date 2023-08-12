@@ -13,7 +13,7 @@ workspace "openspy-client"
    rtti "Off"
    flags { "NoBufferSecurityCheck", "NoIncrementalLink", "NoManifest", "NoPCH", "NoRuntimeChecks", "OmitDefaultLibrary" }
    buildoptions { "/kernel /Gs1000000" }
-   linkoptions { "/SAFESEH:NO", "/EMITPOGOPHASEINFO", "/RELEASE", "/DEBUG:NONE" }
+   linkoptions { "/SAFESEH:NO", "/EMITPOGOPHASEINFO", "/RELEASE", "/DEBUG:NONE", "/IGNORE:4104" }
 
    filter "configurations:Release"
       runtime "Release"

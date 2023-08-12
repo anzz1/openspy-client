@@ -54,6 +54,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Unreal Tournament (1999) | n/a | n/a | no DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12317800/UT99-OpenSpy.zip) instead |
 | Unreal Tournament 2004 | n/a | n/a | no DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12317115/UT2004-OpenSpy.zip) instead |
 | Unreal Tournament 3 | `dinput8.dll` | n/a | version 2.1 only |
+| Vietcong 2 | `dinput8.dll` | n/a |   |
 | [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
 
 ## Unsupported games list
