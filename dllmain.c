@@ -61,11 +61,12 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr *addr, int namelen) {
 
   if (type == SOCK_STREAM || type == SOCK_DGRAM) {
     struct myport *param = LocalAlloc(LPTR, sizeof(struct myport));
+    if (!param) { closesocket(s); ExitProcess(1); return -1; }
     param->port = ntohs(*(unsigned short*)(addr->sa_data));
     if (param->port == 0) {
       struct sockaddr_in sin;
-      int addrlen = sizeof(sin);
-      if(getsockname(s, (struct sockaddr *)&sin, &addrlen) || sin.sin_family != AF_INET || addrlen != sizeof(sin)) {
+      int addrlen = sizeof(struct sockaddr_in);
+      if(getsockname(s, (struct sockaddr *)&sin, &addrlen) || sin.sin_family != AF_INET || addrlen != sizeof(struct sockaddr_in)) {
         LocalFree(param);
         return ret;
       }
