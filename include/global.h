@@ -74,6 +74,10 @@ __forceinline static char* __strncpy(char* dst, const char* src, unsigned int le
   dst[i] = 0;
   return dst;
 }
+//__forceinline static void __strcat(char* dst, const char* src) {
+//  while (*dst) dst++;
+//  __strcpy(dst, src);
+//}
 // s2 should be in lowercase
 __forceinline static char* __stristr(const char* s1, const char* s2) {
   unsigned int i;
@@ -84,6 +88,19 @@ __forceinline static char* __stristr(const char* s1, const char* s2) {
       if (s2[i] == 0) return p;
       if (p[i] == 0) break;
       if (s2[i] != ((p[i]>64 && p[i]<91) ? (p[i]+32):p[i])) break;
+    } while (++i);
+  }
+  return 0;
+}
+__forceinline static char* __strstr(const char* s1, const char* s2) {
+  unsigned int i;
+  char *p;
+  for (p = (char*)s1; *p != 0; p++) {
+    i = 0;
+    do {
+      if (s2[i] == 0) return p;
+      if (p[i] == 0) break;
+      if (s2[i] != p[i]) break;
     } while (++i);
   }
   return 0;
@@ -274,5 +291,53 @@ __forceinline static void* GetSysProc(const char* modname, const char* funcname)
   hm = LoadSysMod(modname);
   return (hm ? GetProcAddress(hm, funcname) : 0);
 }
+
+__forceinline static int FileExistsA(const char* path) {
+  if (GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES) { // 0xFFFFFFFF (-1)
+    switch (GetLastError())
+    {
+      case ERROR_FILE_NOT_FOUND:
+      case ERROR_PATH_NOT_FOUND:
+      case ERROR_INVALID_NAME:
+      case ERROR_INVALID_DRIVE:
+      case ERROR_NOT_READY:
+      case ERROR_INVALID_PARAMETER:
+      case ERROR_BAD_PATHNAME:
+      case ERROR_BAD_NETPATH:
+        return 0;
+      default:
+        break;
+    }
+  }
+  return 1;
+}
+
+char* GetModExpName(HMODULE hModule) {
+  PIMAGE_DOS_HEADER img_dos_headers;
+  PIMAGE_NT_HEADERS img_nt_headers;
+  PIMAGE_DATA_DIRECTORY img_dir_exports;
+  PIMAGE_EXPORT_DIRECTORY img_exp_dir;
+
+  if (!hModule)
+    return 0;
+  img_dos_headers = (PIMAGE_DOS_HEADER)hModule;
+  if (img_dos_headers->e_magic != IMAGE_DOS_SIGNATURE)
+    return 0;
+  img_nt_headers = (PIMAGE_NT_HEADERS)((size_t)img_dos_headers + img_dos_headers->e_lfanew);
+  if (img_nt_headers->Signature != IMAGE_NT_SIGNATURE)
+    return 0;
+  if (img_nt_headers->FileHeader.SizeOfOptionalHeader < 4) // OptionalHeader.Magic
+    return 0;
+  if (img_nt_headers->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR_MAGIC || img_nt_headers->OptionalHeader.NumberOfRvaAndSizes < 1)
+    return 0;
+
+  img_dir_exports = (PIMAGE_DATA_DIRECTORY)(&(img_nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT]));
+  if (!img_dir_exports->VirtualAddress || img_dir_exports->Size < sizeof(IMAGE_EXPORT_DIRECTORY))
+    return 0;
+
+  img_exp_dir = (PIMAGE_EXPORT_DIRECTORY)((size_t)img_dos_headers + img_dir_exports->VirtualAddress);
+  return (img_exp_dir->Name ? (char*)((size_t)img_dos_headers + img_exp_dir->Name) : 0);
+}
+
 
 #endif // __GLOBAL_H

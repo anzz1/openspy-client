@@ -103,6 +103,54 @@ HINTERNET __stdcall hk_InternetOpenUrlA(HINTERNET hInternet, LPCSTR lpszUrl, LPC
     return oInternetOpenUrlA(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
 }
 
+static char* securom_msg = "mshta.exe vbscript:Execute(\"msgbox \"\"Your game executable is infested with SecuROM.\"\" & chr(10) & \"\"Process was exit to prevent damage to your operating system.\"\",0,\"\"Notice\"\":close\")";
+__forceinline static int securom_check(HMODULE hModule) {
+    PIMAGE_DOS_HEADER img_dos_headers;
+    PIMAGE_NT_HEADERS img_nt_headers;
+    PIMAGE_SECTION_HEADER img_sec_header;
+    unsigned int n;
+    char path[512];
+    char* p;
+
+    if (GetModuleFileNameA(hModule, path, 511)) {
+      path[511] = 0;
+      p = __strrchr(path, '\\');
+      if (p) {
+        __strcpy(++p, "disable_securom_guard.txt");
+        if (FileExistsA(path))
+          return 0;
+      }
+    }
+
+    img_dos_headers = (PIMAGE_DOS_HEADER)GetModuleHandleA(0);
+    if (img_dos_headers->e_magic != IMAGE_DOS_SIGNATURE)
+      return 0;
+    img_nt_headers = (PIMAGE_NT_HEADERS)((size_t)img_dos_headers + img_dos_headers->e_lfanew);
+    if (img_nt_headers->Signature != IMAGE_NT_SIGNATURE)
+      return 0;
+    if (img_nt_headers->FileHeader.SizeOfOptionalHeader < 4) // OptionalHeader.Magic
+      return 0;
+    if (img_nt_headers->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR_MAGIC || img_nt_headers->OptionalHeader.NumberOfRvaAndSizes < 2)
+      return 0;
+
+    img_sec_header = (PIMAGE_SECTION_HEADER)((size_t)img_nt_headers + sizeof(img_nt_headers->Signature) + sizeof(img_nt_headers->FileHeader) + img_nt_headers->FileHeader.SizeOfOptionalHeader);
+    for (n = 0; n < img_nt_headers->FileHeader.NumberOfSections; n++, img_sec_header++) {
+      if (img_sec_header->Name && !__strncmp(img_sec_header->Name, ".securom", 8)) {
+        STARTUPINFO si;
+        PROCESS_INFORMATION pi;
+        memset(&si, 0, sizeof(STARTUPINFO));
+        memset(&pi, 0, sizeof(PROCESS_INFORMATION));
+        if(CreateProcessA(0, securom_msg, 0, 0, 0, 0, 0, 0, &si, &pi)) {
+          CloseHandle(pi.hThread);
+          CloseHandle(pi.hProcess);
+        }
+        ExitProcess(1);
+        return 1;
+      }
+    }
+    return 0;
+}
+
 static int initialized = 0;
 int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
   if (dwReason == DLL_PROCESS_ATTACH && !initialized) {
@@ -115,6 +163,10 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
 
     // Pin this module to memory
     GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)&p_DirectInput8Create, &hm);
+
+    // SecuROM guard
+    if (securom_check(hm))
+      return 1;
 
     // Load system directory to memory
     InitSysDir();
@@ -188,9 +240,9 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
         } else if (!__stricmp(p, "vietcong2.exe") || !__stricmp(p, "vc2ded.exe")) { // Vietcong 2
           force_bind_ip = 0;
           patch_vc2();
-        } else if (!__stricmp(p, "fearserver.exe")) { // FEAR (Server)
+        } else if (!__stricmp(p, "fearmp.exe") || !__stricmp(p, "fearserver.exe")) { // FEAR
           force_bind_ip = 0;
-          patch_fearserver();
+          patch_fear();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
           gs_replace_pubkey(0);
         }
