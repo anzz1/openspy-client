@@ -116,7 +116,7 @@ int GetURLParts(char* url, char* host, char* port, char* path)
 WSADATA wsaData;
 int WSAInit()
 {
-  int sd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+  SOCKET sd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (sd == INVALID_SOCKET) {
     if (WSAGetLastError() == WSANOTINITIALISED) {
       return WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -129,7 +129,7 @@ int WSAInit()
 
 int HTTPRequest(char* hostname, const char* port, char* request, char* response, int maxlen)
 {
-  int sd;
+  SOCKET sd;
   struct addrinfo hints, *info;
   char *p;
 
@@ -147,14 +147,14 @@ int HTTPRequest(char* hostname, const char* port, char* request, char* response,
   }
   setsockopt(sd, SOL_SOCKET, SO_SNDTIMEO, (const char *)&dwTimeout, sizeof(dwTimeout));
   setsockopt(sd, SOL_SOCKET, SO_RCVTIMEO, (const char *)&dwTimeout, sizeof(dwTimeout));
-  if (connect(sd, info->ai_addr, info->ai_addrlen) == SOCKET_ERROR)
+  if (connect(sd, info->ai_addr, (int)info->ai_addrlen) == SOCKET_ERROR)
   {
     closesocket(sd);
     freeaddrinfo(info);
     return 0;
   }
   setsockopt(sd, SOL_TCP, TCP_USER_TIMEOUT, (const char *)&dwTimeout, sizeof(dwTimeout));
-  if (send(sd, request, strlen(request), 0) == SOCKET_ERROR)
+  if (send(sd, request, __strlen(request), 0) == SOCKET_ERROR)
   {
     closesocket(sd);
     freeaddrinfo(info);
@@ -293,7 +293,7 @@ int UPNP_ParseEndPoint(const char* xml /* in */, char* endpoint /* out(255) */)
 
 int UPNP_GetRootDescXmlUrl(const char* localip, char* response, int maxlen)
 {
-  int sd;
+  SOCKET sd;
   struct sockaddr_in server, client;
   char* p;
   unsigned int i, addrlen;

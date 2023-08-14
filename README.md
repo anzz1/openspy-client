@@ -63,6 +63,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 ## Unsupported games list
 | Game | Status |
 | --- | --- |
+| FEAR | partial support, server works, unmodified retail v1.08 client installs SecuROM v7 which blocks this |
 | [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+X) |
 
 ## Remarks

@@ -22,6 +22,7 @@
   #include "include/game_halo.h"
   #include "include/game_aowht.h"
   #include "include/game_swrc.h"
+  #include "include/game_fear.h"
 #endif // _WIN64
 
 #include "include/picoupnp.h"
@@ -52,8 +53,8 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr *addr, int namelen) {
     return obind(s, addr, namelen);
 
   // Bind to 0.0.0.0 (any)
-  if (force_bind_ip && (*(unsigned long*)(addr->sa_data+2) != 0))
-    *(unsigned long*)(addr->sa_data+2) = 0;
+  if (force_bind_ip && (*(unsigned long*)(&addr->sa_data[2]) != 0))
+    *(unsigned long*)(&addr->sa_data[2]) = 0;
 
   getsockopt(s, SOL_SOCKET, SO_TYPE, (char*)&type, &len);
   ret = obind(s, addr, namelen);
@@ -101,7 +102,7 @@ HINTERNET __stdcall hk_InternetOpenUrlA(HINTERNET hInternet, LPCSTR lpszUrl, LPC
     return oInternetOpenUrlA(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
 }
 
-int initialized = 0;
+static int initialized = 0;
 int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
   if (dwReason == DLL_PROCESS_ATTACH && !initialized) {
     HMODULE hm = 0;
@@ -186,6 +187,9 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
         } else if (!__stricmp(p, "vietcong2.exe") || !__stricmp(p, "vc2ded.exe")) { // Vietcong 2
           force_bind_ip = 0;
           patch_vc2();
+        } else if (!__stricmp(p, "fearserver.exe")) { // FEAR (Server)
+          force_bind_ip = 0;
+          patch_fearserver();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
           gs_replace_pubkey(0);
         }
