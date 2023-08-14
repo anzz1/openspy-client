@@ -115,7 +115,7 @@ __forceinline static int securom_check(HMODULE hModule) {
     if (GetModuleFileNameA(hModule, path, 511)) {
       path[511] = 0;
       p = __strrchr(path, '\\');
-      if (p) {
+      if (p && p-path < 485) {
         __strcpy(++p, "disable_securom_guard.txt");
         if (FileExistsA(path))
           return 0;
