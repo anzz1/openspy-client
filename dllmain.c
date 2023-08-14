@@ -72,7 +72,7 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr *addr, int namelen) {
       param->port = ntohs(sin.sin_port);
     }
     param->protocol = (type == SOCK_STREAM ? IPPROTO_TCP : IPPROTO_UDP);
-    CreateThread(0, 0, portMapThread, (void*)param, 0, 0);
+    CloseHandle(CreateThread(0, 0, portMapThread, (void*)param, 0, 0));
   }
 
   return ret;

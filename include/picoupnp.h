@@ -253,7 +253,7 @@ int UPNP_ParseEndPoint(const char* xml /* in */, char* endpoint /* out(255) */)
 
   endpoint[0] = 0;
 
-  if (!xml && !*xml)
+  if (!xml || !*xml)
     return 0;
 
   id = __stristr(xml, "wanipconn1");
@@ -412,7 +412,7 @@ int UPNP_AddPortMapping(unsigned short port, int protocol)
         i = 0;
         while (localip[i]) *p++ = localip[i++];
         __strncpy(p, UPNP_AddPortMappingXML+376, 186);
-        
+
         i = HTTPPostRequest(host, hport, (url[0] ? url : "/ctl/IPConn"), response, 65535, xml);
       }
     }
