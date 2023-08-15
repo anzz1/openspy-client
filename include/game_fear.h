@@ -79,6 +79,11 @@ __forceinline static void fear_hook_gs() {
   else
     ogethostbyname = (gethostbyname_fn)detour_iat_func(0, "gethostbyname", (void*)fear_hk_gethostbyname, "wsock32.dll", 52, TRUE);
 
+  if (oLoadLibraryA)
+    detour_iat_func(0, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+  else
+    oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(0, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+
   server = GetModuleHandleA("EngineServer.dll");
   if (server) {
     if (ogethostbyname)
@@ -90,12 +95,12 @@ __forceinline static void fear_hook_gs() {
       detour_iat_func(server, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
     else
       obind = (bind_fn)detour_iat_func(server, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-  }
 
-  if (oLoadLibraryA)
-    detour_iat_func(0, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
-  else
-    oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(0, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+    if (oLoadLibraryA)
+      detour_iat_func(server, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+    else
+      oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(server, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+  }
 }
 
 static void patch_fear() {
