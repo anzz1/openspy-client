@@ -12,6 +12,7 @@ long __stdcall cmr5_hk_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD l
     if (lpType) *lpType = REG_SZ;
     if (lpData) __strcpy(lpData, "LUQJGU030302-MZVGDZYXYXYW");
     if (lpcbData) *lpcbData = 26;
+    SetLastError(0);
     return 0;
   }
   return oRegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
