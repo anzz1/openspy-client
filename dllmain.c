@@ -24,7 +24,8 @@
   #include "include/game_swrc.h"
   #include "include/game_fear.h"
   #include "include/game_sam.h"
-#endif // _WIN64
+  #include "include/game_bond.h"
+#endif // !_WIN64
 
 #include "include/picoupnp.h"
 #include "iathook/iathook.h"
@@ -247,6 +248,9 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
         } else if (!__stricmp(p, "fearmp.exe") || !__stricmp(p, "fearserver.exe")) { // FEAR
           force_bind_ip = 0;
           patch_fear();
+        } else if (!__stricmp(p, "bond.exe") || !__stricmp(p, "bond_ded.exe")) { // James Bond - Nightfire
+          force_bind_ip = 0;
+          patch_bond();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
           gs_replace_pubkey(0);
         }
