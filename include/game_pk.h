@@ -56,6 +56,7 @@ long __stdcall pk_hk_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD lpR
     }
     if (lpType) *lpType = REG_DWORD;
     if (lpcbData) *lpcbData = 4;
+    SetLastError(0);
     return 0;
   }
   return ret;
