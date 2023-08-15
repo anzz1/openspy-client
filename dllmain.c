@@ -236,7 +236,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_halo();
         } else if (!__stricmp(p, "actofwar_hightreason.exe")) { // Act of War - High Treason
           patch_aowht();
-        } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam
+        } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2
           force_bind_ip = 0;
           patch_sam();
         } else if (!__stricmp(p, "swrepubliccommando.exe")) { // Star Wars - Republic Commando
