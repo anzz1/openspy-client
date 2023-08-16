@@ -14,19 +14,9 @@ LoadLibraryA_fn oLoadLibraryA = 0;
 typedef DWORD (__stdcall *GetPrivateProfileStringA_fn)(LPCSTR lpAppName, LPCSTR lpKeyName, LPCSTR lpDefault, LPSTR lpReturnedString, DWORD nSize, LPCSTR lpFileName);
 GetPrivateProfileStringA_fn oGetPrivateProfileStringA = 0;
 
-//
-// WORKING
-// [x] LAN dedicated @ always
-// [x] LAN listen @ always
-// [x] online dedicated @ masterserver online
-// [x] online dedicated @ masterserver offline
-// [x] online listen @ masterserver online
-// [ ] online listen @ masterserver offline
-//
 // TODO
 //  - test more versions than v1.8
-//  - disable all remaining key validations, as keys are still validated against master in online mode,
-//    if master is offline cannot host listenserver (ingame) in online mode, dedicated works though
+//  - purge any remaining key validations as clients are still checked for valid keys locally
 //
 
 __forceinline static void fear_patch_gs_offline(ULONG_PTR addr) {
@@ -54,6 +44,16 @@ __forceinline static void fear_disable_pb_cli() {
   if(!__memcmp((void*)0x0056EAD8, match, sizeof(match))) {
     write_mem((void*)0x0056EAEC, "\0", 1);
   }
+}
+
+__forceinline static void fear_disable_key_request(ULONG_PTR addr) {
+  BYTE* ptr = 0;
+  BYTE search[] = {0x8A,0x88,0x74,0x07,0x00,0x00,0x84,0xC9,0x75,0x1F,0x8B,0x0D};
+  BYTE patch[] = {0x90,0x90,0xEB};
+
+  ptr = find_pattern_mem(addr, search, search + 11);
+  if (ptr)
+    write_mem(ptr+6, patch, sizeof(patch));
 }
 
 DWORD __stdcall fear_hk_GetPrivateProfileStringA(LPCSTR lpAppName, LPCSTR lpKeyName, LPCSTR lpDefault, LPSTR lpReturnedString, DWORD nSize, LPCSTR lpFileName) {
@@ -97,6 +97,7 @@ HMODULE __stdcall fear_hk_LoadLibraryA(LPCSTR lpLibFileName) {
           oGetPrivateProfileStringA = (GetPrivateProfileStringA_fn)detour_iat_func(mod, "GetPrivateProfileStringA", (void*)fear_hk_GetPrivateProfileStringA, "kernel32.dll", 0, FALSE);
       } else if (!__strcmp(name, "GameServer.dll")) {
         fear_disable_pb_srv((ULONG_PTR)mod);
+        fear_disable_key_request((ULONG_PTR)mod);
       }
     }
   }
