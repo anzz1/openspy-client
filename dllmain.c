@@ -36,14 +36,8 @@ static int force_bind_ip = 1;
 typedef HINTERNET (__stdcall *InternetOpenUrlA_fn)(HINTERNET hInternet, LPCSTR lpszUrl, LPCSTR lpszHeaders, DWORD dwHeadersLength, DWORD dwFlags, DWORD_PTR dwContext);
 InternetOpenUrlA_fn oInternetOpenUrlA = 0;
 
-struct myport
-{
-  unsigned short port;
-  int protocol;
-};
 unsigned long __stdcall portMapThread(void* param) {
-  UPNP_AddPortMapping(((struct myport*)param)->port, ((struct myport*)param)->protocol);
-  LocalFree(param);
+  UPNP_AddPortMapping((unsigned short)param, (unsigned long)param >> 16);
   return 0;
 }
 
@@ -62,19 +56,15 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr *addr, int namelen) {
   ret = obind(s, addr, namelen);
 
   if (type == SOCK_STREAM || type == SOCK_DGRAM) {
-    struct myport *param = LocalAlloc(LPTR, sizeof(struct myport));
-    if (!param) { closesocket(s); ExitProcess(1); return -1; }
-    param->port = ntohs(*(unsigned short*)(addr->sa_data));
-    if (param->port == 0) {
+    unsigned long param = (unsigned long)ntohs(*(unsigned short*)(addr->sa_data));
+    if (param == 0) {
       struct sockaddr_in sin;
       int addrlen = sizeof(struct sockaddr_in);
-      if(getsockname(s, (struct sockaddr *)&sin, &addrlen) || sin.sin_family != AF_INET || addrlen != sizeof(struct sockaddr_in)) {
-        LocalFree(param);
+      if(getsockname(s, (struct sockaddr *)&sin, &addrlen) || sin.sin_family != AF_INET || addrlen != sizeof(struct sockaddr_in))
         return ret;
-      }
-      param->port = ntohs(sin.sin_port);
+      param = (unsigned long)ntohs(sin.sin_port);
     }
-    param->protocol = (type == SOCK_STREAM ? IPPROTO_TCP : IPPROTO_UDP);
+    param |= ((type == SOCK_STREAM ? IPPROTO_TCP : IPPROTO_UDP) << 16);
     CloseHandle(CreateThread(0, 0, portMapThread, (void*)param, 0, 0));
   }
 
