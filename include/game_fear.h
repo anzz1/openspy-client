@@ -14,12 +14,47 @@ LoadLibraryA_fn oLoadLibraryA = 0;
 typedef DWORD (__stdcall *GetPrivateProfileStringA_fn)(LPCSTR lpAppName, LPCSTR lpKeyName, LPCSTR lpDefault, LPSTR lpReturnedString, DWORD nSize, LPCSTR lpFileName);
 GetPrivateProfileStringA_fn oGetPrivateProfileStringA = 0;
 
+//
+// WORKING
+// [x] LAN dedicated @ always
+// [x] LAN listen @ always
+// [x] online dedicated @ masterserver online
+// [x] online dedicated @ masterserver offline
+// [x] online listen @ masterserver online
+// [ ] online listen @ masterserver offline
+//
 // TODO
+//  - test more versions than v1.8
+//  - disable all remaining key validations, as keys are still validated against master in online mode,
+//    if master is offline cannot host listenserver (ingame) in online mode, dedicated works though
 //
-// server:
-//   server works fine when connected to internet and masterserver is online, but we still need to patch "Unable to use the selected network service"
-//   error to allow offline LAN play
-//
+
+__forceinline static void fear_patch_gs_offline(ULONG_PTR addr) {
+  BYTE* ptr = 0;
+  BYTE search[] = {0x5D,0x33,0xC0,0x5B,0x83,0xC4,0x40,0xC3,0x5F,0x5E,0x5D,0xB8,0x03,0x00,0x00,0x00,0x5B,0x83,0xC4,0x40,0xC3};
+
+  ptr = find_pattern_mem(addr, search, search + 20);
+  if (ptr)
+    write_mem(ptr+12, "\0", 1);
+}
+
+__forceinline static void fear_disable_pb_srv(ULONG_PTR addr) {
+  BYTE* ptr = 0;
+  BYTE search[] = {0x8B,0xC8,0xFF,0x52,0x04,0xE8,0x49,0x19,0x08,0x00,0x8A,0x88,0xC1,0x07,0x00,0x00};
+  BYTE patch[] = {0x90,0x90,0x90};
+
+  ptr = find_pattern_mem(addr, search, search + 15);
+  if (ptr)
+    write_mem(ptr+2, patch, sizeof(patch));
+}
+
+__forceinline static void fear_disable_pb_cli() {
+  BYTE match[] = {0x1E,0xFF,0x80,0xFF,0xAD,0x8B,0x4B,0x26,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00};
+
+  if(!__memcmp((void*)0x0056EAD8, match, sizeof(match))) {
+    write_mem((void*)0x0056EAEC, "\0", 1);
+  }
+}
 
 DWORD __stdcall fear_hk_GetPrivateProfileStringA(LPCSTR lpAppName, LPCSTR lpKeyName, LPCSTR lpDefault, LPSTR lpReturnedString, DWORD nSize, LPCSTR lpFileName) {
   if (lpAppName && lpKeyName && !__strcmp(lpAppName, "FEAR") && !__strcmp(lpKeyName, "CDKey")) {
@@ -51,14 +86,18 @@ HMODULE __stdcall fear_hk_LoadLibraryA(LPCSTR lpLibFileName) {
 
   mod = oLoadLibraryA(lpLibFileName);
 
-  // GameClient.dll is extracted to "%LOCALAPPDATA%\Temp\Gam????.tmp" from "FEARE_?.Arch00"
+  // GameClient.dll/GameServer.dll are extracted to "%LOCALAPPDATA%\Temp\Gam????.tmp" from "FEARE_?.Arch00"
   if (mod) {
     name = GetModExpName(mod);
-    if (name && !__strcmp(name, "GameClient.dll")) {
-      if (oGetPrivateProfileStringA)
-        detour_iat_func(mod, "GetPrivateProfileStringA", (void*)fear_hk_GetPrivateProfileStringA, "kernel32.dll", 0, FALSE);
-      else
-        oGetPrivateProfileStringA = (GetPrivateProfileStringA_fn)detour_iat_func(mod, "GetPrivateProfileStringA", (void*)fear_hk_GetPrivateProfileStringA, "kernel32.dll", 0, FALSE);
+    if (name) {
+      if (!__strcmp(name, "GameClient.dll")) {
+        if (oGetPrivateProfileStringA)
+          detour_iat_func(mod, "GetPrivateProfileStringA", (void*)fear_hk_GetPrivateProfileStringA, "kernel32.dll", 0, FALSE);
+        else
+          oGetPrivateProfileStringA = (GetPrivateProfileStringA_fn)detour_iat_func(mod, "GetPrivateProfileStringA", (void*)fear_hk_GetPrivateProfileStringA, "kernel32.dll", 0, FALSE);
+      } else if (!__strcmp(name, "GameServer.dll")) {
+        fear_disable_pb_srv((ULONG_PTR)mod);
+      }
     }
   }
   return mod;
@@ -100,11 +139,19 @@ __forceinline static void fear_hook_gs() {
       detour_iat_func(server, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
     else
       oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(server, "LoadLibraryA", (void*)fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+
+    fear_patch_gs_offline((ULONG_PTR)server);
   }
 }
 
-static void patch_fear() {
+static void patch_fear_srv() {
   fear_hook_gs();
+}
+
+static void patch_fear_cli() {
+  fear_hook_gs();
+  fear_patch_gs_offline(0);
+  fear_disable_pb_cli();
 }
 
 #endif // __GAME_FEAR_H
