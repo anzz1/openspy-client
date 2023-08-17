@@ -45,6 +45,7 @@ body:
       description: How the OpenSpy DLL was loaded.
       multiple: false
       options:
+        - dinput.dll
         - dinput8.dll
         - version.dll
         - dsound.dll
