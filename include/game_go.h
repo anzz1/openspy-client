@@ -37,9 +37,7 @@ HMODULE __stdcall go_hk_LoadLibraryA(LPCSTR lpLibFileName) {
 }
 
 __forceinline static void go_hook_gs() {
-  HMODULE mod = GetModuleHandleA("cshell.dll");
-  if (mod)
-    go_hook_mod(mod);
+  HMODULE mod;
 
   if (oLoadLibraryA)
     detour_iat_func(0, "LoadLibraryA", (void*)go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
@@ -54,6 +52,14 @@ __forceinline static void go_hook_gs() {
     else
       oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(mod, "LoadLibraryA", (void*)go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
   }
+
+  mod = GetModuleHandleA("cshell.dll");
+  if (mod)
+    go_hook_mod(mod);
+
+  mod = GetModuleHandleA("object.lto");
+  if (mod)
+    go_hook_mod(mod);
 }
 
 // Allow multiple instances (f.ex. dedicated server & game at the same time)
