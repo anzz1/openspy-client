@@ -63,7 +63,8 @@ long __stdcall pk_hk_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD lpR
 }
 
 __forceinline static void pk_hook_gs(HMODULE engine) {
-  ragdolldata = (DWORD)(GetTickCount() ^ 0xC4FEB4B3) | ((0xFFi64 & GetTickCount()) << 32) | (1i64 << 36);
+  //ragdolldata = (DWORD)(GetTickCount() ^ 0xC4FEB4B3) | ((0xFFi64 & GetTickCount()) << 32) | (1i64 << 36);
+  ragdolldata = (__rdtsc() & 0xFFFFFFFFFFi64) | (1i64 << 36);
   oRegQueryValueExA = (RegQueryValueExA_fn)detour_iat_func(engine, "RegQueryValueExA", (void*)pk_hk_RegQueryValueExA, 0, 0, TRUE);
 
   if (ogethostbyname)
