@@ -75,7 +75,7 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr *addr, int namelen) {
 
 LPHOSTENT __stdcall hk_gethostbyname(const char* name) {
   char s[512];
-  if (gs_copy_string(s, name))
+  if (name && gs_copy_string(s, name))
     return ogethostbyname(s);
   else
     return ogethostbyname(name);
@@ -83,7 +83,7 @@ LPHOSTENT __stdcall hk_gethostbyname(const char* name) {
 
 HANDLE __stdcall hk_WSAAsyncGetHostByName(HWND hWnd, unsigned int wMsg, const char *name, char *buf, int buflen) {
   char s[512];
-  if (gs_copy_string(s, name))
+  if (name && gs_copy_string(s, name))
     return oWSAAsyncGetHostByName(hWnd, wMsg, s, buf, buflen);
   else
     return oWSAAsyncGetHostByName(hWnd, wMsg, name, buf, buflen);
@@ -91,7 +91,7 @@ HANDLE __stdcall hk_WSAAsyncGetHostByName(HWND hWnd, unsigned int wMsg, const ch
 
 HINTERNET __stdcall hk_InternetOpenUrlA(HINTERNET hInternet, LPCSTR lpszUrl, LPCSTR lpszHeaders, DWORD dwHeadersLength, DWORD dwFlags, DWORD_PTR dwContext) {
   char s[512];
-  if (gs_copy_string(s, lpszUrl))
+  if (lpszUrl && gs_copy_string(s, lpszUrl))
     return oInternetOpenUrlA(hInternet, s, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
   else
     return oInternetOpenUrlA(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
