@@ -12,6 +12,8 @@ Help us by [reporting the games you found working](https://github.com/anzz1/open
 
 Aim is to eventually support 100% of GameSpy Arcade titles.
 
+Compatible with Windows XP / Vista / 7 / 8 / 8.1 / 10 / 11 and Server 2003 / 2003 R2 / 2008 / 2008 R2 / 2012 / 2012 R2 / 2016 / 2019 / 2022
+
 ## How to install
 
 1. Download the [latest release](https://github.com/anzz1/openspy-client/releases/latest/download/openspy.zip)
