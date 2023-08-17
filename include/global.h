@@ -30,6 +30,8 @@ typedef HANDLE (__stdcall *WSAAsyncGetHostByName_fn)(HWND hWnd, unsigned int wMs
 WSAAsyncGetHostByName_fn oWSAAsyncGetHostByName = 0;
 typedef long (__stdcall* RegQueryValueExA_fn)(HKEY hKey, LPCSTR lpValueName, LPDWORD lpReserved, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData);
 RegQueryValueExA_fn oRegQueryValueExA;
+typedef HMODULE (__stdcall *LoadLibraryA_fn)(LPCSTR lpLibFileName);
+LoadLibraryA_fn oLoadLibraryA = 0;
 
 static char gSysDir[MAX_PATH+2];
 static unsigned int gSysLen = 0;

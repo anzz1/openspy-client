@@ -9,8 +9,6 @@
 int __stdcall hk_bind(SOCKET s, struct sockaddr* addr, int namelen);
 LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 
-typedef HMODULE (__stdcall *LoadLibraryA_fn)(LPCSTR lpLibFileName);
-LoadLibraryA_fn oLoadLibraryA = 0;
 typedef DWORD (__stdcall *GetPrivateProfileStringA_fn)(LPCSTR lpAppName, LPCSTR lpKeyName, LPCSTR lpDefault, LPSTR lpReturnedString, DWORD nSize, LPCSTR lpFileName);
 GetPrivateProfileStringA_fn oGetPrivateProfileStringA = 0;
 
