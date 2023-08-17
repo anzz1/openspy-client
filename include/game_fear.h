@@ -103,7 +103,7 @@ HMODULE __stdcall fear_hk_LoadLibraryA(LPCSTR lpLibFileName) {
 }
 
 LPHOSTENT __stdcall fear_hk_gethostbyname(const char* name) {
-  if (!__strcmp(name, "www.whatisfear.com"))
+  if (name && !__strcmp(name, "www.whatisfear.com"))
     return ogethostbyname("motd.openspy.net");
   else
     return hk_gethostbyname(name);

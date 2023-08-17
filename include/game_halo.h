@@ -32,7 +32,7 @@ __forceinline static int halo_gs_copy_string(char* dst, const char* src) {
 
 LPHOSTENT __stdcall halo_hk_gethostbyname(const char* name) {
   char s[512];
-  if (halo_gs_copy_string(s, name))
+  if (name && halo_gs_copy_string(s, name))
     return ogethostbyname(s);
   else
     return hk_gethostbyname(name);
