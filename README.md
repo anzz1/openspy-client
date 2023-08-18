@@ -1,6 +1,6 @@
 ## openspy-client
 
-openspy-client is a modification for old PC games to replace the now-defunct GameSpy Arcade service with an open-source alternative.
+openspy-client is a universal modification for old PC games to replace the now-defunct GameSpy Arcade service with an open-source alternative.
 
 This allows the multiplayer feature of those games to be used again.
 
