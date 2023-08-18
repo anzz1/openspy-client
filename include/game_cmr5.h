@@ -19,6 +19,9 @@ long __stdcall cmr5_hk_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD l
 }
 
 __forceinline static void cmr5_enable_gs() {
+  if (oRegQueryValueExA)
+    detour_iat_func(0, "RegQueryValueExA", (void*)cmr5_hk_RegQueryValueExA, 0, 0, TRUE);
+  else
     oRegQueryValueExA = (RegQueryValueExA_fn)detour_iat_func(0, "RegQueryValueExA", (void*)cmr5_hk_RegQueryValueExA, 0, 0, TRUE);
 }
 

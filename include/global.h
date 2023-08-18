@@ -28,8 +28,12 @@ typedef LPHOSTENT (__stdcall *gethostbyname_fn)(const char* name);
 gethostbyname_fn ogethostbyname = 0;
 typedef HANDLE (__stdcall *WSAAsyncGetHostByName_fn)(HWND hWnd, unsigned int wMsg, const char *name, char *buf, int buflen);
 WSAAsyncGetHostByName_fn oWSAAsyncGetHostByName = 0;
+typedef long (__stdcall* RegOpenKeyExA_fn)(HKEY hKey, LPCSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult);
+RegOpenKeyExA_fn oRegOpenKeyExA;
 typedef long (__stdcall* RegQueryValueExA_fn)(HKEY hKey, LPCSTR lpValueName, LPDWORD lpReserved, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData);
 RegQueryValueExA_fn oRegQueryValueExA;
+typedef long (__stdcall* RegCloseKey_fn)(HKEY hKey);
+RegCloseKey_fn oRegCloseKey;
 typedef HMODULE (__stdcall *LoadLibraryA_fn)(LPCSTR lpLibFileName);
 LoadLibraryA_fn oLoadLibraryA = 0;
 
