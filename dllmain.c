@@ -213,7 +213,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
       if (p) {
         p++;
 #ifdef _WIN64
-        if (!__stricmp(p, "crysis64.exe")) { // Crysis (64-bit)
+        if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysis64.exe")) { // Crysis (64-bit)
           patch_cry();
         }
 #else // !_WIN64
