@@ -22,6 +22,9 @@
 #pragma comment(linker, "/IGNORE:4104")
 #endif
 
+// Skip intro
+static int skip_intro = 1;
+
 typedef int (__stdcall *bind_fn)(SOCKET s, /* const */ struct sockaddr *addr, int namelen);
 bind_fn obind = 0;
 typedef LPHOSTENT (__stdcall *gethostbyname_fn)(const char* name);
@@ -178,20 +181,21 @@ __forceinline static BYTE* find_pattern(BYTE* src_start, BYTE* src_end, BYTE* pa
   return src_end;
 }
 
-//__forceinline static BYTE* find_pattern_wildcard(BYTE* src_start, BYTE* src_end, WORD* pattern_start, WORD* pattern_end) {
-//  BYTE *pos,*end,*s1;
-//  WORD *p1;
-//  end = src_end-((pattern_end-pattern_start) >> 1);
-//  for (pos = src_start; pos <= end; pos++) {
-//    s1 = pos-1;
-//    p1 = pattern_start-1;
-//    while (*++s1 == (BYTE)*++p1 || *p1 == 0x100) {
-//      if (p1 == pattern_end)
-//        return pos;
-//    }
-//  }
-//  return src_end;
-//}
+#define _ANY 0x100
+__forceinline static BYTE* find_pattern_wildcard(BYTE* src_start, BYTE* src_end, WORD* pattern_start, WORD* pattern_end) {
+  BYTE *pos,*end,*s1;
+  WORD *p1;
+  end = src_end-((pattern_end-pattern_start) >> 1);
+  for (pos = src_start; pos <= end; pos++) {
+    s1 = pos-1;
+    p1 = pattern_start-1;
+    while (*++s1 == (BYTE)*++p1 || *p1 == _ANY) {
+      if (p1 == pattern_end)
+        return pos;
+    }
+  }
+  return src_end;
+}
 
 __forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* search_end, BOOL executable) {
   MEMORY_BASIC_INFORMATION memBI;
@@ -212,24 +216,24 @@ __forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* 
   return 0;
 }
 
-//__forceinline static BYTE* find_pattern_mem_wildcard(ULONG_PTR addr, WORD* search, WORD* search_end, BOOL executable) {
-//  MEMORY_BASIC_INFORMATION memBI;
-//  BYTE* res;
-//
-//  if (!addr)
-//    addr = (ULONG_PTR)GetModuleHandleA(0); // start search at proc base addr
-//  memset(&memBI, 0, sizeof(memBI));
-//  while (VirtualQuery((void*)addr, &memBI, sizeof(memBI))) {
-//    // skip noncommitted and guard pages, nonreadable or nonexecutable pages
-//    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) & (memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY | (executable ? 0 : (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY))))))) {
-//      res = find_pattern_wildcard((BYTE*)memBI.BaseAddress, (BYTE*)memBI.BaseAddress + memBI.RegionSize, search, search_end);
-//      if (res != (BYTE*)memBI.BaseAddress + memBI.RegionSize && res != (BYTE*)search)
-//        return res; // found
-//    }
-//    addr = (ULONG_PTR)((ULONG_PTR)memBI.BaseAddress+(ULONG_PTR)memBI.RegionSize);
-//  }
-//  return 0;
-//}
+__forceinline static BYTE* find_pattern_mem_wildcard(ULONG_PTR addr, WORD* search, WORD* search_end, BOOL executable) {
+  MEMORY_BASIC_INFORMATION memBI;
+  BYTE* res;
+
+  if (!addr)
+    addr = (ULONG_PTR)GetModuleHandleA(0); // start search at proc base addr
+  memset(&memBI, 0, sizeof(memBI));
+  while (VirtualQuery((void*)addr, &memBI, sizeof(memBI))) {
+    // skip noncommitted and guard pages, nonreadable or nonexecutable pages
+    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) & (memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY | (executable ? 0 : (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY))))))) {
+      res = find_pattern_wildcard((BYTE*)memBI.BaseAddress, (BYTE*)memBI.BaseAddress + memBI.RegionSize, search, search_end);
+      if (res != (BYTE*)memBI.BaseAddress + memBI.RegionSize && res != (BYTE*)search)
+        return res; // found
+    }
+    addr = (ULONG_PTR)((ULONG_PTR)memBI.BaseAddress+(ULONG_PTR)memBI.RegionSize);
+  }
+  return 0;
+}
 
 __forceinline static void write_mem(BYTE* ptr, BYTE* w, unsigned int len) {
   unsigned int i;
@@ -251,13 +255,23 @@ __forceinline static void write_mem(BYTE* ptr, BYTE* w, unsigned int len) {
       return;
   }
 
-  for (i = 0; i < len; i++) {
-    ptr[i] = w[i];
+  if (w) {
+    for (i = 0; i < len; i++) {
+      ptr[i] = w[i];
+    }
+  } else {
+    for (i = 0; i < len; i++) {
+      ptr[i] = 0x90;
+    }
   }
 
   if (old_rights != new_rights) {
     VirtualProtect((void*)ptr, len, new_rights, &old_rights);
   }
+}
+
+__forceinline static void nop_mem(BYTE* ptr, unsigned int len) {
+  write_mem(ptr,0,len);
 }
 
 __forceinline static int patch_if_match(BYTE* ptr, BYTE* r, BYTE* w, unsigned int r_len, unsigned int w_len) {
