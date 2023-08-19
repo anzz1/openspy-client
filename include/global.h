@@ -178,7 +178,22 @@ __forceinline static BYTE* find_pattern(BYTE* src_start, BYTE* src_end, BYTE* pa
   return src_end;
 }
 
-__forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* search_end) {
+//__forceinline static BYTE* find_pattern_wildcard(BYTE* src_start, BYTE* src_end, WORD* pattern_start, WORD* pattern_end) {
+//  BYTE *pos,*end,*s1;
+//  WORD *p1;
+//  end = src_end-((pattern_end-pattern_start) >> 1);
+//  for (pos = src_start; pos <= end; pos++) {
+//    s1 = pos-1;
+//    p1 = pattern_start-1;
+//    while (*++s1 == (BYTE)*++p1 || *p1 == 0x100) {
+//      if (p1 == pattern_end)
+//        return pos;
+//    }
+//  }
+//  return src_end;
+//}
+
+__forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* search_end, BOOL executable) {
   MEMORY_BASIC_INFORMATION memBI;
   BYTE* res;
 
@@ -186,8 +201,8 @@ __forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* 
     addr = (ULONG_PTR)GetModuleHandleA(0); // start search at proc base addr
   memset(&memBI, 0, sizeof(memBI));
   while (VirtualQuery((void*)addr, &memBI, sizeof(memBI))) {
-    // skip noncommitted, non-executable and guard pages
-    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) | (memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY))))) {
+    // skip noncommitted and guard pages, nonreadable or nonexecutable pages
+    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) | (memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)) | (executable ? 0 : (memBI.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY)))))) {
       res = find_pattern((BYTE*)memBI.BaseAddress, (BYTE*)memBI.BaseAddress + memBI.RegionSize, search, search_end);
       if (res != (BYTE*)memBI.BaseAddress + memBI.RegionSize && res != search)
         return res; // found
@@ -196,6 +211,25 @@ __forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* 
   }
   return 0;
 }
+
+//__forceinline static BYTE* find_pattern_mem_wildcard(ULONG_PTR addr, WORD* search, WORD* search_end, BOOL executable) {
+//  MEMORY_BASIC_INFORMATION memBI;
+//  BYTE* res;
+//
+//  if (!addr)
+//    addr = (ULONG_PTR)GetModuleHandleA(0); // start search at proc base addr
+//  memset(&memBI, 0, sizeof(memBI));
+//  while (VirtualQuery((void*)addr, &memBI, sizeof(memBI))) {
+//    // skip noncommitted and guard pages, nonreadable or nonexecutable pages
+//    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) | (memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)) | (executable ? 0 : (memBI.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY)))))) {
+//      res = find_pattern_wildcard((BYTE*)memBI.BaseAddress, (BYTE*)memBI.BaseAddress + memBI.RegionSize, search, search_end);
+//      if (res != (BYTE*)memBI.BaseAddress + memBI.RegionSize && res != (BYTE*)search)
+//        return res; // found
+//    }
+//    addr = (ULONG_PTR)((ULONG_PTR)memBI.BaseAddress+(ULONG_PTR)memBI.RegionSize);
+//  }
+//  return 0;
+//}
 
 __forceinline static void write_mem(BYTE* ptr, BYTE* w, unsigned int len) {
   unsigned int i;
@@ -237,7 +271,7 @@ __forceinline static int patch_if_match(BYTE* ptr, BYTE* r, BYTE* w, unsigned in
 __forceinline static void gs_replace_pubkey(ULONG_PTR addr) {
   BYTE* ptr = 0;
 
-  ptr = find_pattern_mem(addr, GSPubKey, GSPubKey + 255);
+  ptr = find_pattern_mem(addr, GSPubKey, GSPubKey + 255, FALSE);
   if (ptr)
     write_mem(ptr, OSPubKey, 256);
 }

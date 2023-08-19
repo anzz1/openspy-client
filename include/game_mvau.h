@@ -11,7 +11,7 @@ __forceinline static void mvau_disable_wnd_check() {
   BYTE search[] = {0x39,0x5C,0x24,0x08,0x74,0x06,0x53,0xE8};
   BYTE patch[] = {0x90,0x90,0x90,0x90,0xEB};
 
-  ptr = find_pattern_mem(0, search, search + 7);
+  ptr = find_pattern_mem(0, search, search + 7, TRUE);
   if (ptr)
     write_mem(ptr, patch, 5);
 }

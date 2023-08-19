@@ -21,7 +21,7 @@ __forceinline static void fear_patch_gs_offline(ULONG_PTR addr) {
   BYTE* ptr = 0;
   BYTE search[] = {0x5D,0x33,0xC0,0x5B,0x83,0xC4,0x40,0xC3,0x5F,0x5E,0x5D,0xB8,0x03,0x00,0x00,0x00,0x5B,0x83,0xC4,0x40,0xC3};
 
-  ptr = find_pattern_mem(addr, search, search + 20);
+  ptr = find_pattern_mem(addr, search, search + 20, TRUE);
   if (ptr)
     write_mem(ptr+12, "\0", 1);
 }
@@ -31,7 +31,7 @@ __forceinline static void fear_disable_pb_srv(ULONG_PTR addr) {
   BYTE search[] = {0x8B,0xC8,0xFF,0x52,0x04,0xE8,0x49,0x19,0x08,0x00,0x8A,0x88,0xC1,0x07,0x00,0x00};
   BYTE patch[] = {0x90,0x90,0x90};
 
-  ptr = find_pattern_mem(addr, search, search + 15);
+  ptr = find_pattern_mem(addr, search, search + 15, TRUE);
   if (ptr)
     write_mem(ptr+2, patch, sizeof(patch));
 }
@@ -49,7 +49,7 @@ __forceinline static void fear_disable_key_request(ULONG_PTR addr) {
   BYTE search[] = {0x8A,0x88,0x74,0x07,0x00,0x00,0x84,0xC9,0x75,0x1F,0x8B,0x0D};
   BYTE patch[] = {0x90,0x90,0xEB};
 
-  ptr = find_pattern_mem(addr, search, search + 11);
+  ptr = find_pattern_mem(addr, search, search + 11, TRUE);
   if (ptr)
     write_mem(ptr+6, patch, sizeof(patch));
 }

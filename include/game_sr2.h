@@ -42,7 +42,7 @@ __forceinline static void sr2_disable_https() {
   BYTE* ptr = 0;
   BYTE search[] = {0xC7,0x46,0x28,0x01,0x00,0x00,0x00,0x83,0xC7,0x08};
 
-  ptr = find_pattern_mem(0, search, search + 9);
+  ptr = find_pattern_mem(0, search, search + 9, TRUE);
   if (ptr)
     write_mem(ptr+3, "\0", 1);
 }
