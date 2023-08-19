@@ -202,7 +202,7 @@ __forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* 
   memset(&memBI, 0, sizeof(memBI));
   while (VirtualQuery((void*)addr, &memBI, sizeof(memBI))) {
     // skip noncommitted and guard pages, nonreadable or nonexecutable pages
-    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) & ((memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)) | (executable ? 0 : (memBI.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY))))))) {
+    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) & (memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY | (executable ? 0 : (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY))))))) {
       res = find_pattern((BYTE*)memBI.BaseAddress, (BYTE*)memBI.BaseAddress + memBI.RegionSize, search, search_end);
       if (res != (BYTE*)memBI.BaseAddress + memBI.RegionSize && res != search)
         return res; // found
@@ -221,7 +221,7 @@ __forceinline static BYTE* find_pattern_mem(ULONG_PTR addr, BYTE* search, BYTE* 
 //  memset(&memBI, 0, sizeof(memBI));
 //  while (VirtualQuery((void*)addr, &memBI, sizeof(memBI))) {
 //    // skip noncommitted and guard pages, nonreadable or nonexecutable pages
-//    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) & ((memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)) | (executable ? 0 : (memBI.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY))))))) {
+//    if ((memBI.State & MEM_COMMIT) && (memBI.Protect == ((memBI.Protect & ~(PAGE_NOACCESS | PAGE_GUARD)) & (memBI.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY | (executable ? 0 : (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY))))))) {
 //      res = find_pattern_wildcard((BYTE*)memBI.BaseAddress, (BYTE*)memBI.BaseAddress + memBI.RegionSize, search, search_end);
 //      if (res != (BYTE*)memBI.BaseAddress + memBI.RegionSize && res != (BYTE*)search)
 //        return res; // found
