@@ -101,8 +101,44 @@ __forceinline static void cry_hook_gs(HMODULE crynet) {
   gs_replace_pubkey((ULONG_PTR)crynet);
 }
 
+HMODULE __stdcall cry_hk_LoadLibraryA(LPCSTR lpLibFileName) {
+  HMODULE mod = 0;
+  const char* name = __strrchr(lpLibFileName, '\\');
+  if (name)
+    name++;
+  else
+    name = lpLibFileName;
+
+  mod = oLoadLibraryA(lpLibFileName);
+  if (mod) {
+    if (!__stricmp(name, "crygame.dll")) {
+      if (skip_intro)
+        cry_skip_intro(mod);
+    }
+    else if (!__stricmp(name, "crynetwork.dll")) {
+      cry_hook_gs(mod);
+      cry_skip_key_check(mod);
+      cry_allow_connect_no_account(mod);
+    }
+#ifdef _WIN64
+    else if (!__stricmp(name, "crysystem.dll")) {
+      cry_remove_securom(mod);
+    }
+#endif
+  }
+
+  return mod;
+}
+
 static void patch_cry() {
-  HMODULE mod = GetModuleHandleA("CryGame.dll");
+  HMODULE mod;
+
+  if (oLoadLibraryA)
+    detour_iat_func(0, "LoadLibraryA", (void*)cry_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+  else
+    oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(0, "LoadLibraryA", (void*)cry_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+
+  mod = GetModuleHandleA("CryGame.dll");
   if (mod) {
     if (skip_intro)
       cry_skip_intro(mod);
