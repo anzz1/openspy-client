@@ -51,6 +51,14 @@ body:
         - dsound.dll
     validations:
       required: true
+  - type: input
+    id: dll-version
+    attributes:
+      label: OpenSpy DLL Version
+      description: The release version of the OpenSpy DLL.
+      placeholder: ex. v1.0.44
+    validations:
+      required: true
   - type: textarea
     id: additional-info
     attributes:
