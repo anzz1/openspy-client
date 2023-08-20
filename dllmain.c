@@ -213,7 +213,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
       if (p) {
         p++;
 #ifdef _WIN64
-        if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysis64.exe") || !__stricmp(p, "crysisdedicatedserver.exe") || !__stricmp(p, "crysisheadlessserver.exe")) { // Crysis / Crysis Wars (64-bit)
+        if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysis64.exe") || !__stricmp(p, "crysisdedicatedserver.exe") || !__stricmp(p, "crysiswarsdedicatedserver.exe") || !__stricmp(p, "crysisheadlessserver.exe")) { // Crysis / Crysis Wars (64-bit)
           force_bind_ip = 0;
           patch_cry();
         }
@@ -222,7 +222,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_sr2();
         } else if (!__stricmp(p, "cmr5.exe")) { // Colin McRae Rally 2005
           patch_cmr5();
-        } else if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysisdedicatedserver.exe") || !__stricmp(p, "crysisheadlessserver.exe")) { // Crysis / Crysis Wars (32-bit)
+        } else if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysisdedicatedserver.exe") || !__stricmp(p, "crysiswarsdedicatedserver.exe") || !__stricmp(p, "crysisheadlessserver.exe")) { // Crysis / Crysis Wars (32-bit)
           force_bind_ip = 0;
           patch_cry();
         } else if (!__stricmp(p, "ut3.exe")) { // Unreal Tournament 3
