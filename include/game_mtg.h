@@ -78,7 +78,7 @@ __forceinline static void mtg_hook_gs() {
   }
 }
 
-static void patch_mtg() {
+__noinline static void patch_mtg() {
   mtg_hook_gs();
 }
 

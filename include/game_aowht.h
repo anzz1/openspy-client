@@ -26,7 +26,7 @@ __forceinline static void aowht_hook_gs() {
   }
 }
 
-static void patch_aowht() {
+__noinline static void patch_aowht() {
   aowht_hook_gs();
 }
 

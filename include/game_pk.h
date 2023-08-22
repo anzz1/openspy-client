@@ -78,7 +78,7 @@ __forceinline static void pk_hook_gs(HMODULE engine) {
     obind = (bind_fn)detour_iat_func(engine, "bind", (void*)hk_bind, "ws2_32", 2, TRUE);
 }
 
-static void patch_pk() {
+__noinline static void patch_pk() {
   HMODULE engine = GetModuleHandleA("Engine.dll");
   if (engine) {
     pk_hook_gs(engine);

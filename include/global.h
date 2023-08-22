@@ -22,6 +22,8 @@
 #pragma comment(linker, "/IGNORE:4104")
 #endif
 
+#define __noinline __declspec(noinline)
+
 // Skip intro
 static int skip_intro = 1;
 

@@ -186,7 +186,7 @@ long __stdcall p_GetDeviceID(LPCGUID pGuidSrc, LPGUID pGuidDest) {
   return 0x80004001; // DSERR_UNSUPPORTED
 }
 
-static void dsound_hook() {
+__noinline static void dsound_hook() {
   HMODULE hm;
   hm = LoadSysMod(sDSound);
   if (hm) {

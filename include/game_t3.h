@@ -61,7 +61,7 @@ __forceinline static void t3_hook_gs() {
     t3_hook_mod(mod);
 }
 
-static void patch_t3() {
+__noinline static void patch_t3() {
   t3_hook_gs();
 }
 

@@ -130,7 +130,7 @@ HMODULE __stdcall cry_hk_LoadLibraryA(LPCSTR lpLibFileName) {
   return mod;
 }
 
-static void patch_cry() {
+__noinline static void patch_cry() {
   HMODULE mod;
 
   if (oLoadLibraryA)

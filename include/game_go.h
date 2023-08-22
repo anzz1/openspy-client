@@ -73,7 +73,7 @@ __forceinline static void go_patch_multi_instance() {
     write_mem(ptr+11, patch, sizeof(patch));
 }
 
-static void patch_go() {
+__noinline static void patch_go() {
   go_hook_gs();
   go_patch_multi_instance();
 }

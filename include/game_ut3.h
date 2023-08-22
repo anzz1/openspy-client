@@ -38,7 +38,7 @@ __forceinline static void ut3_patch_strings_v21() {
 //    write_mem(ptr+3, "\0", 1);
 //}
 
-static void patch_ut3() {
+__noinline static void patch_ut3() {
   ut3_patch_gsmd5print_v21();
   ut3_patch_strings_v21();
   //ut3_disable_https();

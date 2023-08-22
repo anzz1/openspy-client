@@ -36,7 +36,7 @@ __forceinline static void vc2_hook_gs() {
   }
 }
 
-static void patch_vc2() {
+__noinline static void patch_vc2() {
   vc2_hook_gs();
 }
 

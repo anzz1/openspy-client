@@ -143,11 +143,11 @@ __forceinline static void fear_hook_gs() {
   }
 }
 
-static void patch_fear_srv() {
+__noinline static void patch_fear_srv() {
   fear_hook_gs();
 }
 
-static void patch_fear_cli() {
+__noinline static void patch_fear_cli() {
   fear_hook_gs();
   fear_patch_gs_offline(0);
   fear_disable_pb_cli();

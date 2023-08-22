@@ -24,7 +24,7 @@ __forceinline static void dh2k_hook_gs() {
   }
 }
 
-static void patch_dh2k() {
+__noinline static void patch_dh2k() {
   dh2k_hook_gs();
 }
 

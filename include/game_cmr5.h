@@ -25,7 +25,7 @@ __forceinline static void cmr5_enable_gs() {
     oRegQueryValueExA = (RegQueryValueExA_fn)detour_iat_func(0, "RegQueryValueExA", (void*)cmr5_hk_RegQueryValueExA, 0, 0, TRUE);
 }
 
-static void patch_cmr5() {
+__noinline static void patch_cmr5() {
   cmr5_enable_gs();
 }
 

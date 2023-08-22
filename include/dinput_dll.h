@@ -58,7 +58,7 @@ long __stdcall p_DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, /* LPDIREC
   return 1;
 }
 
-static void dinput_hook() {
+__noinline static void dinput_hook() {
   HMODULE hm;
   hm = LoadSysMod(sDInput);
   if (hm) {

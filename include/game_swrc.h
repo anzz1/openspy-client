@@ -50,7 +50,7 @@ __forceinline static void swrc_hook_gs() {
   }
 }
 
-static void patch_swrc() {
+__noinline static void patch_swrc() {
   swrc_hook_gs();
 }
 

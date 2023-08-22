@@ -41,7 +41,7 @@ __forceinline static void sam_hook_gs() {
   }
 }
 
-static void patch_sam() {
+__noinline static void patch_sam() {
   sam_hook_gs();
 }
 

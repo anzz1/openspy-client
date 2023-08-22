@@ -26,7 +26,7 @@ __forceinline static void bond_hook_gs() {
   }
 }
 
-static void patch_bond() {
+__noinline static void patch_bond() {
   bond_hook_gs();
 }
 

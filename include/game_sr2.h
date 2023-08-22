@@ -47,7 +47,7 @@ __forceinline static void sr2_disable_https() {
     write_mem(ptr+3, "\0", 1);
 }
 
-static void patch_sr2() {
+__noinline static void patch_sr2() {
   sr2_disable_ads();
   sr2_disable_https();
   gs_replace_pubkey(0);

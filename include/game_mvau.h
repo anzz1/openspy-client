@@ -16,7 +16,7 @@ __forceinline static void mvau_disable_wnd_check() {
     write_mem(ptr, patch, 5);
 }
 
-static void patch_mvau() {
+__noinline static void patch_mvau() {
   mvau_disable_wnd_check();
 }
 

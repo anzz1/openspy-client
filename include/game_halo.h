@@ -98,7 +98,7 @@ __forceinline static void halo_hook_gs() {
   detour_iat_func(0, "GetProcAddress", (void*)halo_hk_GetProcAddress, "kernel32.dll", 0, TRUE);
 }
 
-static void patch_halo() {
+__noinline static void patch_halo() {
   halo_hook_gs();
 }
 
