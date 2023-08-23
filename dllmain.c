@@ -7,6 +7,7 @@
  */
 
 #include "include/global.h"
+#include "include/shared.h"
 #include "include/version_dll.h"
 #include "include/dinput_dll.h"
 #include "include/dinput8_dll.h"
@@ -249,6 +250,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
         } else if (!__stricmp(p, "bond.exe") || !__stricmp(p, "bond_ded.exe")) { // James Bond - Nightfire
           force_bind_ip = 0;
           patch_bond();
+        } else if (!__stricmp(p, "ut2003.exe")) { // Unreal Tournament 2003
+          ue2_patch_ipdrv();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
           gs_replace_pubkey(0);
         }

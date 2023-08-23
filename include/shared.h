@@ -4,6 +4,10 @@
 #define __SHARED_H
 
 #include "include/global.h"
+#include "iathook/iathook.h"
+
+int __stdcall hk_bind(SOCKET s, struct sockaddr* addr, int namelen);
+LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 
 static const char* sDInput = "dinput.dll";
 static const char* sDInput8 = "dinput8.dll";
@@ -80,5 +84,24 @@ long __stdcall p_DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppv) {
   return 1;
 }
 
-#endif // __SHARED_H
+#ifndef _WIN64
+__noinline static void ue2_patch_ipdrv() {
+  HMODULE ipdrv = LoadLibraryA("IpDrv.dll");
+  if (ipdrv) {
+    // disable auth
+    WORD search[] = {0x53,0x8B,0x5D,0x08,0x56,0x57,0x89,0x65,0xF0,0x53,0x8B,0xF9,0xC7,0x45,0xFC,0x00,0x00,0x00,0x00,0xE8,_ANY,_ANY,_ANY,_ANY,0x8B,0xF0,0x85,0xF6,0x0F,0x84};
+    BYTE patch[] = {0x90,0x90,0x90,0xE9};
+    BYTE* ptr = 0;
+    GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)ipdrv, &ipdrv);
 
+    HOOK_FUNC(ipdrv, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(ipdrv, bind, hk_bind, "wsock32.dll", 2, TRUE);
+
+    ptr = find_pattern_mem_wildcard((ULONG_PTR)ipdrv, search, search + 29, TRUE);
+    if (ptr)
+      write_mem(ptr+26, patch, 4);
+  }
+}
+#endif // _WIN64
+
+#endif // __SHARED_H
