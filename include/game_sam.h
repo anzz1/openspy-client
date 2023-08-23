@@ -12,15 +12,8 @@ LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 __forceinline static void sam_hook_gs() {
   HMODULE hmod = GetModuleHandleA("Engine.dll");
   if (hmod) {
-    if (ogethostbyname)
-      detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-    else
-      ogethostbyname = (gethostbyname_fn)detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-    if (obind)
-      detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-    else
-      obind = (bind_fn)detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+    HOOK_FUNC(hmod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(hmod, bind, hk_bind, "wsock32.dll", 2, TRUE);
   }
   hmod = GetModuleHandleA("Core.dll");
   if (hmod) {
@@ -28,15 +21,8 @@ __forceinline static void sam_hook_gs() {
     if (!hmod)
       hmod = LoadLibraryA("OnlineGS.dll");
     if (hmod) {
-      if (ogethostbyname)
-        detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-      else
-        ogethostbyname = (gethostbyname_fn)detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-      if (obind)
-        detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-      else
-        obind = (bind_fn)detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+      HOOK_FUNC(hmod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+      HOOK_FUNC(hmod, bind, hk_bind, "wsock32.dll", 2, TRUE);
     }
   }
 }

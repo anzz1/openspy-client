@@ -23,27 +23,13 @@ __forceinline static void swrc_disable_auth(ULONG_PTR addr) {
 __forceinline static void swrc_hook_gs() {
   HMODULE hmod = GetModuleHandleA("GameSpyMgr.dll");
   if (hmod) {
-    if (ogethostbyname)
-      detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-    else
-      ogethostbyname = (gethostbyname_fn)detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-    if (obind)
-      detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-    else
-      obind = (bind_fn)detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+    HOOK_FUNC(hmod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(hmod, bind, hk_bind, "wsock32.dll", 2, TRUE);
   }
   hmod = LoadLibraryA("IpDrv.dll");
   if (hmod) {
-    if (ogethostbyname)
-      detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-    else
-      ogethostbyname = (gethostbyname_fn)detour_iat_func(hmod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-    if (obind)
-      detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-    else
-      obind = (bind_fn)detour_iat_func(hmod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+    HOOK_FUNC(hmod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(hmod, bind, hk_bind, "wsock32.dll", 2, TRUE);
 
     GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)hmod, &hmod);
     swrc_disable_auth((ULONG_PTR)hmod);

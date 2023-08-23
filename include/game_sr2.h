@@ -28,12 +28,9 @@ __forceinline static void sr2_disable_ads() {
     if (!ws)
       ws = GetModuleHandleA("wsock32.dll");
     if (ws)
-      oWSASetLastError = (WSASetLastError_fn)GetProcAddress(ws,MAKEINTRESOURCEA(112));
+      oWSASetLastError = (WSASetLastError_fn)GetProcAddress(ws, MAKEINTRESOURCEA(112));
 
-    if (oWSAAsyncGetHostByName)
-      detour_iat_func(dfengine, "WSAAsyncGetHostByName", (void*)sr2_hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
-    else
-      oWSAAsyncGetHostByName = (WSAAsyncGetHostByName_fn)detour_iat_func(dfengine, "WSAAsyncGetHostByName", (void*)sr2_hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
+    HOOK_FUNC(dfengine, WSAAsyncGetHostByName, sr2_hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
   }
 }
 

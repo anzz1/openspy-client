@@ -24,6 +24,14 @@
 
 #define __noinline __declspec(noinline)
 
+#define HOOK_FUNC(MOD_PTR, FUNC_NAME, FUNC_PTR, MOD_NAME, FUNC_ORD, PIN)                                                 \
+  {                                                                                                                      \
+    if (o ## FUNC_NAME)                                                                                                  \
+      detour_iat_func(MOD_PTR, #FUNC_NAME, (void*)FUNC_PTR, MOD_NAME, FUNC_ORD, PIN);                                    \
+    else                                                                                                                 \
+      o ## FUNC_NAME = (FUNC_NAME ## _fn)detour_iat_func(MOD_PTR, #FUNC_NAME, (void*)FUNC_PTR, MOD_NAME, FUNC_ORD, PIN); \
+  }
+
 // Skip intro
 static int skip_intro = 1;
 

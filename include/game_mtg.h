@@ -44,37 +44,15 @@ long __stdcall mtg_hk_RegCloseKey(HKEY hKey) {
 __forceinline static void mtg_hook_gs() {
   HMODULE mod = GetModuleHandleA("ReplayUnit.dll");
   if (mod) {
-    if (ogethostbyname)
-      detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-    else
-      ogethostbyname = (gethostbyname_fn)detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-
-    if (obind)
-      detour_iat_func(mod, "bind", (void*)hk_bind, "ws2_32.dll", 2, TRUE);
-    else
-      obind = (bind_fn)detour_iat_func(mod, "bind", (void*)hk_bind, "ws2_32.dll", 2, TRUE);
-
-    if (oWSAAsyncGetHostByName)
-      detour_iat_func(0, "WSAAsyncGetHostByName", (void*)hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
-    else
-      oWSAAsyncGetHostByName = (WSAAsyncGetHostByName_fn)detour_iat_func(0, "WSAAsyncGetHostByName", (void*)hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
+    HOOK_FUNC(mod, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+    HOOK_FUNC(mod, bind, hk_bind, "ws2_32.dll", 2, TRUE);
+    HOOK_FUNC(0, WSAAsyncGetHostByName, hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
   }
   mod = GetModuleHandleA("GameSpy.dll");
   if (mod) {
-    if (oRegOpenKeyExA)
-      detour_iat_func(mod, "RegOpenKeyExA", (void*)mtg_hk_RegOpenKeyExA, 0, 0, TRUE);
-    else
-      oRegOpenKeyExA = (RegOpenKeyExA_fn)detour_iat_func(mod, "RegOpenKeyExA", (void*)mtg_hk_RegOpenKeyExA, 0, 0, TRUE);
-
-    if (oRegQueryValueExA)
-      detour_iat_func(mod, "RegQueryValueExA", (void*)mtg_hk_RegQueryValueExA, 0, 0, TRUE);
-    else
-      oRegQueryValueExA = (RegQueryValueExA_fn)detour_iat_func(mod, "RegQueryValueExA", (void*)mtg_hk_RegQueryValueExA, 0, 0, TRUE);
-
-    if (oRegCloseKey)
-      detour_iat_func(mod, "RegCloseKey", (void*)mtg_hk_RegCloseKey, 0, 0, TRUE);
-    else
-      oRegCloseKey = (RegCloseKey_fn)detour_iat_func(mod, "RegCloseKey", (void*)mtg_hk_RegCloseKey, 0, 0, TRUE);
+    HOOK_FUNC(mod, RegOpenKeyExA, mtg_hk_RegOpenKeyExA, 0, 0, TRUE);
+    HOOK_FUNC(mod, RegQueryValueExA, mtg_hk_RegQueryValueExA, 0, 0, TRUE);
+    HOOK_FUNC(mod, RegCloseKey, mtg_hk_RegCloseKey, 0, 0, TRUE);
   }
 }
 

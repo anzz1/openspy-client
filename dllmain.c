@@ -186,25 +186,13 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
     }
 
     // Hook API calls
-    ogethostbyname = (gethostbyname_fn)detour_iat_func(0, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-    if (ogethostbyname)
-      detour_iat_func(0, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-    else
-      ogethostbyname = (gethostbyname_fn)detour_iat_func(0, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-    oWSAAsyncGetHostByName = (WSAAsyncGetHostByName_fn)detour_iat_func(0, "WSAAsyncGetHostByName", (void*)hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
-    if (oWSAAsyncGetHostByName)
-      detour_iat_func(0, "WSAAsyncGetHostByName", (void*)hk_WSAAsyncGetHostByName, "wsock32.dll", 103, TRUE);
-    else
-      oWSAAsyncGetHostByName = (WSAAsyncGetHostByName_fn)detour_iat_func(0, "WSAAsyncGetHostByName", (void*)hk_WSAAsyncGetHostByName, "wsock32.dll", 103, TRUE);
-
-    obind = (bind_fn)detour_iat_func(0, "bind", (void*)hk_bind, "ws2_32.dll", 2, TRUE);
-    if (obind)
-      detour_iat_func(0, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-    else
-      obind = (bind_fn)detour_iat_func(0, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-
-    oInternetOpenUrlA = (InternetOpenUrlA_fn)detour_iat_func(0, "InternetOpenUrlA", (void*)hk_InternetOpenUrlA, "wininet.dll", 0, TRUE);
+    HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+    HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(0, WSAAsyncGetHostByName, hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
+    HOOK_FUNC(0, WSAAsyncGetHostByName, hk_WSAAsyncGetHostByName, "wsock32.dll", 103, TRUE);
+    HOOK_FUNC(0, bind, hk_bind, "ws2_32.dll", 2, TRUE);
+    HOOK_FUNC(0, bind, hk_bind, "wsock32.dll", 2, TRUE);
+    HOOK_FUNC(0, InternetOpenUrlA, hk_InternetOpenUrlA, "wininet.dll", 0, TRUE);
 
     // Per-game patches
     if (GetModuleFileNameA(0, s, 511)) {

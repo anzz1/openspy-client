@@ -88,15 +88,8 @@ __forceinline static void cry_remove_securom(HMODULE crysystem) {
 #endif
 
 __forceinline static void cry_hook_gs(HMODULE crynet) {
-  if (ogethostbyname)
-    detour_iat_func(crynet, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-  else
-    ogethostbyname = (gethostbyname_fn)detour_iat_func(crynet, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-  if (obind)
-    detour_iat_func(crynet, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-  else
-    obind = (bind_fn)detour_iat_func(crynet, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+  HOOK_FUNC(crynet, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+  HOOK_FUNC(crynet, bind, hk_bind, "wsock32.dll", 2, TRUE);
 
   gs_replace_pubkey((ULONG_PTR)crynet);
 }
@@ -133,10 +126,7 @@ HMODULE __stdcall cry_hk_LoadLibraryA(LPCSTR lpLibFileName) {
 __noinline static void patch_cry() {
   HMODULE mod;
 
-  if (oLoadLibraryA)
-    detour_iat_func(0, "LoadLibraryA", (void*)cry_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
-  else
-    oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(0, "LoadLibraryA", (void*)cry_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+  HOOK_FUNC(0, LoadLibraryA, cry_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
 
   mod = GetModuleHandleA("CryGame.dll");
   if (mod) {

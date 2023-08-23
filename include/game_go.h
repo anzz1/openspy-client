@@ -9,18 +9,6 @@
 int __stdcall hk_bind(SOCKET s, struct sockaddr* addr, int namelen);
 LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 
-__forceinline static void go_hook_mod(HMODULE mod) {
-  if (ogethostbyname)
-    detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-  else
-    ogethostbyname = (gethostbyname_fn)detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-  if (obind)
-    detour_iat_func(mod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-  else
-    obind = (bind_fn)detour_iat_func(mod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-}
-
 HMODULE __stdcall go_hk_LoadLibraryA(LPCSTR lpLibFileName) {
   HMODULE mod = 0;
   const char* name = __strrchr(lpLibFileName, '\\');
@@ -30,8 +18,10 @@ HMODULE __stdcall go_hk_LoadLibraryA(LPCSTR lpLibFileName) {
     name = lpLibFileName;
 
   mod = oLoadLibraryA(lpLibFileName);
-  if (mod && (!__stricmp(name, "cshell.dll") || !__stricmp(name, "object.lto")))
-    go_hook_mod(mod);
+  if (mod && (!__stricmp(name, "cshell.dll") || !__stricmp(name, "object.lto"))) {
+    HOOK_FUNC(mod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(mod, bind, hk_bind, "wsock32.dll", 2, TRUE);
+  }
 
   return mod;
 }
@@ -39,27 +29,26 @@ HMODULE __stdcall go_hk_LoadLibraryA(LPCSTR lpLibFileName) {
 __forceinline static void go_hook_gs() {
   HMODULE mod;
 
-  if (oLoadLibraryA)
-    detour_iat_func(0, "LoadLibraryA", (void*)go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
-  else
-    oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(0, "LoadLibraryA", (void*)go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+  HOOK_FUNC(0, LoadLibraryA, go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
 
   mod = GetModuleHandleA("server.dll");
   if (mod) {
-    go_hook_mod(mod);
-    if (oLoadLibraryA)
-      detour_iat_func(mod, "LoadLibraryA", (void*)go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
-    else
-      oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(mod, "LoadLibraryA", (void*)go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+    HOOK_FUNC(mod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(mod, bind, hk_bind, "wsock32.dll", 2, TRUE);
+    HOOK_FUNC(mod, LoadLibraryA, go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
   }
 
   mod = GetModuleHandleA("cshell.dll");
-  if (mod)
-    go_hook_mod(mod);
+  if (mod) {
+    HOOK_FUNC(mod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(mod, bind, hk_bind, "wsock32.dll", 2, TRUE);
+  }
 
   mod = GetModuleHandleA("object.lto");
-  if (mod)
-    go_hook_mod(mod);
+  if (mod) {
+    HOOK_FUNC(mod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    HOOK_FUNC(mod, bind, hk_bind, "wsock32.dll", 2, TRUE);
+  }
 }
 
 // Allow multiple instances (f.ex. dedicated server & game at the same time)

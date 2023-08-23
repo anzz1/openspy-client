@@ -10,25 +10,10 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr* addr, int namelen);
 LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 
 __forceinline static void t3_hook_mod(HMODULE mod) {
-    if (ogethostbyname)
-      detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-    else
-      ogethostbyname = (gethostbyname_fn)detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-
-    if (ogethostbyname)
-      detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-    else
-      ogethostbyname = (gethostbyname_fn)detour_iat_func(mod, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
-
-    if (obind)
-      detour_iat_func(mod, "bind", (void*)hk_bind, "ws2_32.dll", 2, TRUE);
-    else
-      obind = (bind_fn)detour_iat_func(mod, "bind", (void*)hk_bind, "ws2_32.dll", 2, TRUE);
-
-    if (obind)
-      detour_iat_func(mod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
-    else
-      obind = (bind_fn)detour_iat_func(mod, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+  HOOK_FUNC(mod, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+  HOOK_FUNC(mod, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+  HOOK_FUNC(mod, bind, hk_bind, "ws2_32.dll", 2, TRUE);
+  HOOK_FUNC(mod, bind, hk_bind, "wsock32.dll", 2, TRUE);
 }
 
 HMODULE __stdcall t3_hk_LoadLibraryA(LPCSTR lpLibFileName) {
@@ -50,11 +35,7 @@ __forceinline static void t3_hook_gs() {
   HMODULE mod;
 
   t3_hook_mod(0);
-
-  if (oLoadLibraryA)
-    detour_iat_func(0, "LoadLibraryA", (void*)t3_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
-  else
-    oLoadLibraryA = (LoadLibraryA_fn)detour_iat_func(0, "LoadLibraryA", (void*)t3_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
+  HOOK_FUNC(0, LoadLibraryA, t3_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
 
   mod = GetModuleHandleA("ai.dll");
   if (mod)

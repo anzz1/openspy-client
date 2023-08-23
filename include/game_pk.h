@@ -65,17 +65,10 @@ long __stdcall pk_hk_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD lpR
 __forceinline static void pk_hook_gs(HMODULE engine) {
   //ragdolldata = (DWORD)(GetTickCount() ^ 0xC4FEB4B3) | ((0xFFi64 & GetTickCount()) << 32) | (1i64 << 36);
   ragdolldata = (__rdtsc() & 0xFFFFFFFFFFi64) | (1i64 << 36);
-  oRegQueryValueExA = (RegQueryValueExA_fn)detour_iat_func(engine, "RegQueryValueExA", (void*)pk_hk_RegQueryValueExA, 0, 0, TRUE);
 
-  if (ogethostbyname)
-    detour_iat_func(engine, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-  else
-    ogethostbyname = (gethostbyname_fn)detour_iat_func(engine, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-
-  if (obind)
-    detour_iat_func(engine, "bind", (void*)hk_bind, "ws2_32.dll", 2, TRUE);
-  else
-    obind = (bind_fn)detour_iat_func(engine, "bind", (void*)hk_bind, "ws2_32", 2, TRUE);
+  HOOK_FUNC(engine, RegQueryValueExA, pk_hk_RegQueryValueExA, 0, 0, TRUE);
+  HOOK_FUNC(engine, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+  HOOK_FUNC(engine, bind, hk_bind, "ws2_32.dll", 2, TRUE);
 }
 
 __noinline static void patch_pk() {
