@@ -31,6 +31,7 @@
   #include "include/game_t3.h"
   #include "include/game_mvau.h"
   #include "include/game_mtg.h"
+  #include "include/game_thug2.h"
 #endif // !_WIN64
 
 #include "include/picoupnp.h"
@@ -232,6 +233,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_mvau();
         } else if (!__stricmp(p, "mtgbattlegrounds.exe")) { // Magic: The Gathering - Battlegrounds
           patch_mtg();
+        } else if (!__stricmp(p, "thug2.exe")) { // Tony Hawk's Underground 2
+          patch_thug2();
         } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2
           force_bind_ip = 0;
           patch_sam();
