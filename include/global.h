@@ -301,23 +301,39 @@ __forceinline static void gs_replace_pubkey(ULONG_PTR addr) {
 }
 
 __forceinline static int gs_copy_string(char* dst, const char* src) {
-  if (__stristr(src, "gamespy.com") || __stristr(src, "gamespy.net")) {
-    char* p;
+  char* p = 0;
+  const char* s = src;
+  while (p = __stristr(s, "gamespy.")) {
+    if (((p[8] == 'c' || p[8] == 'C') &&
+         (p[9] == 'o' || p[9] == 'O') &&
+         (p[10] == 'm' || p[10] == 'M')) ||
+        ((p[8] == 'n' || p[8] == 'N') &&
+         (p[9] == 'e' || p[9] == 'E') &&
+         (p[10] == 't' || p[10] == 'T')))
+      break;
+    s = p+8;
+  }
+  if (p) {
     __strncpy(dst, src, 511);
-    while (p = __stristr(dst, "gamespy.com")) {
+    s = dst+(p-src);
+    while (p = __stristr(s, "gamespy.")) {
+      if ((p[8] == 'c' || p[8] == 'C') &&
+          (p[9] == 'o' || p[9] == 'O') &&
+          (p[10] == 'm' || p[10] == 'M')) {
+        p[8] = 'n';
+        p[9] = 'e';
+        p[10] = 't';
+      } else if ((p[8] != 'n' && p[8] != 'N') ||
+                 (p[9] != 'e' && p[9] != 'E') ||
+                 (p[10] != 't' && p[10] != 'T')) {
+        s = p+8;
+        continue;
+      }
       p[0] = 'o';
       p[1] = 'p';
       p[2] = 'e';
       p[3] = 'n';
-      p[8] = 'n';
-      p[9] = 'e';
-      p[10] = 't';
-    }
-    while (p = __stristr(dst, "gamespy.net")) {
-      p[0] = 'o';
-      p[1] = 'p';
-      p[2] = 'e';
-      p[3] = 'n';
+      s = p+11;
     }
     return 1;
   }
