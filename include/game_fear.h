@@ -13,9 +13,42 @@ typedef DWORD (__stdcall *GetPrivateProfileStringA_fn)(LPCSTR lpAppName, LPCSTR 
 GetPrivateProfileStringA_fn oGetPrivateProfileStringA = 0;
 
 // TODO
-//  - test more versions than v1.8
+//  - test more versions than v1.08 (base) / v1.07 (expac)
 //  - purge any remaining key validations as clients are still checked for valid keys locally
 //
+
+// PROBLEM: this fully disables key auth on server, but the client disconnects/kicks itself because we are now too fast to respond and it goes to spagheti
+//          adding bit of sleep works but thats dumb
+//
+//__forceinline static void fear_disable_key_auth(ULONG_PTR addr) {
+//  BYTE* ptr = 0;
+//  // KeyChallenge_OnMessage
+//  WORD search1[] = {0xFF,0x52,_ANY,0x8B,0x4E,0x08,0x88,0x81,_ANY,_ANY,_ANY,_ANY,0x8B,0x15,_ANY,_ANY,_ANY,_ANY,0x8B,0xBA,_ANY,_ANY,_ANY,_ANY,0x85,0xFF,0x0F,0x95,0xC0,0x84,0xC0,0x0F,0x84,0x7B,0x01,0x00,0x00,0xC6};
+//  BYTE patch1[] = {0x31,0xFF,0x90,0x90,0x90,0x90};
+//
+//  // Hello_OnMessage
+//  WORD search2[] = {0xFF,0x52,_ANY,0x8B,0x15,_ANY,_ANY,_ANY,_ANY,0x8B,0x82,_ANY,_ANY,_ANY,_ANY,0x85,0xC0,0x8B,0xCE,0x6A,0x01,0x74,0x38,0x8B,0x06};
+//  BYTE patch2[] = {0x31,0xC0,0x90,0x90,0x90,0x90};
+//
+//  // WaitingForAuth_OnUpdate
+//  WORD search3[] = {0x81,0xEC,0x1C,0x01,0x00,0x00,0xA1,_ANY,_ANY,_ANY,_ANY,0x53,0x56,0x8B,0xF1,0x8B,0x88,_ANY,_ANY,_ANY,_ANY,0x33,0xDB,0x3B,0xCB,0x57,0x0F,0x84,0x6B,0x01,0x00,0x00,0x8B,0x4E};
+//  BYTE patch3[] = {0x31,0xC9,0x90,0x90,0x90,0x90};
+//
+//  ptr = find_pattern_mem_wildcard(addr, search1, search1 + 37, TRUE);
+//  if (ptr) {
+//    write_mem(ptr+18, patch1, sizeof(patch1));
+//  }
+//
+//  ptr = find_pattern_mem_wildcard(addr, search2, search2 + 24, TRUE);
+//  if (ptr) {
+//    write_mem(ptr+9, patch2, sizeof(patch2));
+//  }
+//
+//  ptr = find_pattern_mem_wildcard(addr, search3, search3 + 33, TRUE);
+//  if (ptr) {
+//    write_mem(ptr+15, patch3, sizeof(patch3));
+//  }
+//}
 
 __forceinline static void fear_patch_gs_offline(ULONG_PTR addr) {
   BYTE* ptr = 0;
