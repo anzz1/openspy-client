@@ -55,8 +55,12 @@ __forceinline static void fear_disable_key_request(ULONG_PTR addr) {
 }
 
 DWORD __stdcall fear_hk_GetPrivateProfileStringA(LPCSTR lpAppName, LPCSTR lpKeyName, LPCSTR lpDefault, LPSTR lpReturnedString, DWORD nSize, LPCSTR lpFileName) {
-  if (lpAppName && lpKeyName && !__strcmp(lpAppName, "FEAR") && !__strcmp(lpKeyName, "CDKey")) {
-    if (lpFileName && __strstr(lpFileName, "FEARCombat"))
+  if (lpAppName && lpReturnedString && lpKeyName && nSize >= 24 && !__strcmp(lpKeyName, "CDKey")) {
+    if (!__strcmp(lpAppName, "FEARXP"))
+      __strcpy(lpReturnedString, "SAP6-NUD3-LAP5-RAP2-9565"); // Generic FEARXP
+    else if (!__strcmp(lpAppName, "FEARXP2"))
+      __strcpy(lpReturnedString, "TAP6-WAB6-CAG3-BES3-9883"); // Generic FEARXP2
+    else if (!__strcmp(lpAppName, "FEAR") && lpFileName && __strstr(lpFileName, "FEARCombat"))
       __strcpy(lpReturnedString, "LER7-BAB6-JYX5-BYX6-6324"); // Generic MPFREE
     else
       __strcpy(lpReturnedString, "NAS3-XUS9-SER5-JET6-5558"); // Generic Retail

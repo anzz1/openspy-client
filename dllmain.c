@@ -244,10 +244,10 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
         } else if (!__stricmp(p, "vietcong2.exe") || !__stricmp(p, "vc2ded.exe")) { // Vietcong 2
           force_bind_ip = 0;
           patch_vc2();
-        } else if (!__stricmp(p, "fearmp.exe")) { // FEAR (Client)
+        } else if (!__stricmp(p, "fearmp.exe") || !__stricmp(p, "fearxp.exe") || !__stricmp(p, "fearxp2.exe")) { // FEAR (Client)
           force_bind_ip = 0;
           patch_fear_cli();
-        } else if (!__stricmp(p, "fearserver.exe")) { // FEAR (Server)
+        } else if (!__stricmp(p, "fearserver.exe") || !__stricmp(p, "fearserverxp.exe")) { // FEAR (Server)
           force_bind_ip = 0;
           patch_fear_srv();
         } else if (!__stricmp(p, "bond.exe") || !__stricmp(p, "bond_ded.exe")) { // James Bond - Nightfire
