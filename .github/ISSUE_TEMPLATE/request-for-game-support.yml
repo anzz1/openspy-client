@@ -1,6 +1,6 @@
 name: Request for game support
 description: Report a game which is not listed so we can add support for it
-title: "[game-request] "
+title: "[game-request] GAME NAME"
 labels: ["game request"]
 body:
   - type: markdown

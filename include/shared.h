@@ -102,6 +102,52 @@ __noinline static void ue2_patch_ipdrv() {
       write_mem(ptr+26, patch, 4);
   }
 }
+
+void* __stdcall hk_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
+{
+  if (MAKEINTRESOURCEA(lpProcName) == MAKEINTRESOURCEA(52)) {
+    HMODULE hm = GetModuleHandleA("ws2_32.dll");
+    if (hModule == hm) {
+      if (!ogethostbyname)
+        ogethostbyname = (gethostbyname_fn)detour_iat_func(0, "gethostbyname", (void*)hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+      if (!ogethostbyname)
+        ogethostbyname = (gethostbyname_fn)GetProcAddress(hModule, MAKEINTRESOURCEA(52));
+      if (ogethostbyname)
+        return (void*)hk_gethostbyname;
+    } else {
+      hm = GetModuleHandleA("wsock32.dll");
+      if (hModule == hm) {
+        if (!ogethostbyname)
+          ogethostbyname = (gethostbyname_fn)detour_iat_func(0, "gethostbyname", (void*)hk_gethostbyname, "wsock32.dll", 52, TRUE);
+        if (!ogethostbyname)
+          ogethostbyname = (gethostbyname_fn)GetProcAddress(hModule, MAKEINTRESOURCEA(52));
+        if (ogethostbyname)
+          return (void*)hk_gethostbyname;
+      }
+    }
+  } else if (MAKEINTRESOURCEA(lpProcName) == MAKEINTRESOURCEA(2)) {
+    HMODULE hm = GetModuleHandleA("ws2_32.dll");
+    if (hModule == hm) {
+      if (!obind)
+        obind = (bind_fn)detour_iat_func(0, "bind", (void*)hk_bind, "ws2_32.dll", 2, TRUE);
+      if (!obind)
+        obind = (bind_fn)GetProcAddress(hModule, MAKEINTRESOURCEA(2));
+      if (obind)
+        return (void*)hk_bind;
+    } else {
+      hm = GetModuleHandleA("wsock32.dll");
+      if (hModule == hm) {
+        if (!obind)
+          obind = (bind_fn)detour_iat_func(0, "bind", (void*)hk_bind, "wsock32.dll", 2, TRUE);
+        if (!obind)
+          obind = (bind_fn)GetProcAddress(hModule, MAKEINTRESOURCEA(2));
+        if (obind)
+          return (void*)hk_bind;
+      }
+    }
+  }
+  return GetProcAddress(hModule, lpProcName);
+}
 #endif // _WIN64
 
 #endif // __SHARED_H

@@ -8,7 +8,7 @@ The openspy client module is unobtrusive, meaning no game files need to be alter
 
 On this early stage, only a few games are listed as supported. However, due to the generic implementation, many games should be already supported.
 
-Help us by [reporting the games you found working](https://github.com/anzz1/openspy-client/issues/new?labels=working+game&template=report-working-game.yml&title=%5Bworking-game%5D+X) so we can add them to the list and [reporting the ones which don't](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+X) so we can work on adding the support.
+Help us by [reporting the games you found working](https://github.com/anzz1/openspy-client/issues/new?labels=working+game&template=report-working-game.yml&title=%5Bworking-game%5D+GAME+NAME) so we can add them to the list and [reporting the ones which don't](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) so we can work on adding the support.
 
 Aim is to eventually support 100% of GameSpy Arcade titles.
 
@@ -59,6 +59,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Global Operations | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `version.dll` | n/a |   |
 | Halo: Combat Evolved | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `version.dll` | n/a |   |
 | Heretic II | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | n/a | n/a | <sub><sup>[1]</sup> No DLL, use [this configuration file](https://github.com/anzz1/openspy-client/files/12352143/H2-OpenSpy.zip) instead<br><sup>[2]</sup> No in-game server browser, use the "gspylite" tool to connect to servers</sub> |
+| Hidden &amp; Dangerous 2 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/game/hidden_dangerous_2_courage_under_fire"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/703320/Hidden__Dangerous_2_Courage_Under_Fire/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `dinput.dll` | n/a |   |
 | IGI 2: Covert Strike | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/i_g_i_2_covert_strike"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a> | `version.dll` | n/a |   |
 | James Bond 007: Nightfire | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dsound.dll` | n/a |   |
 | Jet Fighter IV | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput.dll` | n/a |   |
@@ -67,7 +68,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Midnight Club 2 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://store.steampowered.com/app/12160/Midnight_Club_2/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `dinput8.dll` | n/a |   |
 | MX vs. ATV Unleashed | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/mx_vs_atv_unleashed"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/359220/MX_vs_ATV_Unleashed/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `dsound.dll` | n/a |   |
 | Need for Speed: Hot Pursuit 2 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dsound.dll` | n/a |   |
-| Painkiller | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/painkiller"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/39530/Painkiller_Black_Edition/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `version.dll` | n/a |   |
+| Painkiller | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/painkiller"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/39530/Painkiller_Black_Edition/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `dinput8.dll` | n/a |   |
 | Saints Row 2 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/saints_row_2"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/9480/Saints_Row_2/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `dinput8.dll` | n/a |   |
 | Serious Sam: The First Encounter | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/serious_sam_the_first_encounter"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a> | `dsound.dll` | n/a |   |
 | Serious Sam: The Second Encounter | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/serious_sam_the_second_encounter"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a> | `dsound.dll` | n/a |   |
@@ -94,7 +95,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Worms 3D | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput8.dll` | n/a | <sub><sup>[1]</sup> Requires latest [v1.073 update](https://taco.cab/files/games/w3d/Worms3DServicePatch2.zip)<br><sup>[2]</sup> Requires [No-CD patch](https://taco.cab/files/games/w3d/W3D.Euro.v1.073.NoCD.zip) to remove SecuROM (V5) protection</sub> |
 | Worms 4: Mayhem | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput8.dll` | n/a | <sub><sup>[1]</sup> Requires latest [v1.01 update](https://taco.cab/files/games/w4m/WormsMayhemPATCHv1.01.zip)<br><sup>[2]</sup> Requires [No-CD patch](https://taco.cab/files/games/w4m/W4M.Euro.v1.01.3013.NoDRM.zip) to remove StarForce (V3) protection</sub> |
 | Worms 4: Mayhem Online Demo | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput8.dll` | n/a | <sub><sup>[1]</sup> [Free download](https://taco.cab/files/games/w4m/worms_4_multi_demo.zip)</sub> |
-| [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+X) |
+| [report supported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=working+game&projects=&template=report-working-game.yml&title=%5Bworking-game%5D+GAME+NAME) |
 
 ## Unsupported games list
 | Game | Status |
@@ -102,7 +103,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Crysis 2 | not working |
 | Rise Of Nations: Rise Of Legends | not working, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
 | Test Drive Unlimited | not working |
-| [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+X) |
+| [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) |
 
 ## Remarks
 To uninstall, simply delete the `openspy.dll` file.

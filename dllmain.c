@@ -32,6 +32,7 @@
   #include "include/game_mvau.h"
   #include "include/game_mtg.h"
   #include "include/game_thug2.h"
+  #include "include/game_hd2.h"
 #endif // !_WIN64
 
 #include "include/picoupnp.h"
@@ -235,6 +236,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_mtg();
         } else if (!__stricmp(p, "thug2.exe")) { // Tony Hawk's Underground 2
           patch_thug2();
+        } else if (!__stricmp(p, "hd2.exe") || !__stricmp(p, "hd2ds.exe") || !__stricmp(p, "hd2_sabresquadron.exe") || !__stricmp(p, "hd2ds_sabresquadron.exe")) { // Hidden & Dangerous 2
+          patch_hd2();
         } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2
           force_bind_ip = 0;
           patch_sam();

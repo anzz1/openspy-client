@@ -1,6 +1,6 @@
 name: Bug report
 description: Create a bug report to help us improve.
-title: "[bug] "
+title: "[bug] TITLE"
 labels: ["bug"]
 body:
   - type: markdown

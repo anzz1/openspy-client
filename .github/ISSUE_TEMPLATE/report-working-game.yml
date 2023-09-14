@@ -1,6 +1,6 @@
 name: Report working game
 description: Report a working game so we can add it to the list
-title: "[working-game] "
+title: "[working-game] GAME NAME"
 labels: ["working game"]
 body:
   - type: markdown
