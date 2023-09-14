@@ -66,9 +66,16 @@ BOOL __stdcall p_GetFileVersionInfoA(LPCSTR lptstrFilename, DWORD dwHandle,DWORD
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoA=_p_GetFileVersionInfoA@16")
 #endif
 
-  if (!oGetFileVersionInfoA)
+  if (!oGetFileVersionInfoA) {
     oGetFileVersionInfoA = GetSysProc(sVersion, "GetFileVersionInfoA");
-  if (oGetFileVersionInfoA)
+    if (oGetFileVersionInfoA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoA, &hm);
+    } else {
+      oGetFileVersionInfoA = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoA != (void*)-1)
     return oGetFileVersionInfoA(lptstrFilename, dwHandle, dwLen, lpData);
 
   return FALSE;
@@ -82,9 +89,16 @@ int __stdcall p_GetFileVersionInfoByHandle(int hMem, LPCWSTR lpFileName, int v2,
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoByHandle=_p_GetFileVersionInfoByHandle@16")
 #endif
 
-  if (!oGetFileVersionInfoByHandle)
+  if (!oGetFileVersionInfoByHandle) {
     oGetFileVersionInfoByHandle = GetSysProc(sVersion, "GetFileVersionInfoByHandle");
-  if (oGetFileVersionInfoByHandle)
+    if (oGetFileVersionInfoByHandle) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoByHandle, &hm);
+    } else {
+      oGetFileVersionInfoByHandle = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoByHandle != (void*)-1)
     return oGetFileVersionInfoByHandle(hMem, lpFileName, v2, v3);
 
   return 0;
@@ -98,9 +112,16 @@ BOOL __stdcall p_GetFileVersionInfoExA(DWORD dwFlags, LPCSTR lpwstrFilename, DWO
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoExA=_p_GetFileVersionInfoExA@20")
 #endif
 
-  if (!oGetFileVersionInfoExA)
+  if (!oGetFileVersionInfoExA) {
     oGetFileVersionInfoExA = GetSysProc(sVersion, "GetFileVersionInfoExA");
-  if (oGetFileVersionInfoExA)
+    if (oGetFileVersionInfoExA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoExA, &hm);
+    } else {
+      oGetFileVersionInfoExA = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoExA != (void*)-1)
     return oGetFileVersionInfoExA(dwFlags, lpwstrFilename, dwHandle, dwLen, lpData);
 
   return FALSE;
@@ -114,9 +135,16 @@ BOOL __stdcall p_GetFileVersionInfoExW(DWORD dwFlags, LPCWSTR lpwstrFilename, DW
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoExW=_p_GetFileVersionInfoExW@20")
 #endif
 
-  if (!oGetFileVersionInfoExW)
+  if (!oGetFileVersionInfoExW) {
     oGetFileVersionInfoExW = GetSysProc(sVersion, "GetFileVersionInfoExW");
-  if (oGetFileVersionInfoExW)
+    if (oGetFileVersionInfoExW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoExW, &hm);
+    } else {
+      oGetFileVersionInfoExW = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoExW != (void*)-1)
     return oGetFileVersionInfoExW(dwFlags, lpwstrFilename, dwHandle, dwLen, lpData);
 
   return FALSE;
@@ -130,9 +158,16 @@ DWORD __stdcall p_GetFileVersionInfoSizeA(LPCSTR lptstrFilename, LPDWORD lpdwHan
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoSizeA=_p_GetFileVersionInfoSizeA@8")
 #endif
 
-  if (!oGetFileVersionInfoSizeA)
+  if (!oGetFileVersionInfoSizeA) {
     oGetFileVersionInfoSizeA = GetSysProc(sVersion, "GetFileVersionInfoSizeA");
-  if (oGetFileVersionInfoSizeA)
+    if (oGetFileVersionInfoSizeA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoSizeA, &hm);
+    } else {
+      oGetFileVersionInfoSizeA = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoSizeA != (void*)-1)
     return oGetFileVersionInfoSizeA(lptstrFilename, lpdwHandle);
 
   return 0;
@@ -146,9 +181,16 @@ DWORD __stdcall p_GetFileVersionInfoSizeExA(DWORD dwFlags, LPCSTR lpwstrFilename
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoSizeExA=_p_GetFileVersionInfoSizeExA@12")
 #endif
 
-  if (!oGetFileVersionInfoSizeExA)
+  if (!oGetFileVersionInfoSizeExA) {
     oGetFileVersionInfoSizeExA = GetSysProc(sVersion, "GetFileVersionInfoSizeExA");
-  if (oGetFileVersionInfoSizeExA)
+    if (oGetFileVersionInfoSizeExA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoSizeExA, &hm);
+    } else {
+      oGetFileVersionInfoSizeExA = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoSizeExA != (void*)-1)
     return oGetFileVersionInfoSizeExA(dwFlags, lpwstrFilename, lpdwHandle);
 
   return 0;
@@ -162,9 +204,16 @@ DWORD __stdcall p_GetFileVersionInfoSizeExW(DWORD dwFlags, LPCWSTR lpwstrFilenam
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoSizeExW=_p_GetFileVersionInfoSizeExW@12")
 #endif
 
-  if (!oGetFileVersionInfoSizeExW)
+  if (!oGetFileVersionInfoSizeExW) {
     oGetFileVersionInfoSizeExW = GetSysProc(sVersion, "GetFileVersionInfoSizeExW");
-  if (oGetFileVersionInfoSizeExW)
+    if (oGetFileVersionInfoSizeExW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoSizeExW, &hm);
+    } else {
+      oGetFileVersionInfoSizeExW = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoSizeExW != (void*)-1)
     return oGetFileVersionInfoSizeExW(dwFlags, lpwstrFilename, lpdwHandle);
 
   return 0;
@@ -178,9 +227,16 @@ DWORD __stdcall p_GetFileVersionInfoSizeW(LPCWSTR lptstrFilename, LPDWORD lpdwHa
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoSizeW=_p_GetFileVersionInfoSizeW@8")
 #endif
 
-  if (!oGetFileVersionInfoSizeW)
+  if (!oGetFileVersionInfoSizeW) {
     oGetFileVersionInfoSizeW = GetSysProc(sVersion, "GetFileVersionInfoSizeW");
-  if (oGetFileVersionInfoSizeW)
+    if (oGetFileVersionInfoSizeW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoSizeW, &hm);
+    } else {
+      oGetFileVersionInfoSizeW = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoSizeW != (void*)-1)
     return oGetFileVersionInfoSizeW(lptstrFilename, lpdwHandle);
 
   return 0;
@@ -194,9 +250,16 @@ BOOL __stdcall p_GetFileVersionInfoW(LPCWSTR lptstrFilename, DWORD dwHandle, DWO
   #pragma comment(linker, "/EXPORT:GetFileVersionInfoW=_p_GetFileVersionInfoW@16")
 #endif
 
-  if (!oGetFileVersionInfoW)
+  if (!oGetFileVersionInfoW) {
     oGetFileVersionInfoW = GetSysProc(sVersion, "GetFileVersionInfoW");
-  if (oGetFileVersionInfoW)
+    if (oGetFileVersionInfoW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoW, &hm);
+    } else {
+      oGetFileVersionInfoW = (void*)-1;
+    }
+  }
+  if (oGetFileVersionInfoW != (void*)-1)
     return oGetFileVersionInfoW(lptstrFilename, dwHandle, dwLen, lpData);
 
   return FALSE;
@@ -210,9 +273,16 @@ DWORD __stdcall p_VerFindFileA(DWORD uFlags, LPCSTR szFileName, LPCSTR szWinDir,
   #pragma comment(linker, "/EXPORT:VerFindFileA=_p_VerFindFileA@32")
 #endif
 
-  if (!oVerFindFileA)
+  if (!oVerFindFileA) {
     oVerFindFileA = GetSysProc(sVersion, "VerFindFileA");
-  if (oVerFindFileA)
+    if (oVerFindFileA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerFindFileA, &hm);
+    } else {
+      oVerFindFileA = (void*)-1;
+    }
+  }
+  if (oVerFindFileA != (void*)-1)
     return oVerFindFileA(uFlags, szFileName, szWinDir, szAppDir, szCurDir, lpuCurDirLen, szDestDir, lpuDestDirLen);
 
   return 0;
@@ -226,9 +296,16 @@ DWORD __stdcall p_VerFindFileW(DWORD uFlags, LPCWSTR szFileName, LPCWSTR szWinDi
   #pragma comment(linker, "/EXPORT:VerFindFileW=_p_VerFindFileW@32")
 #endif
 
-  if (!oVerFindFileW)
+  if (!oVerFindFileW) {
     oVerFindFileW = GetSysProc(sVersion, "VerFindFileW");
-  if (oVerFindFileW)
+    if (oVerFindFileW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerFindFileW, &hm);
+    } else {
+      oVerFindFileW = (void*)-1;
+    }
+  }
+  if (oVerFindFileW != (void*)-1)
     return oVerFindFileW(uFlags, szFileName, szWinDir, szAppDir, szCurDir, lpuCurDirLen, szDestDir, lpuDestDirLen);
 
   return 0;
@@ -242,9 +319,16 @@ DWORD __stdcall p_VerInstallFileA(DWORD uFlags, LPCSTR szSrcFileName, LPCSTR szD
   #pragma comment(linker, "/EXPORT:VerInstallFileA=_p_VerInstallFileA@32")
 #endif
 
-  if (!oVerInstallFileA)
+  if (!oVerInstallFileA) {
     oVerInstallFileA = GetSysProc(sVersion, "VerInstallFileA");
-  if (oVerInstallFileA)
+    if (oVerInstallFileA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerInstallFileA, &hm);
+    } else {
+      oVerInstallFileA = (void*)-1;
+    }
+  }
+  if (oVerInstallFileA != (void*)-1)
     return oVerInstallFileA(uFlags, szSrcFileName, szDestFileName, szSrcDir, szDestDir, szCurDir, szTmpFile, lpuTmpFileLen);
 
   return 0;
@@ -258,9 +342,16 @@ DWORD __stdcall p_VerInstallFileW(DWORD uFlags, LPCWSTR szSrcFileName, LPCWSTR s
   #pragma comment(linker, "/EXPORT:VerInstallFileW=_p_VerInstallFileW@32")
 #endif
 
-  if (!oVerInstallFileW)
+  if (!oVerInstallFileW) {
     oVerInstallFileW = GetSysProc(sVersion, "VerInstallFileW");
-  if (oVerInstallFileW)
+    if (oVerInstallFileW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerInstallFileW, &hm);
+    } else {
+      oVerInstallFileW = (void*)-1;
+    }
+  }
+  if (oVerInstallFileW != (void*)-1)
     return oVerInstallFileW(uFlags, szSrcFileName, szDestFileName, szSrcDir, szDestDir, szCurDir, szTmpFile, lpuTmpFileLen);
 
   return 0;
@@ -274,9 +365,16 @@ DWORD __stdcall p_VerLanguageNameA(DWORD wLang, LPSTR szLang, DWORD cchLang)
   #pragma comment(linker, "/EXPORT:VerLanguageNameA=_p_VerLanguageNameA@12")
 #endif
 
-  if (!oVerLanguageNameA)
+  if (!oVerLanguageNameA) {
     oVerLanguageNameA = GetSysProc(sVersion, "VerLanguageNameA");
-  if (oVerLanguageNameA)
+    if (oVerLanguageNameA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerLanguageNameA, &hm);
+    } else {
+      oVerLanguageNameA = (void*)-1;
+    }
+  }
+  if (oVerLanguageNameA != (void*)-1)
     return oVerLanguageNameA(wLang, szLang, cchLang);
 
   return 0;
@@ -290,9 +388,16 @@ DWORD __stdcall p_VerLanguageNameW(DWORD wLang, LPWSTR szLang, DWORD cchLang)
   #pragma comment(linker, "/EXPORT:VerLanguageNameW=_p_VerLanguageNameW@12")
 #endif
 
-  if (!oVerLanguageNameW)
+  if (!oVerLanguageNameW) {
     oVerLanguageNameW = GetSysProc(sVersion, "VerLanguageNameW");
-  if (oVerLanguageNameW)
+    if (oVerLanguageNameW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerLanguageNameW, &hm);
+    } else {
+      oVerLanguageNameW = (void*)-1;
+    }
+  }
+  if (oVerLanguageNameW != (void*)-1)
     return oVerLanguageNameW(wLang, szLang, cchLang);
 
   return 0;
@@ -306,9 +411,16 @@ BOOL __stdcall p_VerQueryValueA(LPCVOID pBlock, LPCSTR lpSubBlock, LPVOID* lplpB
   #pragma comment(linker, "/EXPORT:VerQueryValueA=_p_VerQueryValueA@16")
 #endif
 
-  if (!oVerQueryValueA)
+  if (!oVerQueryValueA) {
     oVerQueryValueA = GetSysProc(sVersion, "VerQueryValueA");
-  if (oVerQueryValueA)
+    if (oVerQueryValueA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerQueryValueA, &hm);
+    } else {
+      oVerQueryValueA = (void*)-1;
+    }
+  }
+  if (oVerQueryValueA != (void*)-1)
     return oVerQueryValueA(pBlock, lpSubBlock, lplpBuffer, puLen);
 
   return FALSE;
@@ -322,17 +434,24 @@ BOOL __stdcall p_VerQueryValueW(LPCVOID pBlock, LPCWSTR lpSubBlock, LPVOID * lpl
   #pragma comment(linker, "/EXPORT:VerQueryValueW=_p_VerQueryValueW@16")
 #endif
 
-  if (!oVerQueryValueW)
+  if (!oVerQueryValueW) {
     oVerQueryValueW = GetSysProc(sVersion, "VerQueryValueW");
-  if (oVerQueryValueW)
+    if (oVerQueryValueW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oVerQueryValueW, &hm);
+    } else {
+      oVerQueryValueW = (void*)-1;
+    }
+  }
+  if (oVerQueryValueW != (void*)-1)
     return oVerQueryValueW(pBlock, lpSubBlock, lplpBuffer, puLen);
 
   return FALSE;
 }
 
 __noinline static void version_hook() {
-  HMODULE hm;
-  hm = LoadSysMod(sVersion);
+#ifndef DLL_PROXY_DELAY_LOAD
+  HMODULE hm = LoadSysMod(sVersion);
   if (hm) {
     oGetFileVersionInfoA = (GetFileVersionInfoA_fn)GetProcAddress(hm,"GetFileVersionInfoA");
     oGetFileVersionInfoByHandle = (GetFileVersionInfoByHandle_fn)GetProcAddress(hm,"GetFileVersionInfoByHandle");
@@ -354,6 +473,7 @@ __noinline static void version_hook() {
     if (oGetFileVersionInfoA)
       GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetFileVersionInfoA, &hm);
   }
+#endif // !DLL_PROXY_DELAY_LOAD
 }
 
 #endif // __VERSION_DLL_H

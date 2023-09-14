@@ -88,7 +88,7 @@ __forceinline static void halo_hook_gs() {
   HOOK_FUNC(0, gethostbyname, halo_hk_gethostbyname, "ws2_32.dll", 52, TRUE);
   HOOK_FUNC(0, gethostbyname, halo_hk_gethostbyname, "wsock32.dll", 52, TRUE);
 
-  detour_iat_func(0, "GetProcAddress", (void*)halo_hk_GetProcAddress, "kernel32.dll", 0, TRUE);
+  detour_iat_func(0, "GetProcAddress", (void*)halo_hk_GetProcAddress, "kernel32.dll", 0, FALSE);
 }
 
 __noinline static void patch_halo() {

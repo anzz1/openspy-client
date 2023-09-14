@@ -16,19 +16,26 @@ long __stdcall p_DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID rii
   #pragma comment(linker, "/EXPORT:DirectInput8Create=_p_DirectInput8Create@20")
 #endif
 
-  if (!oDirectInput8Create)
+  if (!oDirectInput8Create) {
     oDirectInput8Create = GetSysProc(sDInput8, "DirectInput8Create");
-  if (oDirectInput8Create)
+    if (oDirectInput8Create) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectInput8Create, &hm);
+    } else {
+      oDirectInput8Create = (void*)-1;
+    }
+  }
+  if (oDirectInput8Create != (void*)-1)
     return oDirectInput8Create(hinst, dwVersion, riidltf, ppvOut, punkOuter);
 
-  return 1;
+  return 0x80004005; // DIERR_GENERIC (E_FAIL)
 }
 
 __noinline static void dinput8_hook() {
-  HMODULE hm;
-  hm = LoadSysMod(sDInput8);
+  pModName = sDInput8;
+#ifndef DLL_PROXY_DELAY_LOAD
+  HMODULE hm = LoadSysMod(sDInput8);
   if (hm) {
-    pModName = sDInput8;
     oDirectInput8Create = (DirectInput8Create_fn)GetProcAddress(hm,"DirectInput8Create");
     oDllGetClassObject = (DllGetClassObject_fn)GetProcAddress(hm,"DllGetClassObject");
     oDllRegisterServer = (DllRegisterServer_fn)GetProcAddress(hm,"DllRegisterServer");
@@ -36,6 +43,7 @@ __noinline static void dinput8_hook() {
     if (oDirectInput8Create)
       GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectInput8Create, &hm);
   }
+#endif // !DLL_PROXY_DELAY_LOAD
 }
 
 #endif // __DINPUT8_DLL_H

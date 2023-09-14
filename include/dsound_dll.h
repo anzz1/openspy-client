@@ -43,9 +43,16 @@ long __stdcall p_DirectSoundCaptureCreate(LPGUID lpGUID, LPVOID *lplpDSC, /* LPU
   #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate=_p_DirectSoundCaptureCreate@12,@6")
 #endif
 
-  if (!oDirectSoundCaptureCreate)
+  if (!oDirectSoundCaptureCreate) {
     oDirectSoundCaptureCreate = GetSysProc(sDSound, "DirectSoundCaptureCreate");
-  if (oDirectSoundCaptureCreate)
+    if (oDirectSoundCaptureCreate) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundCaptureCreate, &hm);
+    } else {
+      oDirectSoundCaptureCreate = (void*)-1;
+    }
+  }
+  if (oDirectSoundCaptureCreate != (void*)-1)
     return oDirectSoundCaptureCreate(lpGUID, lplpDSC, punkOuter);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -58,9 +65,16 @@ long __stdcall p_DirectSoundCaptureCreate8(LPCGUID lpcGUID, LPVOID *lplpDSC, /* 
   #pragma comment(linker, "/EXPORT:DirectSoundCaptureCreate8=_p_DirectSoundCaptureCreate8@12,@12")
 #endif
 
-  if (!oDirectSoundCaptureCreate8)
+  if (!oDirectSoundCaptureCreate8) {
     oDirectSoundCaptureCreate8 = GetSysProc(sDSound, "DirectSoundCaptureCreate8");
-  if (oDirectSoundCaptureCreate8)
+    if (oDirectSoundCaptureCreate8) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundCaptureCreate8, &hm);
+    } else {
+      oDirectSoundCaptureCreate8 = (void*)-1;
+    }
+  }
+  if (oDirectSoundCaptureCreate8 != (void*)-1)
     return oDirectSoundCaptureCreate8(lpcGUID, lplpDSC, punkOuter);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -73,9 +87,16 @@ long __stdcall p_DirectSoundCaptureEnumerateA(LPVOID lpDSEnumCallback, LPVOID lp
   #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateA=_p_DirectSoundCaptureEnumerateA@8,@7")
 #endif
 
-  if (!oDirectSoundCaptureEnumerateA)
+  if (!oDirectSoundCaptureEnumerateA) {
     oDirectSoundCaptureEnumerateA = GetSysProc(sDSound, "DirectSoundCaptureEnumerateA");
-  if (oDirectSoundCaptureEnumerateA)
+    if (oDirectSoundCaptureEnumerateA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundCaptureEnumerateA, &hm);
+    } else {
+      oDirectSoundCaptureEnumerateA = (void*)-1;
+    }
+  }
+  if (oDirectSoundCaptureEnumerateA != (void*)-1)
     return oDirectSoundCaptureEnumerateA(lpDSEnumCallback, lpContext);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -88,9 +109,16 @@ long __stdcall p_DirectSoundCaptureEnumerateW(LPVOID lpDSEnumCallback, LPVOID lp
   #pragma comment(linker, "/EXPORT:DirectSoundCaptureEnumerateW=_p_DirectSoundCaptureEnumerateW@8,@8")
 #endif
 
-  if (!oDirectSoundCaptureEnumerateW)
+  if (!oDirectSoundCaptureEnumerateW) {
     oDirectSoundCaptureEnumerateW = GetSysProc(sDSound, "DirectSoundCaptureEnumerateW");
-  if (oDirectSoundCaptureEnumerateW)
+    if (oDirectSoundCaptureEnumerateW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundCaptureEnumerateW, &hm);
+    } else {
+      oDirectSoundCaptureEnumerateW = (void*)-1;
+    }
+  }
+  if (oDirectSoundCaptureEnumerateW != (void*)-1)
     return oDirectSoundCaptureEnumerateW(lpDSEnumCallback, lpContext);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -103,9 +131,16 @@ long __stdcall p_DirectSoundCreate(LPGUID lpGuid, LPVOID *ppDS, /* LPUNKNOWN */ 
   #pragma comment(linker, "/EXPORT:DirectSoundCreate=_p_DirectSoundCreate@12,@1")
 #endif
 
-  if (!oDirectSoundCreate)
+  if (!oDirectSoundCreate) {
     oDirectSoundCreate = GetSysProc(sDSound, "DirectSoundCreate");
-  if (oDirectSoundCreate)
+    if (oDirectSoundCreate) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundCreate, &hm);
+    } else {
+      oDirectSoundCreate = (void*)-1;
+    }
+  }
+  if (oDirectSoundCreate != (void*)-1)
     return oDirectSoundCreate(lpGuid, ppDS, pUnkOuter);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -118,9 +153,16 @@ long __stdcall p_DirectSoundCreate8(LPCGUID lpcGuidDevice, LPVOID *ppDS8, /* LPU
   #pragma comment(linker, "/EXPORT:DirectSoundCreate8=_p_DirectSoundCreate8@12,@11")
 #endif
 
-  if (!oDirectSoundCreate8)
+  if (!oDirectSoundCreate8) {
     oDirectSoundCreate8 = GetSysProc(sDSound, "DirectSoundCreate8");
-  if (oDirectSoundCreate8)
+    if (oDirectSoundCreate8) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundCreate8, &hm);
+    } else {
+      oDirectSoundCreate8 = (void*)-1;
+    }
+  }
+  if (oDirectSoundCreate8 != (void*)-1)
     return oDirectSoundCreate8(lpcGuidDevice, ppDS8, pUnkOuter);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -133,9 +175,16 @@ long __stdcall p_DirectSoundEnumerateA(LPVOID lpDSEnumCallback, LPVOID lpContext
   #pragma comment(linker, "/EXPORT:DirectSoundEnumerateA=_p_DirectSoundEnumerateA@8,@2")
 #endif
 
-  if (!oDirectSoundEnumerateA)
+  if (!oDirectSoundEnumerateA) {
     oDirectSoundEnumerateA = GetSysProc(sDSound, "DirectSoundEnumerateA");
-  if (oDirectSoundEnumerateA)
+    if (oDirectSoundEnumerateA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundEnumerateA, &hm);
+    } else {
+      oDirectSoundEnumerateA = (void*)-1;
+    }
+  }
+  if (oDirectSoundEnumerateA != (void*)-1)
     return oDirectSoundEnumerateA(lpDSEnumCallback, lpContext);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -148,9 +197,16 @@ long __stdcall p_DirectSoundEnumerateW(LPVOID lpDSEnumCallback, LPVOID lpContext
   #pragma comment(linker, "/EXPORT:DirectSoundEnumerateW=_p_DirectSoundEnumerateW@8,@3")
 #endif
 
-  if (!oDirectSoundEnumerateW)
+  if (!oDirectSoundEnumerateW) {
     oDirectSoundEnumerateW = GetSysProc(sDSound, "DirectSoundEnumerateW");
-  if (oDirectSoundEnumerateW)
+    if (oDirectSoundEnumerateW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundEnumerateW, &hm);
+    } else {
+      oDirectSoundEnumerateW = (void*)-1;
+    }
+  }
+  if (oDirectSoundEnumerateW != (void*)-1)
     return oDirectSoundEnumerateW(lpDSEnumCallback, lpContext);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -163,9 +219,16 @@ long __stdcall p_DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUI
   #pragma comment(linker, "/EXPORT:DirectSoundFullDuplexCreate=_p_DirectSoundFullDuplexCreate@40,@10")
 #endif
 
-  if (!oDirectSoundFullDuplexCreate)
+  if (!oDirectSoundFullDuplexCreate) {
     oDirectSoundFullDuplexCreate = GetSysProc(sDSound, "DirectSoundFullDuplexCreate");
-  if (oDirectSoundFullDuplexCreate)
+    if (oDirectSoundFullDuplexCreate) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundFullDuplexCreate, &hm);
+    } else {
+      oDirectSoundFullDuplexCreate = (void*)-1;
+    }
+  }
+  if (oDirectSoundFullDuplexCreate != (void*)-1)
     return oDirectSoundFullDuplexCreate(pcGuidCaptureDevice, pcGuidRenderDevice, pcDSCBufferDesc, pcDSBufferDesc, hWnd, dwLevel, ppDSFD, ppDSCBuffer8, ppDSBuffer8, pUnkOuter);
 
   return 0x80004001; // DSERR_UNSUPPORTED
@@ -178,19 +241,26 @@ long __stdcall p_GetDeviceID(LPCGUID pGuidSrc, LPGUID pGuidDest) {
   #pragma comment(linker, "/EXPORT:GetDeviceID=_p_GetDeviceID@8,@9")
 #endif
 
-  if (!oGetDeviceID)
+  if (!oGetDeviceID) {
     oGetDeviceID = GetSysProc(sDSound, "GetDeviceID");
-  if (oGetDeviceID)
+    if (oGetDeviceID) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oGetDeviceID, &hm);
+    } else {
+      oGetDeviceID = (void*)-1;
+    }
+  }
+  if (oGetDeviceID != (void*)-1)
     return oGetDeviceID(pGuidSrc, pGuidDest);
 
   return 0x80004001; // DSERR_UNSUPPORTED
 }
 
 __noinline static void dsound_hook() {
-  HMODULE hm;
-  hm = LoadSysMod(sDSound);
+  pModName = sDSound;
+#ifndef DLL_PROXY_DELAY_LOAD
+  HMODULE hm = LoadSysMod(sDSound);
   if (hm) {
-    pModName = sDSound;
     oDirectSoundCaptureCreate = (DirectSoundCaptureCreate_fn)GetProcAddress(hm,"DirectSoundCaptureCreate");
     oDirectSoundCaptureCreate8 = (DirectSoundCaptureCreate8_fn)GetProcAddress(hm,"DirectSoundCaptureCreate8");
     oDirectSoundCaptureEnumerateA = (DirectSoundCaptureEnumerateA_fn)GetProcAddress(hm,"DirectSoundCaptureEnumerateA");
@@ -205,6 +275,7 @@ __noinline static void dsound_hook() {
     if (oDirectSoundCreate)
       GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectSoundCreate, &hm);
   }
+#endif // !DLL_PROXY_DELAY_LOAD
 }
 
 #endif // __DSOUND_DLL_H

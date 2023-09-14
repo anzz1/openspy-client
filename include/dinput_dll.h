@@ -20,12 +20,19 @@ long __stdcall p_DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, /* LPDIREC
   #pragma comment(linker, "/EXPORT:DirectInputCreateA=_p_DirectInputCreateA@16")
 #endif
 
-  if (!oDirectInputCreateA)
+  if (!oDirectInputCreateA) {
     oDirectInputCreateA = GetSysProc(sDInput, "DirectInputCreateA");
-  if (oDirectInputCreateA)
+    if (oDirectInputCreateA) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectInputCreateA, &hm);
+    } else {
+      oDirectInputCreateA = (void*)-1;
+    }
+  }
+  if (oDirectInputCreateA != (void*)-1)
     return oDirectInputCreateA(hinst, dwVersion, lplpDirectInput, punkOuter);
 
-  return 1;
+  return 0x80004005; // DIERR_GENERIC (E_FAIL)
 }
 
 long __stdcall p_DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID *ppvOut, /* LPUNKNOWN */ LPVOID punkOuter) {
@@ -35,12 +42,19 @@ long __stdcall p_DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID ri
   #pragma comment(linker, "/EXPORT:DirectInputCreateEx=_p_DirectInputCreateEx@20")
 #endif
 
-  if (!oDirectInputCreateEx)
+  if (!oDirectInputCreateEx) {
     oDirectInputCreateEx = GetSysProc(sDInput, "DirectInputCreateEx");
-  if (oDirectInputCreateEx)
+    if (oDirectInputCreateEx) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectInputCreateEx, &hm);
+    } else {
+      oDirectInputCreateEx = (void*)-1;
+    }
+  }
+  if (oDirectInputCreateEx != (void*)-1)
     return oDirectInputCreateEx(hinst, dwVersion, riidltf, ppvOut, punkOuter);
 
-  return 1;
+  return 0x80004005; // DIERR_GENERIC (E_FAIL)
 }
 
 long __stdcall p_DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, /* LPDIRECTINPUTW* */ LPVOID *lplpDirectInput, /* LPUNKNOWN */ LPVOID punkOuter) {
@@ -50,19 +64,26 @@ long __stdcall p_DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, /* LPDIREC
   #pragma comment(linker, "/EXPORT:DirectInputCreateW=_p_DirectInputCreateW@16")
 #endif
 
-  if (!oDirectInputCreateW)
+  if (!oDirectInputCreateW) {
     oDirectInputCreateW = GetSysProc(sDInput, "DirectInputCreateW");
-  if (oDirectInputCreateW)
+    if (oDirectInputCreateW) {
+      HMODULE hm;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectInputCreateW, &hm);
+    } else {
+      oDirectInputCreateW = (void*)-1;
+    }
+  }
+  if (oDirectInputCreateW != (void*)-1)
     return oDirectInputCreateW(hinst, dwVersion, lplpDirectInput, punkOuter);
 
-  return 1;
+  return 0x80004005; // DIERR_GENERIC (E_FAIL)
 }
 
 __noinline static void dinput_hook() {
-  HMODULE hm;
-  hm = LoadSysMod(sDInput);
+  pModName = sDInput;
+#ifndef DLL_PROXY_DELAY_LOAD
+  HMODULE hm = LoadSysMod(sDInput);
   if (hm) {
-    pModName = sDInput;
     oDirectInputCreateA = (DirectInputCreateA_fn)GetProcAddress(hm,"DirectInputCreateA");
     oDirectInputCreateEx = (DirectInputCreateEx_fn)GetProcAddress(hm,"DirectInputCreateEx");
     oDirectInputCreateW = (DirectInputCreateW_fn)GetProcAddress(hm,"DirectInputCreateW");
@@ -72,6 +93,7 @@ __noinline static void dinput_hook() {
     if (oDirectInputCreateA)
       GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)oDirectInputCreateA, &hm);
   }
+#endif // !DLL_PROXY_DELAY_LOAD
 }
 
 #endif // __DINPUT_DLL_H

@@ -32,6 +32,8 @@
       o ## FUNC_NAME = (FUNC_NAME ## _fn)detour_iat_func(MOD_PTR, #FUNC_NAME, (void*)FUNC_PTR, MOD_NAME, FUNC_ORD, PIN); \
   }
 
+#define DLL_PROXY_DELAY_LOAD
+
 // Skip intro
 static int skip_intro = 1;
 
@@ -340,7 +342,30 @@ __forceinline static int gs_copy_string(char* dst, const char* src) {
   return 0;
 }
 
+#ifndef _WIN64
+__forceinline static BOOL IsWow64(void) {
+  void* fnIsWow64Process;
+  BOOL bIsWow64 = FALSE;
+  HMODULE k32 = GetModuleHandleA("kernel32.dll");
+  if (!k32) return FALSE;
+  fnIsWow64Process = GetProcAddress(k32, "IsWow64Process");
+  return (fnIsWow64Process && ((BOOL (__stdcall *)(HANDLE,PBOOL)) (void*)(fnIsWow64Process))((HANDLE)-1, &bIsWow64) && bIsWow64);
+}
+__forceinline static UINT GetSysWow64Dir(LPSTR lpBuffer, UINT uSize) {
+  void* fnGetSystemWow64DirectoryA;
+  HMODULE k32 = GetModuleHandleA("kernel32.dll");
+  if (!k32) return 0;
+  fnGetSystemWow64DirectoryA = GetProcAddress(k32, "GetSystemWow64DirectoryA");
+  if (!fnGetSystemWow64DirectoryA) return 0;
+  return ((UINT (__stdcall *)(LPSTR,UINT)) (void*)(fnGetSystemWow64DirectoryA))(lpBuffer, uSize);
+}
+#endif // !_WIN64
+
 __forceinline static void InitSysDir() {
+#ifndef _WIN64
+  if (IsWow64()) gSysLen = GetSysWow64Dir(gSysDir, MAX_PATH+1);
+  else
+#endif
   gSysLen = GetSystemDirectoryA(gSysDir, MAX_PATH+1);
   if (gSysLen && gSysLen < MAX_PATH) {
     while (gSysDir[gSysLen] == '\0')
@@ -392,7 +417,7 @@ __forceinline static int FileExistsA(const char* path) {
   return 1;
 }
 
-char* GetModExpName(HMODULE hModule) {
+static char* GetModExpName(HMODULE hModule) {
   PIMAGE_DOS_HEADER img_dos_headers;
   PIMAGE_NT_HEADERS img_nt_headers;
   PIMAGE_DATA_DIRECTORY img_dir_exports;
