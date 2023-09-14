@@ -391,7 +391,7 @@ __forceinline static HMODULE LoadSysMod(const char* modname) {
   return 0;
 }
 
-__forceinline static void* GetSysProc(const char* modname, const char* funcname) {
+static void* GetSysProc(const char* modname, const char* funcname) {
   HMODULE hm;
   hm = LoadSysMod(modname);
   return (hm ? GetProcAddress(hm, funcname) : 0);

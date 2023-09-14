@@ -113,6 +113,7 @@ If a game is not listed, you can try renaming it as the different variations ope
 - `dinput8.dll`
 - `version.dll`
 - `dsound.dll`
+- `winmm.dll`
 
 Please report back with your findings to help us fill the supported games list.
 

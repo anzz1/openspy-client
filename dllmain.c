@@ -12,6 +12,7 @@
 #include "include/dinput_dll.h"
 #include "include/dinput8_dll.h"
 #include "include/dsound_dll.h"
+#include "include/winmm_dll.h"
 
 #include "include/game_cry.h"
 #ifndef _WIN64
@@ -185,6 +186,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           dsound_hook();
         else if (!__stricmp(p, sVersion)) // version.dll
           version_hook();
+        else if (!__stricmp(p, sWinmm)) // winmm.dll
+          winmm_hook();
       }
     }
 
