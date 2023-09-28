@@ -16,7 +16,6 @@
 #include <ws2tcpip.h>
 #include <wininet.h>
 #include <shellapi.h>
-#include "iathook/iathook.h"
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -444,27 +443,6 @@ static char* GetModExpName(HMODULE hModule) {
 
   img_exp_dir = (PIMAGE_EXPORT_DIRECTORY)((size_t)img_dos_headers + img_dir_exports->VirtualAddress);
   return (img_exp_dir->Name ? (char*)((size_t)img_dos_headers + img_exp_dir->Name) : 0);
-}
-
-unsigned long __stdcall teredoThread(void* param) {
-  HKEY hKey;
-  char data[16];
-  DWORD type = 0;
-  DWORD cb = sizeof(data);
-
-  if (!RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Policies\\Microsoft\\Windows\\TCPIP\\v6Transition", 0, KEY_QUERY_VALUE, &hKey)) {
-    if (RegQueryValueExA(hKey, "Teredo_State", NULL, &type, data, &cb)) type = 0;
-    RegCloseKey(hKey);
-  }
-
-  if (type != REG_SZ || *(unsigned long long*)data != 0x64656C6261736944ULL)
-    ShellExecuteA(NULL, "runas", "cmd.exe", "/d/x/s/v:off/r \"reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\TCPIP\\v6Transition /f /v Teredo_State /t REG_SZ /d Disabled & netsh interface teredo set state disabled\"", NULL, SW_HIDE);
-
-  return 0;
-}
-
-__forceinline static void DisableTeredoTunneling(void) {
-  CloseHandle(CreateThread(0, 0, teredoThread, 0, 0, 0));
 }
 
 #endif // __GLOBAL_H

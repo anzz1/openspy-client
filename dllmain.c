@@ -153,6 +153,27 @@ __forceinline static int securom_check(HMODULE hModule) {
     return 0;
 }
 
+unsigned long __stdcall teredoThread(void* param) {
+  HKEY hKey;
+  char data[16];
+  DWORD type = 0;
+  DWORD cb = sizeof(data);
+
+  if (!RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Policies\\Microsoft\\Windows\\TCPIP\\v6Transition", 0, KEY_QUERY_VALUE, &hKey)) {
+    if (RegQueryValueExA(hKey, "Teredo_State", NULL, &type, data, &cb)) type = 0;
+    RegCloseKey(hKey);
+  }
+
+  if (type != REG_SZ || *(unsigned long long*)data != 0x64656C6261736944ULL)
+    ShellExecuteA(NULL, "runas", "cmd.exe", "/d/x/s/v:off/r \"reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\TCPIP\\v6Transition /f /v Teredo_State /t REG_SZ /d Disabled & netsh interface teredo set state disabled\"", NULL, SW_HIDE);
+
+  return 0;
+}
+
+__forceinline static void DisableTeredoTunneling(void) {
+  CloseHandle(CreateThread(0, 0, teredoThread, 0, 0, 0));
+}
+
 static volatile int initialized = 0;
 int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
   if (dwReason == DLL_PROCESS_ATTACH && !initialized) {
