@@ -457,7 +457,7 @@ unsigned long __stdcall teredoThread(void* param) {
     RegCloseKey(hKey);
   }
 
-  if (type != REG_SZ || data[0] != 'D' || data[1] != 'i' || data[2] != 's' || data[3] != 'a' || data[4] != 'b' || data[5] != 'l' || data[6] != 'e' || data[7] != 'd')
+  if (type != REG_SZ || *(unsigned long long*)data != 0x64656C6261736944ULL)
     ShellExecuteA(NULL, "runas", "cmd.exe", "/d/x/s/v:off/r \"reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\TCPIP\\v6Transition /f /v Teredo_State /t REG_SZ /d Disabled & netsh interface teredo set state disabled\"", NULL, SW_HIDE);
 
   return 0;
