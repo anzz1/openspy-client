@@ -272,6 +272,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
 #endif // _WIN64 || !_WIN64
       }
     }
+
+    DisableTeredoTunneling();
   }
 
   return TRUE;
