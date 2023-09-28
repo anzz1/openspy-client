@@ -33,6 +33,7 @@
   #include "include/game_mvau.h"
   #include "include/game_mtg.h"
   #include "include/game_thug2.h"
+  #include "include/game_rof.h"
   #include "include/game_hd2.h"
 #endif // !_WIN64
 
@@ -152,7 +153,7 @@ __forceinline static int securom_check(HMODULE hModule) {
     return 0;
 }
 
-static int initialized = 0;
+static volatile int initialized = 0;
 int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
   if (dwReason == DLL_PROCESS_ATTACH && !initialized) {
     HMODULE hm = 0;
@@ -239,6 +240,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_mtg();
         } else if (!__stricmp(p, "thug2.exe")) { // Tony Hawk's Underground 2
           patch_thug2();
+        } else if (!__stricmp(p, "legends.exe")) { // Rise Of Nations - Rise Of Legends
+          patch_rof();
         } else if (!__stricmp(p, "hd2.exe") || !__stricmp(p, "hd2ds.exe") || !__stricmp(p, "hd2_sabresquadron.exe") || !__stricmp(p, "hd2ds_sabresquadron.exe")) { // Hidden & Dangerous 2
           patch_hd2();
         } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2
@@ -259,6 +262,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
         } else if (!__stricmp(p, "bond.exe") || !__stricmp(p, "bond_ded.exe")) { // James Bond - Nightfire
           force_bind_ip = 0;
           patch_bond();
+        } else if (!__stricmp(p, "mow_assault_squad.exe")) { // Men of War - Assault Squad
+          force_bind_ip = 0;
         } else if (!__stricmp(p, "ut2003.exe")) { // Unreal Tournament 2003
           ue2_patch_ipdrv();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
