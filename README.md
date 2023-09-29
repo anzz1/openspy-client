@@ -103,6 +103,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 ## Unsupported games list
 | Game | Status |
 | --- | --- |
+| Battlefield 2142 | not working |
 | Crysis 2 | not working |
 | Men of War: Assault Squad | coming soon&trade; |
 | Rise Of Nations: Rise Of Legends | not working, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
