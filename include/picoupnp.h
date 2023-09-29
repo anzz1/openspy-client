@@ -114,7 +114,7 @@ int GetURLParts(char* url, char* host, char* port, char* path)
 }
 
 WSADATA wsaData;
-int WSAInit()
+int WSAInit(void)
 {
   SOCKET sd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (sd == INVALID_SOCKET) {
@@ -375,6 +375,61 @@ int GetLocalIP(char* ip)
   return 1;
 }
 
+unsigned long GetDefaultGatewayIP(void)
+{
+  MIB_IPFORWARDROW ip_forward;
+  memset(&ip_forward, 0, sizeof(ip_forward));
+  if(!GetBestRoute(0, 0, &ip_forward)) return ip_forward.dwForwardNextHop;
+  return 0;
+}
+
+#define NATPMP_PORT 5351
+#define NATPMP_MAP_UDP 1
+#define NATPMP_MAP_TCP 2
+
+struct natpmp_request {
+  unsigned char version;
+  unsigned char opcode;
+  unsigned short reserved;
+  unsigned short internal_port;
+  unsigned short external_port;
+  unsigned long lifetime;
+};
+
+void NATPMP_AddPortMapping(unsigned short port, int protocol)
+{
+  SOCKET sd;
+  unsigned long gatewayip, addrlen;
+  struct natpmp_request req;
+  struct sockaddr_in server;
+
+  gatewayip = GetDefaultGatewayIP();
+  if (!gatewayip) return;
+
+  req.version = 0;
+  req.reserved = 0;
+  req.opcode = (protocol == IPPROTO_UDP ? NATPMP_MAP_UDP : NATPMP_MAP_TCP);
+  req.internal_port = htons(port);
+  req.external_port = req.internal_port;
+  req.lifetime = htonl(604800);
+
+  sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+  if (sd == INVALID_SOCKET) return;
+
+  setsockopt(sd, SOL_SOCKET, SO_SNDTIMEO, (const char *)&dwTimeout, sizeof(dwTimeout));
+  setsockopt(sd, SOL_SOCKET, SO_RCVTIMEO, (const char *)&dwTimeout, sizeof(dwTimeout));
+  setsockopt(sd, SOL_TCP, TCP_USER_TIMEOUT, (const char *)&dwTimeout, sizeof(dwTimeout));
+
+  memset(&server, 0, sizeof(server));
+  server.sin_family = AF_INET;
+  server.sin_port = htons(NATPMP_PORT);
+  server.sin_addr.s_addr = gatewayip;
+  addrlen = sizeof(struct sockaddr);
+
+  sendto(sd, (const char*)&req, sizeof(struct natpmp_request), 0, (struct sockaddr*)&server, addrlen);
+  closesocket(sd);
+}
+
 int UPNP_AddPortMapping(unsigned short port, int protocol)
 {
   char xml[768], localip[16], url[256], host[256], hport[6], cport[6];
@@ -419,6 +474,12 @@ int UPNP_AddPortMapping(unsigned short port, int protocol)
   }
   LocalFree(response);
   return i;
+}
+
+void AddPortMapping(unsigned short port, int protocol)
+{
+  NATPMP_AddPortMapping(port, protocol);
+  UPNP_AddPortMapping(port, protocol);
 }
 
 #endif // __PICOUPNP_H

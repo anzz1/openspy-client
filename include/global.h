@@ -15,9 +15,11 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <wininet.h>
+#include <iphlpapi.h>
 #include <shellapi.h>
 
 #pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "iphlpapi.lib")
 
 #if defined(_MSC_VER) && _MSC_VER < 1800
 #pragma comment(linker, "/IGNORE:4104")

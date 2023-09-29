@@ -47,7 +47,7 @@ typedef HINTERNET (__stdcall *InternetOpenUrlA_fn)(HINTERNET hInternet, LPCSTR l
 InternetOpenUrlA_fn oInternetOpenUrlA = 0;
 
 unsigned long __stdcall portMapThread(void* param) {
-  UPNP_AddPortMapping((unsigned short)param, (unsigned long)param >> 16);
+  AddPortMapping((unsigned short)param, (unsigned long)param >> 16);
   return 0;
 }
 
