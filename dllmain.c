@@ -36,6 +36,7 @@
   #include "include/game_rof.h"
   #include "include/game_hd2.h"
   #include "include/game_stbc.h"
+  #include "include/game_bfme2.h"
 #endif // !_WIN64
 
 #include "include/picoupnp.h"
@@ -180,6 +181,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
   if (dwReason == DLL_PROCESS_ATTACH && !initialized) {
     HMODULE hm = 0;
     char* p = 0;
+    char* p2 = 0;
     char s[512];
 
     initialized = 1;
@@ -214,15 +216,6 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
       }
     }
 
-    // Hook API calls
-    HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-    HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
-    HOOK_FUNC(0, WSAAsyncGetHostByName, hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
-    HOOK_FUNC(0, WSAAsyncGetHostByName, hk_WSAAsyncGetHostByName, "wsock32.dll", 103, TRUE);
-    HOOK_FUNC(0, bind, hk_bind, "ws2_32.dll", 2, TRUE);
-    HOOK_FUNC(0, bind, hk_bind, "wsock32.dll", 2, TRUE);
-    HOOK_FUNC(0, InternetOpenUrlA, hk_InternetOpenUrlA, "wininet.dll", 0, TRUE);
-
     // Per-game patches
     if (GetModuleFileNameA(0, s, 511)) {
       s[511] = 0;
@@ -235,6 +228,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_cry();
         }
 #else // !_WIN64
+        p2 = GetModExpName(GetModuleHandleA(0));
         if (!__stricmp(p, "sr2_pc.exe")) { // Saints Row 2
           patch_sr2();
         } else if (!__stricmp(p, "cmr5.exe")) { // Colin McRae Rally 2005
@@ -268,6 +262,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_hd2();
         } else if (!__stricmp(p, "stbc.exe")) { // Star Trek - Bridge Commander
           patch_stbc();
+        } else if (!__stricmp(p, "game.dat") && p2 && !__strcmp(p2, "RTS.exe")) { // Battle for Middle-earth II
+          patch_bfme2();
         } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2
           force_bind_ip = 0;
           patch_sam();
@@ -296,6 +292,22 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
 #endif // _WIN64 || !_WIN64
       }
     }
+
+    // Hook API calls
+    if (!ogethostbyname) {
+      HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+      HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+    }
+    if (!oWSAAsyncGetHostByName) {
+      HOOK_FUNC(0, WSAAsyncGetHostByName, hk_WSAAsyncGetHostByName, "ws2_32.dll", 103, TRUE);
+      HOOK_FUNC(0, WSAAsyncGetHostByName, hk_WSAAsyncGetHostByName, "wsock32.dll", 103, TRUE);
+    }
+    if (!obind) {
+      HOOK_FUNC(0, bind, hk_bind, "ws2_32.dll", 2, TRUE);
+      HOOK_FUNC(0, bind, hk_bind, "wsock32.dll", 2, TRUE);
+    }
+    if (!oInternetOpenUrlA)
+      HOOK_FUNC(0, InternetOpenUrlA, hk_InternetOpenUrlA, "wininet.dll", 0, TRUE);
 
     DisableTeredoTunneling();
   }
