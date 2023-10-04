@@ -10,7 +10,12 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr* addr, int namelen);
 LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 
 __forceinline static void aowht_hook_gs() {
-  HMODULE gsdll = LoadLibraryA("GameSpyDLL.dll");
+  HMODULE gsdll;
+
+  HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+  HOOK_FUNC(0, bind, hk_bind, "wsock32.dll", 2, TRUE);
+
+  gsdll = LoadLibraryA("GameSpyDLL.dll");
   if (gsdll) {
     HOOK_FUNC(gsdll, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
     HOOK_FUNC(gsdll, bind, hk_bind, "wsock32.dll", 2, TRUE);

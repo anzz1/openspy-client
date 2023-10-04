@@ -17,6 +17,8 @@ LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 __forceinline static void pk_fix_rdtsc_div(HMODULE engine) {
   BYTE aulldiv_sig[] = {0x53,0x56,0x8B,0x44,0x24,0x18,0x0B,0xC0,0x75,0x18,0x8B,0x4C,0x24,0x14};
 
+  if (!engine) return;
+
   // check _aulldiv is at right place
   if (!__memcmp((void*)((DWORD)engine+0x002881C0), aulldiv_sig, sizeof(aulldiv_sig))) {
     BYTE match1[] = {0x33,0xC0,0x33,0xD2,0x0F,0x31,0xF7,0x74,0x24,0x04,0x89,0x04,0x24,0x8B,0x04,0x24,0x83,0xC4,0x08,0xC3,0xCC,0xCC};
@@ -63,20 +65,21 @@ long __stdcall pk_hk_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD lpR
 }
 
 __forceinline static void pk_hook_gs(HMODULE engine) {
-  //ragdolldata = (DWORD)(GetTickCount() ^ 0xC4FEB4B3) | ((0xFFi64 & GetTickCount()) << 32) | (1i64 << 36);
-  ragdolldata = (__rdtsc() & 0xFFFFFFFFFFi64) | (1i64 << 36);
-
-  HOOK_FUNC(engine, RegQueryValueExA, pk_hk_RegQueryValueExA, 0, 0, TRUE);
-  HOOK_FUNC(engine, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
-  HOOK_FUNC(engine, bind, hk_bind, "ws2_32.dll", 2, TRUE);
+  HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+  HOOK_FUNC(0, bind, hk_bind, "ws2_32.dll", 2, TRUE);
+  
+  if (engine) {
+    ragdolldata = (__rdtsc() & 0xFFFFFFFFFFi64) | (1i64 << 36);
+    HOOK_FUNC(engine, RegQueryValueExA, pk_hk_RegQueryValueExA, 0, 0, TRUE);
+    HOOK_FUNC(engine, gethostbyname, hk_gethostbyname, "ws2_32.dll", 52, TRUE);
+    HOOK_FUNC(engine, bind, hk_bind, "ws2_32.dll", 2, TRUE);
+  }
 }
 
 __noinline static void patch_pk() {
   HMODULE engine = GetModuleHandleA("Engine.dll");
-  if (engine) {
-    pk_hook_gs(engine);
-    pk_fix_rdtsc_div(engine);
-  }
+  pk_hook_gs(engine);
+  pk_fix_rdtsc_div(engine);
 }
 
 __declspec(naked) void _alldiv()

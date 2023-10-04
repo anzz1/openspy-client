@@ -10,7 +10,12 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr* addr, int namelen);
 LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 
 __forceinline static void dh2k_hook_gs() {
-  HMODULE aspen = GetModuleHandleA("Aspen.dll");
+  HMODULE aspen;
+
+  HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+  HOOK_FUNC(0, bind, hk_bind, "wsock32.dll", 2, TRUE);
+
+  aspen = GetModuleHandleA("Aspen.dll");
   if (aspen) {
     HOOK_FUNC(aspen, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
     HOOK_FUNC(aspen, bind, hk_bind, "wsock32.dll", 2, TRUE);

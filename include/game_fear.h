@@ -147,6 +147,7 @@ __forceinline static void fear_hook_gs() {
   HMODULE server;
 
   HOOK_FUNC(0, gethostbyname, fear_hk_gethostbyname, "wsock32.dll", 52, TRUE);
+  HOOK_FUNC(0, bind, hk_bind, "wsock32.dll", 2, TRUE);
   HOOK_FUNC(0, LoadLibraryA, fear_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
 
   server = GetModuleHandleA("EngineServer.dll");

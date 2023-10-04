@@ -29,6 +29,8 @@ HMODULE __stdcall go_hk_LoadLibraryA(LPCSTR lpLibFileName) {
 __forceinline static void go_hook_gs() {
   HMODULE mod;
 
+  HOOK_FUNC(0, gethostbyname, hk_gethostbyname, "wsock32.dll", 52, TRUE);
+  HOOK_FUNC(0, bind, hk_bind, "wsock32.dll", 2, TRUE);
   HOOK_FUNC(0, LoadLibraryA, go_hk_LoadLibraryA, "kernel32.dll", 0, FALSE);
 
   mod = GetModuleHandleA("server.dll");
