@@ -37,6 +37,7 @@
   #include "include/game_hd2.h"
   #include "include/game_stbc.h"
   #include "include/game_bfme2.h"
+  #include "include/game_blood2.h"
 #endif // !_WIN64
 
 #include "include/picoupnp.h"
@@ -262,6 +263,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_hd2();
         } else if (!__stricmp(p, "stbc.exe")) { // Star Trek - Bridge Commander
           patch_stbc();
+        } else if (!__stricmp(p, "blood2.exe") || !__stricmp(p, "blood2sv.exe") || !__stricmp(p, "b2nmsrv.exe")) { // Blood II - The Chosen
+          patch_blood2();
         } else if (!__stricmp(p, "game.dat") && p2 && !__strcmp(p2, "RTS.exe")) { // Battle for Middle-earth II
           patch_bfme2();
         } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2
