@@ -33,7 +33,7 @@ __forceinline static void bfme2_hook_gs() {
 
 // missing options.ini causes crash on startup
 __forceinline static void bfme2_create_options() {
-  char path[MAX_PATH+40];
+  char path[MAX_PATH+56];
   HANDLE hFile = 0;
   DWORD dw = 0;
   if (SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path) >= 0) {
