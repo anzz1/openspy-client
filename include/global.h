@@ -17,6 +17,7 @@
 #include <wininet.h>
 #include <iphlpapi.h>
 #include <shellapi.h>
+#include <shlobj.h>
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "iphlpapi.lib")
@@ -98,10 +99,10 @@ __forceinline static char* __strncpy(char* dst, const char* src, unsigned int le
   dst[i] = 0;
   return dst;
 }
-//__forceinline static void __strcat(char* dst, const char* src) {
-//  while (*dst) dst++;
-//  __strcpy(dst, src);
-//}
+__forceinline static void __strcat(char* dst, const char* src) {
+  while (*dst) dst++;
+  __strcpy(dst, src);
+}
 // s2 should be in lowercase
 __forceinline static char* __stristr(const char* s1, const char* s2) {
   unsigned int i;
