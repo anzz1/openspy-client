@@ -41,6 +41,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Game | Compatibility | DLL<br>(x86, 32-bit) | DLL<br>(x64, 64-bit) | Notes |
 | --- | :-: | :-: | :-: | --- |
 | Act of War: High Treason | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/act_of_war_gold_edition"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/9760/Act_of_War_High_Treason/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `version.dll` | n/a |   |
+| Battlefield 1942 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `winmm.dll` | n/a |   |
 | Battlefield Vietnam | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput8.dll` | n/a |   |
 | Blood II | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/blood_2_the_chosen_expansion"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/299050/Blood_II_The_Chosen__Expansion/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `winmm.dll` | n/a |   |
 | Civilization III | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/sid_meiers_civilization_iii_complete"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a> | `version.dll` | n/a |   |
@@ -108,7 +109,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Battle for Middle-earth II | not working |
 | Crysis 2 | not working |
 | Men of War: Assault Squad | coming soon&trade; |
-| Rise Of Nations: Rise Of Legends | not working, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
+| Rise Of Nations: Rise Of Legends | coming soon&trade;, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
 | Test Drive Unlimited | not working |
 | [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) |
 
