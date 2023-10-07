@@ -448,4 +448,19 @@ static char* GetModExpName(HMODULE hModule) {
   return (img_exp_dir->Name ? (char*)((size_t)img_dos_headers + img_exp_dir->Name) : 0);
 }
 
+static BOOL CreateRegKey(HKEY hKeyRoot, char* subKey) {
+  HKEY hKey;
+  char *p = subKey;
+  while (*++p) {
+    if (*p == '\\') {
+      *p = 0;
+      if (!RegCreateKeyExA(hKeyRoot, subKey, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL)) RegCloseKey(hKey);
+      *p = '\\';
+    }
+  }
+  if (RegCreateKeyExA(hKeyRoot, subKey, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL)) return FALSE;
+  RegCloseKey(hKey);
+  return TRUE;
+}
+
 #endif // __GLOBAL_H
