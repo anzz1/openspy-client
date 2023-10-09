@@ -42,6 +42,7 @@
   #include "include/game_xml2.h"
   #include "include/game_ts.h"
   #include "include/game_gt.h"
+  #include "include/game_sof2.h"
 #endif // !_WIN64
 
 #include "include/picoupnp.h"
@@ -277,6 +278,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_ts();
         } else if (!__stricmp(p, "gt.exe")) { // Gene Troopers
           patch_gt();
+        } else if (!__stricmp(p, "sof2mp.exe")) { // Soldier of Fortune 2
+          patch_sof2();
         } else if (!__stricmp(p, "game.dat") && p2 && !__strcmp(p2, "RTS.exe")) { // Battle for Middle-earth II
           patch_bfme2();
         } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2

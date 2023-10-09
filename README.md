@@ -114,6 +114,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Crysis 2 | not working |
 | Men of War: Assault Squad | coming soon&trade; |
 | Rise Of Nations: Rise Of Legends | coming soon&trade;, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
+| Soldier of Fortune 2: Double Helix | not working |
 | Test Drive Unlimited | not working |
 | [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) |
 
