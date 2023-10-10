@@ -43,6 +43,7 @@
   #include "include/game_ts.h"
   #include "include/game_gt.h"
   #include "include/game_sof2.h"
+  #include "include/game_mua.h"
 #endif // !_WIN64
 
 #include "include/picoupnp.h"
@@ -187,7 +188,6 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
   if (dwReason == DLL_PROCESS_ATTACH && !initialized) {
     HMODULE hm = 0;
     char* p = 0;
-    char* p2 = 0;
     char s[512];
 
     initialized = 1;
@@ -234,7 +234,6 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_cry();
         }
 #else // !_WIN64
-        p2 = GetModExpName(GetModuleHandleA(0));
         if (!__stricmp(p, "sr2_pc.exe")) { // Saints Row 2
           patch_sr2();
         } else if (!__stricmp(p, "cmr5.exe")) { // Colin McRae Rally 2005
@@ -280,8 +279,6 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_gt();
         } else if (!__stricmp(p, "sof2mp.exe")) { // Soldier of Fortune 2
           patch_sof2();
-        } else if (!__stricmp(p, "game.dat") && p2 && !__strcmp(p2, "RTS.exe")) { // Battle for Middle-earth II
-          patch_bfme2();
         } else if (!__stricmp(p, "serioussam.exe") || !__stricmp(p, "sam2.exe") || !__stricmp(p, "dedicatedserver.exe")) { // Serious Sam 1 & 2
           force_bind_ip = 0;
           patch_sam();
@@ -306,6 +303,16 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           ue2_patch_ipdrv();
         } else if (!__stricmp(p, "fear2.exe")) { // FEAR 2
           gs_replace_pubkey(0);
+        } else if (!__stricmp(p, "game.dat")) {
+          char* p2 = GetModExpName(GetModuleHandleA(0));
+          if (p2) {
+            if (!__strcmp(p2, "RTS.exe")) patch_bfme2(); // Battle for Middle-earth II
+          }
+        } else if (!__stricmp(p, "game.exe")) {
+          LPGUID pguid = GetModPdbGuid(GetModuleHandleA(0));
+          if (pguid) {
+            if (!__memcmp(pguid, &mua_guid, sizeof(GUID))) patch_mua(); // Marvel Ultimate Alliance
+          }
         }
 #endif // _WIN64 || !_WIN64
       }

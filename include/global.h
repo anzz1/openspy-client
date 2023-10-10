@@ -421,6 +421,21 @@ __forceinline static int FileExistsA(const char* path) {
   return 1;
 }
 
+static BOOL CreateRegKey(HKEY hKeyRoot, char* subKey) {
+  HKEY hKey;
+  char *p = subKey;
+  while (*++p) {
+    if (*p == '\\') {
+      *p = 0;
+      if (!RegCreateKeyExA(hKeyRoot, subKey, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL)) RegCloseKey(hKey);
+      *p = '\\';
+    }
+  }
+  if (RegCreateKeyExA(hKeyRoot, subKey, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL)) return FALSE;
+  RegCloseKey(hKey);
+  return TRUE;
+}
+
 static char* GetModExpName(HMODULE hModule) {
   PIMAGE_DOS_HEADER img_dos_headers;
   PIMAGE_NT_HEADERS img_nt_headers;
@@ -448,19 +463,44 @@ static char* GetModExpName(HMODULE hModule) {
   return (img_exp_dir->Name ? (char*)((size_t)img_dos_headers + img_exp_dir->Name) : 0);
 }
 
-static BOOL CreateRegKey(HKEY hKeyRoot, char* subKey) {
-  HKEY hKey;
-  char *p = subKey;
-  while (*++p) {
-    if (*p == '\\') {
-      *p = 0;
-      if (!RegCreateKeyExA(hKeyRoot, subKey, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL)) RegCloseKey(hKey);
-      *p = '\\';
-    }
-  }
-  if (RegCreateKeyExA(hKeyRoot, subKey, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL)) return FALSE;
-  RegCloseKey(hKey);
-  return TRUE;
+typedef struct _RSDS_DEBUG_FORMAT {
+  DWORD Signature;
+  GUID Guid;
+  DWORD Age;
+  CHAR Path[ANYSIZE_ARRAY];
+} RSDS_DEBUG_FORMAT, *PRSDS_DEBUG_FORMAT;
+
+static LPGUID GetModPdbGuid(HMODULE hModule) {
+  PIMAGE_DOS_HEADER img_dos_headers;
+  PIMAGE_NT_HEADERS img_nt_headers;
+  PIMAGE_DATA_DIRECTORY img_dir_debug;
+  PIMAGE_DEBUG_DIRECTORY img_dbg_dir;
+  PRSDS_DEBUG_FORMAT img_codeview;
+
+  if (!hModule)
+    return 0;
+  img_dos_headers = (PIMAGE_DOS_HEADER)hModule;
+  if (img_dos_headers->e_magic != IMAGE_DOS_SIGNATURE)
+    return 0;
+  img_nt_headers = (PIMAGE_NT_HEADERS)((size_t)img_dos_headers + img_dos_headers->e_lfanew);
+  if (img_nt_headers->Signature != IMAGE_NT_SIGNATURE)
+    return 0;
+  if (img_nt_headers->FileHeader.SizeOfOptionalHeader < 4) // OptionalHeader.Magic
+    return 0;
+  if (img_nt_headers->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR_MAGIC || img_nt_headers->OptionalHeader.NumberOfRvaAndSizes < 7)
+    return 0;
+
+  img_dir_debug = (PIMAGE_DATA_DIRECTORY)(&(img_nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG]));
+  if (!img_dir_debug->VirtualAddress || img_dir_debug->Size < sizeof(IMAGE_DEBUG_DIRECTORY))
+    return 0;
+
+  img_dbg_dir = (PIMAGE_DEBUG_DIRECTORY)((size_t)img_dos_headers + img_dir_debug->VirtualAddress);
+  if (img_dbg_dir->Type != IMAGE_DEBUG_TYPE_CODEVIEW || !img_dbg_dir->PointerToRawData) // img_dbg_dir->AddressOfRawData ?
+    return 0;
+
+  img_codeview = (PRSDS_DEBUG_FORMAT)((size_t)img_dos_headers + img_dbg_dir->PointerToRawData);
+
+  return ((img_codeview->Signature == 0x53445352) ? &(img_codeview->Guid) : 0);
 }
 
 #endif // __GLOBAL_H
