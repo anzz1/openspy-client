@@ -20,8 +20,14 @@ LPHOSTENT __stdcall hk_gethostbyname(const char* name);
 LPHOSTENT __stdcall bfme2_hk_gethostbyname(const char* name) {
   if (name && !__strcmp(name, "servserv.generals.ea.com"))
     return ogethostbyname("motd.openspy.net");
+  else if (name && !__strcmp(name, "na.llnet.eadownloads.ea.com"))
+    return ogethostbyname("motd.openspy.net");
+  else if (name && !__strcmp(name, "bfme.fesl.ea.com"))
+    return ogethostbyname("bfme.fesl.openspy.net");
   else if (name && !__strcmp(name, "bfme2.fesl.ea.com"))
     return ogethostbyname("bfme2.fesl.openspy.net");
+  else if (name && !__strcmp(name, "bfme2-ep1-pc.fesl.ea.com"))
+    return ogethostbyname("bfme2-ep1-pc.fesl.openspy.net");
   else
     return hk_gethostbyname(name);
 }
@@ -48,8 +54,18 @@ __forceinline static void bfme2_create_options() {
   }
 }
 
+__forceinline static void bfme2_disable_cert_validation() {
+  BYTE search[] = {0x89,0x55,0x88,0x83,0x7D,0x88,0x08,0x74,0x08};
+  BYTE patch[] = {0xEB,0x46,0x90,0x90};
+
+  BYTE* ptr = find_pattern_mem(0, search, search + 8, TRUE);
+  if (ptr)
+    write_mem(ptr+3, patch, 4);
+}
+
 __noinline static void patch_bfme2() {
   bfme2_hook_gs();
+  bfme2_disable_cert_validation();
   bfme2_create_options();
 }
 
