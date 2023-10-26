@@ -346,6 +346,18 @@ __forceinline static int gs_copy_string(char* dst, const char* src) {
   return 0;
 }
 
+__forceinline static int fesl_copy_string(char* dst, const char* src) {
+  char* p = __stristr(src, "fesl.ea.com");
+  if (p) {
+    p += 5;
+    unsigned int len = (((p-src) > 500) ? 500 : (p-src));
+    __strncpy(dst, src, len);
+    __strcpy(dst+len, "openspy.net");
+    return 1;
+  }
+  return 0;
+}
+
 #ifndef _WIN64
 __forceinline static BOOL IsWow64(void) {
   void* fnIsWow64Process;

@@ -22,12 +22,6 @@ LPHOSTENT __stdcall bfme2_hk_gethostbyname(const char* name) {
     return ogethostbyname("motd.openspy.net");
   else if (name && !__strcmp(name, "na.llnet.eadownloads.ea.com"))
     return ogethostbyname("motd.openspy.net");
-  else if (name && !__strcmp(name, "bfme.fesl.ea.com"))
-    return ogethostbyname("bfme.fesl.openspy.net");
-  else if (name && !__strcmp(name, "bfme2.fesl.ea.com"))
-    return ogethostbyname("bfme2.fesl.openspy.net");
-  else if (name && !__strcmp(name, "bfme2-ep1-pc.fesl.ea.com"))
-    return ogethostbyname("bfme2-ep1-pc.fesl.openspy.net");
   else
     return hk_gethostbyname(name);
 }

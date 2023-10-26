@@ -94,6 +94,8 @@ LPHOSTENT __stdcall hk_gethostbyname(const char* name) {
   char s[512];
   if (name && gs_copy_string(s, name))
     return ogethostbyname(s);
+  else if (name && fesl_copy_string(s, name))
+    return ogethostbyname(s);
   else
     return ogethostbyname(name);
 }
