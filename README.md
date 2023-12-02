@@ -118,7 +118,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Rise Of Nations: Rise Of Legends | coming soon&trade;, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
 | Soldier of Fortune 2: Double Helix | not working |
 | Test Drive Unlimited | not working |
-| [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?assignees=&labels=game+request&projects=&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) |
+| [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) |
 
 ## Remarks
 To uninstall, simply delete the `openspy.dll` file.

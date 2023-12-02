@@ -433,6 +433,19 @@ __forceinline static int FileExistsA(const char* path) {
   return 1;
 }
 
+static int LocalDirFileExists(const char* filename) {
+  char *p, path[512];
+  if (GetModuleFileNameA(GetModuleHandle(0), path, 511)) {
+    path[511] = 0;
+    p = __strrchr(path, '\\');
+    if (p && p-path < 485) {
+      __strcpy(++p, "disable_securom_guard.txt");
+      return FileExistsA(path);
+    }
+  }
+  return 0;
+}
+
 static BOOL CreateRegKey(HKEY hKeyRoot, char* subKey) {
   HKEY hKey;
   char *p = subKey;

@@ -15,6 +15,7 @@
 #include "include/winmm_dll.h"
 
 #include "include/game_cry.h"
+#include "include/game_cry2.h"
 #ifndef _WIN64
   #include "include/game_sr2.h"
   #include "include/game_cmr5.h"
@@ -52,6 +53,8 @@
 // Redirect all bind() to 0.0.0.0
 static int force_bind_ip = 1;
 
+static int enable_upnp = 1;
+
 typedef HINTERNET (__stdcall *InternetOpenUrlA_fn)(HINTERNET hInternet, LPCSTR lpszUrl, LPCSTR lpszHeaders, DWORD dwHeadersLength, DWORD dwFlags, DWORD_PTR dwContext);
 InternetOpenUrlA_fn oInternetOpenUrlA = 0;
 
@@ -74,7 +77,7 @@ int __stdcall hk_bind(SOCKET s, struct sockaddr *addr, int namelen) {
   getsockopt(s, SOL_SOCKET, SO_TYPE, (char*)&type, &len);
   ret = obind(s, addr, namelen);
 
-  if (type == SOCK_STREAM || type == SOCK_DGRAM) {
+  if (enable_upnp && (type == SOCK_STREAM || type == SOCK_DGRAM)) {
     unsigned long param = (unsigned long)ntohs(*(unsigned short*)(addr->sa_data));
     if (param == 0) {
       struct sockaddr_in sin;
@@ -122,18 +125,6 @@ __forceinline static int securom_check(HMODULE hModule) {
     PIMAGE_NT_HEADERS img_nt_headers;
     PIMAGE_SECTION_HEADER img_sec_header;
     unsigned int n;
-    char path[512];
-    char* p;
-
-    if (GetModuleFileNameA(hModule, path, 511)) {
-      path[511] = 0;
-      p = __strrchr(path, '\\');
-      if (p && p-path < 485) {
-        __strcpy(++p, "disable_securom_guard.txt");
-        if (FileExistsA(path))
-          return 0;
-      }
-    }
 
     img_dos_headers = (PIMAGE_DOS_HEADER)GetModuleHandleA(0);
     if (img_dos_headers->e_magic != IMAGE_DOS_SIGNATURE)
@@ -199,8 +190,12 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
     GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN, (LPCSTR)&p_DirectInput8Create, &hm);
 
     // SecuROM guard
-    if (securom_check(hm))
+    if (!LocalDirFileExists("disable_securom_guard.txt") && securom_check(hm))
       return 1;
+
+    // UPNP
+    if (LocalDirFileExists("disable_upnp.txt"))
+      enable_upnp = 0;
 
     // Load system directory to memory
     InitSysDir();
@@ -230,19 +225,18 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
       p = __strrchr(s, '\\');
       if (p) {
         p++;
-#ifdef _WIN64
-        if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysis64.exe") || !__stricmp(p, "crysisdedicatedserver.exe") || !__stricmp(p, "crysiswarsdedicatedserver.exe") || !__stricmp(p, "crysisheadlessserver.exe")) { // Crysis / Crysis Wars (64-bit)
+        if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysis64.exe") || !__stricmp(p, "crysisdedicatedserver.exe") || !__stricmp(p, "crysiswarsdedicatedserver.exe") || !__stricmp(p, "crysisheadlessserver.exe")) { // Crysis / Crysis Wars
           force_bind_ip = 0;
           patch_cry();
+        } else if (!__stricmp(p, "crysis2.exe") || !__stricmp(p, "crysis2dedicatedserver.exe")) { // Crysis 2
+          force_bind_ip = 0;
+          patch_cry2();
         }
-#else // !_WIN64
-        if (!__stricmp(p, "sr2_pc.exe")) { // Saints Row 2
+#ifndef _WIN64
+        else if (!__stricmp(p, "sr2_pc.exe")) { // Saints Row 2
           patch_sr2();
         } else if (!__stricmp(p, "cmr5.exe")) { // Colin McRae Rally 2005
           patch_cmr5();
-        } else if (!__stricmp(p, "crysis.exe") || !__stricmp(p, "crysisdedicatedserver.exe") || !__stricmp(p, "crysiswarsdedicatedserver.exe") || !__stricmp(p, "crysisheadlessserver.exe")) { // Crysis / Crysis Wars (32-bit)
-          force_bind_ip = 0;
-          patch_cry();
         } else if (!__stricmp(p, "ut3.exe")) { // Unreal Tournament 3
           patch_ut3();
         } else if (!__stricmp(p, "painkiller.exe")) { // Painkiller
@@ -316,7 +310,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
             if (!__memcmp(pguid, &mua_guid, sizeof(GUID))) patch_mua(); // Marvel Ultimate Alliance
           }
         }
-#endif // _WIN64 || !_WIN64
+#endif // !_WIN64
       }
     }
 

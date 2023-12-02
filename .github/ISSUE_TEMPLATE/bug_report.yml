@@ -17,9 +17,9 @@ body:
   - type: checkboxes
     attributes:
       label: '🔍'
-      description: Please check that the game is in the [supported games list](https://github.com/anzz1/openspy-test#working-games). If not, submit a [request for game support](https://github.com/anzz1/openspy-test/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+) instead.
+      description: Please check that the game is in the [supported games list](https://github.com/anzz1/openspy-client#supported-games-list). If not, submit a [request for game support](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) instead.
       options:
-        - label: The game is in the [supported games list](https://github.com/anzz1/openspy-test#working-games).
+        - label: The game is in the [supported games list](https://github.com/anzz1/openspy-client#supported-games-list).
           required: true
   - type: textarea
     id: what-happened
