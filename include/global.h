@@ -439,7 +439,7 @@ static int LocalDirFileExists(const char* filename) {
     path[511] = 0;
     p = __strrchr(path, '\\');
     if (p && p-path < 485) {
-      __strcpy(++p, "disable_securom_guard.txt");
+      __strcpy(++p, filename);
       return FileExistsA(path);
     }
   }
