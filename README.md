@@ -113,8 +113,9 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Game | Status |
 | --- | --- |
 | Battlefield 2142 | not working |
-| Battle for Middle-earth II | not working |
 | Crysis 2 | not working |
+| Lord of the Rings: The Battle for Middle-earth II | FESL not implemented |
+| Lord of the Rings: War of the Ring | crashes while retrieving profiles |
 | Men of War: Assault Squad | coming soon&trade; |
 | Rise Of Nations: Rise Of Legends | coming soon&trade;, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
 | Soldier of Fortune 2: Double Helix | not working |
