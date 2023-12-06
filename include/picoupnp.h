@@ -439,9 +439,6 @@ int UPNP_AddPortMapping(unsigned short port, int protocol)
   if (protocol != IPPROTO_IP && protocol != IPPROTO_TCP && protocol != IPPROTO_UDP)
     return 0;
 
-  if (WSAInit())
-    return 0;
-
   if (!GetLocalIP(localip))
     return 0;
 
@@ -478,6 +475,7 @@ int UPNP_AddPortMapping(unsigned short port, int protocol)
 
 void AddPortMapping(unsigned short port, int protocol)
 {
+  if (WSAInit()) return;
   NATPMP_AddPortMapping(port, protocol);
   UPNP_AddPortMapping(port, protocol);
 }
