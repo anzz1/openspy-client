@@ -120,6 +120,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 ## Unsupported games list
 | Game | Status |
 | --- | --- |
+| Aliens vs. Predator 2 | not working |
 | Battlefield 2142 | not working |
 | Crysis 2 | not working |
 | Lord of the Rings: The Battle for Middle-earth II | FESL not implemented |
