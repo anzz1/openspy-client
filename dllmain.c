@@ -308,7 +308,7 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
         } else if (!__stricmp(p, "game.dat")) {
           char* p2 = GetModExpName(GetModuleHandleA(0));
           if (p2) {
-            if (!__strcmp(p2, "RTS.exe")) patch_bfme2(); // Battle for Middle-earth II
+            if (!__strcmp(p2, "RTS.exe")) patch_bfme2(); // Battle for Middle-earth II / Rise of the Witch King
           }
         } else if (!__stricmp(p, "game.exe")) {
           LPGUID pguid = GetModPdbGuid(GetModuleHandleA(0));

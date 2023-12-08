@@ -33,13 +33,23 @@ __forceinline static void bfme2_hook_gs() {
 
 // missing options.ini causes crash on startup
 __forceinline static void bfme2_create_options() {
-  char path[MAX_PATH+56];
+  char path[MAX_PATH+72];
   HANDLE hFile = 0;
-  DWORD dw = 0;
+  DWORD dw, len;
   if (SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path) >= 0) {
-    __strcat(path, "\\My Battle for Middle-earth(tm) II Files");
+    len = __strlen(path);
+    if (len > MAX_PATH) return;
+    __strcpy(path+len, "\\My Battle for Middle-earth(tm) II Files");
     CreateDirectoryA(path, NULL);
-    __strcat(path, "\\options.ini");
+    __strcpy(path+len+40, "\\options.ini");
+    hFile = CreateFileA(path, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hFile && hFile != INVALID_HANDLE_VALUE) {
+      WriteFile(hFile, bfme2_options_ini, 150, &dw, NULL);
+      CloseHandle(hFile);
+    }
+    __strcpy(path+len, "\\My The Lord of the Rings, The Rise of the Witch-king Files");
+    CreateDirectoryA(path, NULL);
+    __strcpy(path+len+59, "\\options.ini");
     hFile = CreateFileA(path, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
     if (hFile && hFile != INVALID_HANDLE_VALUE) {
       WriteFile(hFile, bfme2_options_ini, 150, &dw, NULL);
