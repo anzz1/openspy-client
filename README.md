@@ -123,7 +123,8 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Aliens vs. Predator 2 | not working |
 | Battlefield 2142 | not working |
 | Crysis 2 | not working |
-| Lord of the Rings: The Battle for Middle-earth II | FESL not implemented |
+| Empires: Dawn of the Modern World | not working |
+| Lord of the Rings: The Battle for Middle-earth II | FESL not implemented, see [issue #3](https://github.com/anzz1/openspy-client/issues/3) |
 | Lord of the Rings: War of the Ring | crashes while retrieving profiles |
 | Men of War: Assault Squad | coming soon&trade; |
 | Rise Of Nations: Rise Of Legends | coming soon&trade;, see [issue #2](https://github.com/anzz1/openspy-client/issues/2) |
@@ -138,8 +139,8 @@ To uninstall, simply delete the `openspy.dll` file.
 If a game is not listed, you can try renaming it as the different variations openspy-client currently supports: 
 - `dinput.dll`
 - `dinput8.dll`
-- `version.dll`
 - `dsound.dll`
+- `version.dll`
 - `winmm.dll`
 
 Please report back with your findings to help us fill the supported games list.
