@@ -40,6 +40,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 
 | Game | Compatibility | DLL<br>(x86, 32-bit) | DLL<br>(x64, 64-bit) | Notes |
 | --- | :-: | :-: | :-: | --- |
+| 1944: Battle of the Bulge | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput8.dll` | n/a | <sub><sup>[1]</sup> Requires [No-CD patch](https://taco.cab/files/games/botb/BotB.v1.0.NoCD.zip) to remove StarForce (V3) protection</sub> |
 | Act of War: High Treason | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/act_of_war_gold_edition"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/9760/Act_of_War_High_Treason/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `version.dll` | n/a |   |
 | Anno 1701 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/anno_1701_ad"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a> | `version.dll` | n/a |   |
 | Area 51 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput8.dll` | n/a | <sub><sup>[1]</sup> [Free download](https://taco.cab/files/games/a51/midway_area51.zip)<br><sup>[2]</sup> Requires latest [v1.2 update](https://taco.cab/files/games/a51/a51_us_patch_1_2.zip)</sub> |
