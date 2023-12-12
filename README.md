@@ -127,6 +127,7 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | --- | --- |
 | Aliens vs. Predator 2 | not working |
 | Battlefield 2142 | not working |
+| Codename Panzers: Phase One | not working |
 | Crysis 2 | not working |
 | Empires: Dawn of the Modern World | not working |
 | Lord of the Rings: The Battle for Middle-earth II | FESL not implemented, see [issue #3](https://github.com/anzz1/openspy-client/issues/3) |
