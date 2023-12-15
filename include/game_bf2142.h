@@ -25,7 +25,6 @@ __forceinline static void bf2142_patch_error_neg_206(void) {
 
 __forceinline static void bf2142_fix_delete_soldier_hang(void) {
   BYTE search[] = {0xFF,0x15,0xCC,0xD0,0x90,0x00,0x85,0xC0,0x0F,0x85,0x9D,0xFE,0xFF,0xFF};
-  BYTE patch[] = {0xEB,0x2E,0x90};
 
   BYTE* ptr = find_pattern_mem(0, search, search + 13, TRUE);
   if (ptr)
