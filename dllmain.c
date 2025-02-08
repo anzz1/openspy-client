@@ -36,6 +36,7 @@
   #include "include/game_thug2.h"
   #include "include/game_rof.h"
   #include "include/game_hd2.h"
+  #include "include/game_sta2.h"
   #include "include/game_stbc.h"
   #include "include/game_bfme2.h"
   #include "include/game_blood2.h"
@@ -265,6 +266,8 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           patch_rof();
         } else if (!__stricmp(p, "hd2.exe") || !__stricmp(p, "hd2ds.exe") || !__stricmp(p, "hd2_sabresquadron.exe") || !__stricmp(p, "hd2ds_sabresquadron.exe")) { // Hidden & Dangerous 2
           patch_hd2();
+        } else if (!__stricmp(p, "Armada2.exe") || !__stricmp(p, "Armada2Demo.exe")) { // Star Trek: Armada II
+          patch_sta2();
         } else if (!__stricmp(p, "stbc.exe")) { // Star Trek - Bridge Commander
           patch_stbc();
         } else if (!__stricmp(p, "blood2.exe") || !__stricmp(p, "blood2sv.exe") || !__stricmp(p, "b2nmsrv.exe")) { // Blood II - The Chosen
