@@ -31,39 +31,6 @@ const char UPNP_AddPortMappingXML[] =
 "</s:Body>"
 "</s:Envelope>\n";
 
-int ValidateIP(char* ip) // ipv4
-{
-  int i,x,y,z;
-  char* p;
-
-  i = 0;
-  x = 0;
-  p = ip;
-  while(p[i] && x < 5) {
-    if (p[i] < 48 || p[i] > 57) {
-      if (i < 1) return 0;
-      if (p[i] != '.') return 0;
-      for (y = 0, z = 0; y < i && p[y] != 0; y++) z = z * 10 + p[y] - 48;
-      if (z < 255) return 0;
-      x++;
-      p += i+1;
-      i = 0;
-    }
-    else
-      i++;
-  }
-  if (x != 3 || *p == 0) return 0;
-
-  z = 0;
-  while (*p) {
-    if (*p < 48 || *p > 57) return 0;
-    z = z * 10 + *p - 48;
-    p++;
-  }
-
-  return (z < 256);
-}
-
 int GetURLParts(char* url, char* host, char* port, char* path)
 {
   char *p = url;
