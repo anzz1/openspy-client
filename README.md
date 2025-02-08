@@ -1,40 +1,39 @@
 ## openspy-client
 
-openspy-client is a universal modification for old PC games to replace the now-defunct GameSpy Arcade service with an open-source alternative.
+**openspy-client** is a universal modification for old PC games to replace the now-defunct GameSpy Arcade service with an open-source alternative.
 
 This allows the multiplayer feature of those games to be used again.
 
-The openspy client module is unobtrusive, meaning no game files need to be altered. It is loaded into the game's memory and redirects the requests from GameSpy to OpenSpy on the fly. It is very light and does not carry any performance penalty.
+The **openspy-client** module is unobtrusive, meaning no game files need to be altered. It is loaded into the game's memory and redirects the requests from GameSpy to OpenSpy on the fly. It is very light and does not carry any performance penalty.
 
-On this early stage, only a few games are listed as supported. However, due to the generic implementation, many games should be already supported.
+In this early stage, only a few games are listed as supported. However, due to the generic implementation, many games should be already supported.
 
-Help us by [reporting the games you found working](https://github.com/anzz1/openspy-client/issues/new?labels=working+game&template=report-working-game.yml&title=%5Bworking-game%5D+GAME+NAME) so we can add them to the list and [reporting the ones which don't](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) so we can work on adding the support.
+Help us by [reporting the games you found working](https://github.com/anzz1/openspy-client/issues/new?labels=working+game&template=report-working-game.yml&title=%5Bworking-game%5D+GAME+NAME) so we can add them to the list, and [reporting the ones which don't](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) so we can work on adding the support.
 
-Aim is to eventually support 100% of GameSpy Arcade titles.
+The goal is to eventually support 100% of GameSpy Arcade titles.
 
-Compatible with Windows XP / Vista / 7 / 8 / 8.1 / 10 / 11 and Server 2003 / 2003 R2 / 2008 / 2008 R2 / 2012 / 2012 R2 / 2016 / 2019 / 2022
+Compatible with Windows XP / Vista / 7 / 8 / 8.1 / 10 / 11 and Server 2003 / 2003 R2 / 2008 / 2008 R2 / 2012 / 2012 R2 / 2016 / 2019 / 2022.
 
 ## How to install
 
-1. Download the [latest release](https://github.com/anzz1/openspy-client/releases/latest/download/openspy.zip)
+1. Download the [latest release](https://github.com/anzz1/openspy-client/releases/latest/download/openspy.zip).
 
-2. Install
-    1. 32-bit games
+2. Install:
+    1. For 32-bit games:
         1. Extract the `openspy.x86.dll` file to the game folder, next to the game executable.  
-        2. Rename the `openspy.x86.dll` to what is listed in the [supported games list](#supported-games-list)  
+        2. Rename the `openspy.x86.dll` to the name listed in the [supported games list](#supported-games-list).
 
-    2. 64-bit games
+    2. For 64-bit games:
         1. Extract the `openspy.x64.dll` file to the game folder, next to the game executable.  
-        2. Rename the `openspy.x64.dll` to what is listed in the [supported games list](#supported-games-list)  
+        2. Rename the `openspy.x64.dll` to the name listed in the [supported games list](#supported-games-list).
 
-3. Play !
+3. Play!
 
 ## Account creation
-If the game requires an account to play, you can create one in game.
 
-If the game does not have an option to create an account, you can [create one here](http://account.openspy.net/).
+If the game requires an account to play, you can create one in-game.
 
-Please note that the GameSpy protocol is old and does not meet modern password encryption security standards, so do not use a password which you have used elsewhere.
+Please note that the GameSpy protocol is old and does not meet modern password encryption security standards, so **do not** use a password which you have used elsewhere.
 
 ## Supported games list
 
@@ -96,6 +95,8 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | Serious Sam 2 | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dsound.dll` | n/a |   |
 | Sniper Elite | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/sniper_elite_berlin_1945"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/3700/Sniper_Elite/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `dinput8.dll` | n/a |   |
 | Startopia | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/game/startopia"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/243040/Startopia/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `dsound.dll` | n/a |   |
+| Star Trek: Armada II | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/star_trek_armada_ii"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a> | `dsound.dll` | n/a | <sub><sup>[1]</sup> Latest [v1.1 update](http://armadafiles.com/files/armada-2/official-releases/patches/star-trek-armada-ii-patch-11/details) is recommended&nbsp;&nbsp;<sup>**RETAIL**</sup><br><sup>[2]</sup> Also works with free [Demo](http://armadafiles.com/files/armada-2/official-releases/demo/star-trek-armada-ii-demo/details)</sub> |
+| Star Trek: Armada II Demo | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dsound.dll` | n/a | <sub><sup>[1]</sup> [Free download](http://armadafiles.com/files/armada-2/official-releases/demo/star-trek-armada-ii-demo/details)</sub> |
 | Star Trek: Bridge Commander | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/star_trek_bridge_commander"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a> | `dinput.dll` | n/a |   |
 | Star Trek: Legacy | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture> | `dinput8.dll` | n/a | <sub><sup>[1]</sup> Latest [v1.2 update](https://taco.cab/files/games/stlegacy/STLegacyv1.2.zip) is recommended</sub> |
 | Star Wars: Republic Commando | <picture><img src="./.github/img/disc.png" title="Retail" alt="(Retail)" /></picture>&nbsp;<a href="https://www.gog.com/en/game/star_wars_republic_commando"><img src="./.github/img/gog.png" title="GOG" alt="(GOG)" /></a>&nbsp;<a href="https://store.steampowered.com/app/6000/STAR_WARS_Republic_Commando/"><img src="./.github/img/steam.png" title="Steam" alt="(Steam)" /></a> | `version.dll` | n/a |   |
@@ -141,32 +142,33 @@ Please note that the GameSpy protocol is old and does not meet modern password e
 | [report unsupported game](https://github.com/anzz1/openspy-client/issues/new?labels=game+request&template=request-for-game-support.yml&title=%5Bgame-request%5D+GAME+NAME) |
 
 ## Remarks
-To uninstall, simply delete the `openspy.dll` file.
+To uninstall, simply delete the renamed `openspy.dll` file from the game directory.
 
-If a game is not listed, you can try renaming it as the different variations openspy-client currently supports: 
+If a game is not listed, you can try renaming it as the different variations **openspy-client** currently supports: 
 - `dinput.dll`
 - `dinput8.dll`
 - `dsound.dll`
 - `version.dll`
 - `winmm.dll`
 
-Please report back with your findings to help us fill the supported games list.
+Please report back with your findings to help us add to the [supported games list](#supported-games-list).
 
-Generally it does not matter how the openspy-client module is loaded into the game. This means that in addition to the variations supported, you can also use any other method to load the module into the game.
+Generally, it does not matter how the **openspy-client** module is loaded into the game. This means that in addition to the DLL variations supported, you can also use any other method to load the module into the game.
 
 For example, if you use an [ASI loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) to load mods like [Widescreen Fix](https://thirteenag.github.io/wfp) for your game, you can simply rename the OpenSpy module to `openspy.asi` and place it next to the `WideScreenFix.asi` and it will be loaded that way.
 
 
 ---
 
-:earth_americas: [Web](https://beta.openspy.net/) &emsp;
-<img alt="Discord" src="https://user-images.githubusercontent.com/13628128/226210682-c9044ed1-e4d9-431c-b085-1d684a9f9942.png" width="20" height="20"> [Discord](http://discord.gg/sMaWdbt)
+🌎 [Web](https://openspy.net/)
 
-This component is a part of the [OpenSpy](https://beta.openspy.net/) project
+<img alt="Discord" src="https://user-images.githubusercontent.com/13628128/226210682-c9044ed1-e4d9-431c-b085-1d684a9f9942.png" height="20">&nbsp;[Discord](http://discord.gg/sMaWdbt)
 
-- [openspy-core-v2](https://github.com/chc/openspy-core-v2)
-- [openspy-web-backend](https://github.com/chc/openspy-web-backend)
-- [openspy-natneg-helper](https://github.com/chc/openspy-natneg-helper)
-- [openspy-discord-bot](https://github.com/chc/openspy-discord-bot)
+This component is a part of the [OpenSpy](https://openspy.net/) project:
+
+- [openspy-core](https://github.com/openspy/openspy-core)
+- [openspy-web-backend](https://github.com/openspy/openspy-web-backend)
+- [openspy-natneg-helper](https://github.com/openspy/natneg-helper)
+- [openspy-discord-bot](https://github.com/openspy/openspy-discord-bot)
 - openspy-client
 
