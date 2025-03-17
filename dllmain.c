@@ -51,6 +51,7 @@
   #include "include/game_bf2142.h"
   #include "include/game_stlegacy.h"
   #include "include/game_worldshift.h"
+  #include "include/game_fsw.h"
 #endif // !_WIN64
 
 #include "include/picoupnp.h"
@@ -326,6 +327,11 @@ int __stdcall DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID lpReserved) {
           LPGUID pguid = GetModPdbGuid(GetModuleHandleA(0));
           if (pguid) {
             if (!__memcmp(pguid, &mua_guid, sizeof(GUID))) patch_mua(); // Marvel Ultimate Alliance
+          }
+        } else if (!__stricmp(p, "launcher.exe")) {
+          LPGUID pguid = GetModPdbGuid(GetModuleHandleA(0));
+          if (pguid) {
+            if (!__memcmp(pguid, &fsw_guid, sizeof(GUID))) patch_fsw(); // Full Spectrum Warrior
           }
         }
 #endif // !_WIN64
