@@ -30,7 +30,7 @@ long __stdcall p_DllCanUnloadNow(void) {
   #pragma comment(linker, "/EXPORT:DllCanUnloadNow=_p_DllCanUnloadNow@0")
 #endif
 
-  return 1;
+  return 0;
 }
 
 long __stdcall p_DllRegisterServer(void) {
