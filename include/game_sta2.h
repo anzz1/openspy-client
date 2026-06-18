@@ -76,9 +76,10 @@ __forceinline static void sta2_disable_net_voice(HMODULE mod) {
     BYTE search4[] = { 0x74, 0x5E, 0x56, 0x8B, 0x35, 0x14 };
 
     BYTE* ptr = find_pattern_mem((ULONG_PTR)mod, search, search + 7, TRUE);
-    if (ptr)
+    if (ptr) {
         nop_mem(ptr, 10);
-    write_mem(ptr + 10, patch, 4);
+        write_mem(ptr + 10, patch, 4);
+    }
 
     ptr = find_pattern_mem_wildcard((ULONG_PTR)mod, search2, search2 + 8, TRUE);
     if (ptr)
